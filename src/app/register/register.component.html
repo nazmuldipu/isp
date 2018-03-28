@@ -1,0 +1,46 @@
+<div class="offset-md-4 col-md-4">
+  <div class="text-center mt-4">
+    <img src="assets/images/isp.webp" alt="" width="80" height="80">
+    <h1 class="h3 mb-3 font-weight-normal">MON INFOTECH</h1>
+    <h5 class="h3 mb-3 font-weight-normal">
+      <strong> REGISTER </strong>
+    </h5>
+  </div>
+
+  <form #reg="ngForm" (ngSubmit)="register(reg.value)">
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input #name="ngModel" [(ngModel)]="user.name" name="name" id="name" class="form-control" placeholder="Name" required autofocus>
+      <small class="form-text text-danger" *ngIf="name.touched && name.invalid">Name is required</small>
+    </div>
+
+    <div class="form-group">
+      <label for="inputEmail">Email address</label>
+      <input type="email" #email="ngModel" [(ngModel)]="user.email" name="email" id="inputEmail" class="form-control" placeholder="Email address"
+        required email>
+      <div class="form-text text-danger" *ngIf="email.touched && email.invalid">
+        <small *ngIf="email.errors.required">Email is required</small>
+        <small *ngIf="email.hasError('email') && !email.errors.required">Please enter a valid email</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword">Password</label>
+      <input type="password" #password="ngModel" [(ngModel)]="user.password" name="password" id="inputPassword" class="form-control"
+        placeholder="Password" required>
+      <small class="form-text text-danger" *ngIf="password.touched && password.invalid">password is required</small>
+    </div>
+
+    <div class="form-group">
+
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="reg.invalid">
+      <i class="fa fa-user-plus"></i> REGISTER</button>
+    <div class="d-flex justify-content-between">
+      <a routerLink="/">Home</a>
+      <a routerLink="/login">Login</a>
+    </div>
+
+  </form>
+</div>
