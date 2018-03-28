@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user.model';
+import { User } from 'shared/models/user.model';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { UserService } from '../user.service';
+import { AuthService } from 'shared/services/auth.service';
+import { UserService } from 'shared/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -25,10 +25,8 @@ export class RegisterComponent implements OnInit {
   }
 
   register(user: User) {
-    // console.log(user);
     this.auth.register(user.email, user.password)
       .then((usr) => {
-        console.log(usr);
         this.userService.saveRegisteredUser(usr.uid, user.name, user.email)
           .then(() => {
             this.router.navigate(['/']);

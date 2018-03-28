@@ -9,12 +9,12 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { AuthService } from './auth.service';
-import { HomeNavbarComponent } from './home-navbar/home-navbar.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { UserService } from './user.service';
+import { AuthService } from './shared/services/auth.service';
+import { HomeNavbarComponent } from './core/components/home-navbar/home-navbar.component';
+import { HomeComponent } from './core/components/home/home.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { RegisterComponent } from './core/components/register/register.component';
+import { UserService } from './shared/services/user.service';
 
 @NgModule({
   declarations: [

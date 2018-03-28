@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user.model';
+import { User } from 'shared/models/user.model';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from 'shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,10 +24,8 @@ export class LoginComponent implements OnInit {
   }
 
   login(user: User) {
-    console.log(user)
     this.auth.loginWithEmail(user.email, user.password)
       .then(data => {
-        console.log('Success', data);
         let returnUrl = localStorage.getItem('returnUrl');
         this.router.navigateByUrl(returnUrl);
       })

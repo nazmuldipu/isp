@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { UserService } from '../user.service';
+import { AuthService } from 'shared/services/auth.service';
+import { UserService } from 'shared/services/user.service';
 import 'rxjs/add/operator/take';
 
 @Component({
@@ -26,7 +26,6 @@ export class HomeNavbarComponent implements OnInit {
         this.userService.get(user.uid).take(1)
           .subscribe(data => {
             this.appUser = data;
-            console.log(this.appUser);
           });
       }
     });
