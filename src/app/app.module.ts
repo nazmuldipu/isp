@@ -9,11 +9,11 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { AuthService } from './shared/services/auth.service';
 import { HomeNavbarComponent } from './core/components/home-navbar/home-navbar.component';
 import { HomeComponent } from './core/components/home/home.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { RegisterComponent } from './core/components/register/register.component';
+import { AuthService } from './shared/services/auth.service';
 import { UserService } from './shared/services/user.service';
 
 @NgModule({
@@ -36,6 +36,7 @@ import { UserService } from './shared/services/user.service';
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'admin', loadChildren:'app/admin/admin.module#AdminModule'},
       { path: '**', redirectTo: '/' }
     ])
   ],

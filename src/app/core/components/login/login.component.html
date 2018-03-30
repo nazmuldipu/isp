@@ -1,13 +1,19 @@
-<div class="offset-md-4 col-md-4">
-  <div class="text-center">
-    <img src="assets/images/isp.webp" alt="" width="80" height="80">
-    <h1 class="h3 mb-3 font-weight-normal">MON INFOTECH</h1>
-    <h5 class="h3 mb-3 font-weight-normal">
-      <strong> LOGIN </strong>
-    </h5>
+<div class="offset-md-4 col-md-4 raised bg-white">
+  <div class="row">
+    <div class="col-3">
+      <img src="assets/images/isp.webp" alt="" width="80" height="80">
+    </div>
+    <div class="col-9">
+      <h1 class="h3 mb-3 font-weight-normal">MON INFOTECH</h1>
+    </div>
+    <div class="col-12  text-center">
+      <h5 class="h3 mb-3 font-weight-normal">
+        <strong> LOGIN </strong>
+      </h5>
+    </div>
   </div>
 
-  <form #log="ngForm" (ngSubmit)="login(log.value)">
+  <form class="p-4" #log="ngForm" (ngSubmit)="login(log.value)">
 
     <small class="form-text text-danger" *ngIf="errorMessage">{{errorMessage}}</small>
 
@@ -31,13 +37,10 @@
     <div class="form-group">
 
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="log.invalid">
+    <button class="btn btn-sm btn-success raised" type="submit" [disabled]="log.invalid">
       <i class="fa fa-sign-in"></i> LOGIN</button>
-
-
-    <div class="d-flex justify-content-between">
-      <a routerLink="/">Home</a>
-      <a routerLink="/register">Register</a>
-    </div>
+    <a class="btn btn-sm btn-light raised" routerLink="/register">Create a new account</a>
+    <a class="btn btn-sm btn-light raised" routerLink="/"><i class="fa fa-undo"> </i>Home</a>
+    
   </form>
 </div>

@@ -1,0 +1,12 @@
+@import "~themes.scss";
+
+.btn.btn-light{
+    font-size: 1.1487em;
+    font-family: 'Lato',sans-serif;
+}
+
+.btn.btn-light.active{
+    border-bottom: 3px solid $accentColor;
+}
+
+

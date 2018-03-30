@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-12">
+    <div class="text-center">
+      <h5 class="h3 mb-3 font-weight-normal">
+        <strong> USER LIST</strong>
+      </h5>
+    </div>
+    <table class="table border">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Roles</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usr of users">
+          <td>{{usr.name}}</td>
+          <td>{{usr.email}}</td>
+          <td>{{usr.roles}}</td>
+          <td>
+            <a class="btn btn-sm btn-warning raised" (click)="editUser(usr.id)">Edit</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

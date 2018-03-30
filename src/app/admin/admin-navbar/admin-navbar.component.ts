@@ -6,15 +6,14 @@ import { AuthService } from 'shared/services/auth.service';
 import { UserService } from 'shared/services/user.service';
 
 @Component({
-  selector: 'home-navbar',
-  templateUrl: './home-navbar.component.html',
-  styleUrls: ['./home-navbar.component.scss']
+  selector: 'admin-navbar',
+  templateUrl: './admin-navbar.component.html',
+  styleUrls: ['./admin-navbar.component.scss']
 })
-export class HomeNavbarComponent implements OnInit {
+export class AdminNavbarComponent implements OnInit {
+
   isCollapsed = true;
   appUser;
-  admin = false;
-  roles = [];
 
   constructor(
     private auth: AuthService,
@@ -28,18 +27,9 @@ export class HomeNavbarComponent implements OnInit {
         this.userService.get(user.uid).take(1)
           .subscribe(data => {
             this.appUser = data;
-            this.roles = this.appUser.roles;
-            // for(let i = 0; i < this.appUser.roles.length; i++){
-            //   this.roles.push(this.appUser.roles[i]);
-            // }
-            console.log(this.roles);
           });
       }
     });
-  }
-
-  hasAdminRole(): boolean {
-    return this.roles.includes('ADMIN');
   }
 
   logout() {

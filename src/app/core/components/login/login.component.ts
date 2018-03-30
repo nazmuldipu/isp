@@ -6,7 +6,7 @@ import { AuthService } from 'shared/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   login(user: User) {
     this.auth.loginWithEmail(user.email, user.password)
       .then(data => {
+        console.log(data);
         let returnUrl = localStorage.getItem('returnUrl');
         this.router.navigateByUrl(returnUrl);
       })
