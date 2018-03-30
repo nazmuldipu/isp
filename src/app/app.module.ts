@@ -15,6 +15,9 @@ import { LoginComponent } from './core/components/login/login.component';
 import { RegisterComponent } from './core/components/register/register.component';
 import { AuthService } from './shared/services/auth.service';
 import { UserService } from './shared/services/user.service';
+import { AuthGuard } from 'shared/services/auth-guard.service';
+import { SharedModule } from 'shared/shared.module';
+import { AdminAuthGuard } from './admin/admin-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -25,8 +28,8 @@ import { UserService } from './shared/services/user.service';
     RegisterComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
-    FormsModule,
     NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
@@ -36,13 +39,13 @@ import { UserService } from './shared/services/user.service';
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'admin', loadChildren:'app/admin/admin.module#AdminModule'},
+      { path: 'admin', loadChildren:'app/admin/admin.module#AdminModule', canActivate: [AuthGuard, AdminAuthGuard]},
       { path: '**', redirectTo: '/' }
     ])
   ],
   providers: [
     AuthService,
-    UserService
+    UserService,
   ],
   bootstrap: [AppComponent]
 })

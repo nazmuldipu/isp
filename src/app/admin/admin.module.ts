@@ -9,6 +9,7 @@ import { IndexComponent } from './index/index.component';
 import { SharedModule } from 'shared/shared.module';
 import { AuthService } from 'shared/services/auth.service';
 import { UserService } from 'shared/services/user.service';
+import { AdminAuthGuard } from './admin-auth-guard.service';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { UserService } from 'shared/services/user.service';
         children: [
           { path: 'index', component: IndexComponent },
           { path: 'user', loadChildren:'app/admin/user/user.module#UserModule'},
+          { path: 'company', loadChildren:'app/admin/company/company.module#CompanyModule'},
         ]
       },
       { path: '**', redirectTo: '/' }
@@ -31,7 +33,6 @@ import { UserService } from 'shared/services/user.service';
     AdminNavbarComponent,
   ],
   providers: [
-    
   ]
 })
 export class AdminModule { }

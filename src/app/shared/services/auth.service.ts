@@ -5,6 +5,8 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { UserService } from 'shared/services/user.service';
+import { User } from 'shared/models/user.model';
 
 
 @Injectable()
@@ -15,9 +17,19 @@ export class AuthService {
   constructor(
     private afs: AngularFirestore,
     public afAuth: AngularFireAuth,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService,
   ) {
     this.user$ = afAuth.authState;
+  }
+
+  get appUser$(): Observable<User>{
+    return this.user$
+      .switchMap(user => {
+        if(user) return this.userService.get(user.uid);
+
+        return Observable.of(null);
+      })
   }
 
   getUser$() {
