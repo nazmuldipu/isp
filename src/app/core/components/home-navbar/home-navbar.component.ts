@@ -13,6 +13,7 @@ import { UserService } from 'shared/services/user.service';
 export class HomeNavbarComponent implements OnInit {
   isCollapsed = true;
   appUser;
+  appUser$;
   admin = false;
   roles = [];
 
@@ -25,6 +26,7 @@ export class HomeNavbarComponent implements OnInit {
   async ngOnInit() {
     await this.auth.getUser$().subscribe(user => {
       if (user) {
+        this.appUser$ = user;
         this.userService.get(user.uid).take(1)
           .subscribe(data => {
             this.appUser = data;
@@ -46,6 +48,13 @@ export class HomeNavbarComponent implements OnInit {
     this.appUser = null;
     this.auth.logout();
     this.router.navigate(['/login']);
+  }
+
+  sendVerificationEmail() {
+    this.auth.sendVerificationEmail()
+      .then(info => {
+        console.log(info);
+      })
   }
 
 }

@@ -4,6 +4,7 @@ export class User {
     email: string;
     roles: string[];
     password: string;
+    companyId: string;
 
     constructor(
         $key?: string,
@@ -11,6 +12,7 @@ export class User {
         email?: string,
         roles?: string[],
         password?: string,
+        companyId?: string
     ){}
 
 }

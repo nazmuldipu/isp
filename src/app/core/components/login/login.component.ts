@@ -26,8 +26,12 @@ export class LoginComponent implements OnInit {
   login(user: User) {
     this.auth.loginWithEmail(user.email, user.password)
       .then(data => {
-        console.log(data);
-        let returnUrl = localStorage.getItem('returnUrl');
+        let returnUrl = '/';
+        if (data.emailVerified)
+          returnUrl = localStorage.getItem('returnUrl');
+        else
+          this.auth.sendVerificationEmail();
+          
         this.router.navigateByUrl(returnUrl);
       })
       .catch(error => {

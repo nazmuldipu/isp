@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row mt-2">
     <div class="col-12 col-md-7 raised">
-        <user-list-child [users]="users" (edit)="edit($event)"></user-list-child>
+      <user-list-child [users]="users" (edit)="edit($event)"></user-list-child>
     </div>
 
     <div class="col-12 col-md-5 p-0 pt-3 px-md-2 pt-md-0">
@@ -11,8 +11,8 @@
             <strong> ADD USER </strong>
           </h5>
           <div class="alert alert-warning" *ngIf="user.id">
-              Do not change email or password, There is an issue!
-            </div>
+            Do not change email or password, There is an issue!
+          </div>
           <div class="alert alert-success" *ngIf="message.length>0">
             {{message}}
           </div>
@@ -22,6 +22,14 @@
         </div>
 
         <form class="p-3" #usr="ngForm" (ngSubmit)="save(usr.value)" novalidate>
+          <div class="form-group row ">
+            <label class="col-2 col-form-label">Companies</label>
+            <div class="col-10">
+              <select class="form-control" name="companyId" [(ngModel)]="user.companyId">
+                <option *ngFor="let company of companies" [ngValue]="company.id">{{company.companyName}}</option>
+              </select>
+            </div>
+          </div>
 
           <div class="form-group">
             <label for="name">Name</label>

@@ -4,6 +4,8 @@ import { User } from 'shared/models/user.model';
 import { UserService } from 'shared/services/user.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { CompanyService } from 'shared/services/company.service';
+import { Company } from 'shared/models/company';
 
 @Component({
   selector: 'app-add-user',
@@ -13,6 +15,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class AddUserComponent implements OnInit, OnDestroy {
   user: User;
   users: User[] = [];
+  companies: Company[] = []
   subscription: Subscription;
   message = '';
   errorMessage = '';
@@ -20,6 +23,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private companyService: CompanyService,
     private router: Router
   ) {
     this.user = new User();
@@ -35,6 +39,16 @@ export class AddUserComponent implements OnInit, OnDestroy {
           this.users.push(user);
         });
       });
+
+      this.subscription = await this.companyService.getAll()
+      .subscribe( responses =>{
+        this.companies  = [];
+        responses.forEach(resp =>{
+          let company = resp.payload.doc.data() as Company;
+          company.id = resp.payload.doc.id;
+          this.companies.push(company);
+        });
+      })
   }
 
   ngOnDestroy() {

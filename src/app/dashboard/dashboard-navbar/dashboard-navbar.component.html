@@ -8,24 +8,24 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul *ngIf="appUser" class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" routerLink="/admin/index"> Admin
+          <a class="nav-link" routerLink="/dashboard/index"> Dashboard
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" routerLink="/admin/user/add-user"> Users
+          <a class="nav-link" routerLink="/dashboard/user/add-user"> Users
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" routerLink="/admin/company/add-company"> Company
+          <a class="nav-link" routerLink="/dashboard/company/add-company"> Company
             <span class="sr-only">(current)</span>
           </a>
         </li>
       </ul>
 
       <ul class="navbar-nav">
-        
+
         <li ngbDropdown *ngIf="appUser" placement="bottom-right" class="nav-item dropdown">
           <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ appUser.name }}</a>
           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown02">

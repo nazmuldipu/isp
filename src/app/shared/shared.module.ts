@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'shared/services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthGuard } from 'shared/services/auth-guard.service';
+import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
+import { CompanyService } from 'shared/services/company.service';
 
 @NgModule({
   imports: [
@@ -12,7 +15,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   declarations: [],
   providers:[
-    AuthService
+    AuthService,
+    AuthGuard,
+    AdminAuthGuard,
+    CompanyService
   ],
   exports:[
     CommonModule,
