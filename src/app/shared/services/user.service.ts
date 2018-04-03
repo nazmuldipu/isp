@@ -11,22 +11,7 @@ export class UserService {
   constructor(
     private afs: AngularFirestore,
   ) {
-    // admin.initializeApp({
-    //   credential: admin.credential.cert(serviceAccount),
-    //   databaseURL: 'https://isp-moninfotech.firebaseio.com'
-    // });
   }
-
-  // adminGetUser(uid) {
-  //   admin.auth().getUser(uid)
-  //     .then(function (userRecord) {
-  //       // See the UserRecord reference doc for the contents of userRecord.
-  //       console.log("Successfully fetched user data:", userRecord.toJSON());
-  //     })
-  //     .catch(function (error) {
-  //       console.log("Error fetching user data:", error);
-  //     });
-  // }
 
   create(user) {
     return this.afs.collection('users').add(user);

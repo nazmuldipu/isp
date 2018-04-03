@@ -22,7 +22,6 @@ export class AuthService {
     private userService: UserService,
   ) {
     this.user$ = afAuth.authState;
-    
   }
 
   get appUser$(): Observable<User>{
