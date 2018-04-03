@@ -3,34 +3,31 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
-import { AdminComponent } from './admin.component';
+import { DashboardNavbarComponent } from './dashboard-navbar/dashboard-navbar.component';
+import { DashboardComponent } from './dashboard.component';
 import { IndexComponent } from './index/index.component';
-import { SharedModule } from 'shared/shared.module';
-import { AuthService } from 'shared/services/auth.service';
-import { UserService } from 'shared/services/user.service';
 import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
 
 @NgModule({
   imports: [
-    SharedModule,
+    CommonModule,
     NgbModule,
     RouterModule.forChild([
       {
-        path: '', component: AdminComponent,
+        path: '', component: DashboardComponent,
         children: [
           { path: 'index', component: IndexComponent },
+          { path: 'user', loadChildren:'app/dashboard/user/user.module#UserModule', canActivate:[AdminAuthGuard]},
+          { path: 'company', loadChildren:'app/dashboard/company/company.module#CompanyModule', canActivate:[AdminAuthGuard]},
         ]
       },
       { path: '**', redirectTo: '/' }
     ])
   ],
   declarations: [
+    DashboardComponent,
     IndexComponent,
-    AdminComponent,
-    AdminNavbarComponent,
-  ],
-  providers: [
+    DashboardNavbarComponent
   ]
 })
-export class AdminModule { }
+export class DashboardModule { }

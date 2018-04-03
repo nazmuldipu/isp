@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { UserService } from 'shared/services/user.service';
 import { User } from 'shared/models/user.model';
+import { FirebaseAuth } from '@firebase/auth-types';
 
 
 @Injectable()
@@ -21,6 +22,7 @@ export class AuthService {
     private userService: UserService,
   ) {
     this.user$ = afAuth.authState;
+    
   }
 
   get appUser$(): Observable<User>{
@@ -49,6 +51,10 @@ export class AuthService {
 
   resetPassword(email: string) {
     return this.afAuth.auth.sendPasswordResetEmail(email);
+  }
+
+  sendVerificationEmail(){
+    return this.afAuth.auth.currentUser.sendEmailVerification(); 
   }
 
   // this.afs.collection('posts').add({'title': this.title, 'content': this.content});

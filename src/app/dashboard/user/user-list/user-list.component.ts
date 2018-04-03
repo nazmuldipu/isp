@@ -22,7 +22,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.subscription = await this.userService.getAll()
       .subscribe(responses => {
         responses.forEach(resp => {
-          console.log(resp.payload.doc.data() as User);
           this.users.push(resp.payload.doc.data() as User);
         })
       })

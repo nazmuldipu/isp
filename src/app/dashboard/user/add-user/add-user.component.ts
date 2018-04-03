@@ -48,7 +48,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
           company.id = resp.payload.doc.id;
           this.companies.push(company);
         });
-        console.log(this.companies);
       })
   }
 

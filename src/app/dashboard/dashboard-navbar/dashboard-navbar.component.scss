@@ -1,0 +1,30 @@
+@import "~themes.scss";
+
+.dropdown-toggle{
+    cursor: pointer;
+}
+
+.dropdown-item{
+    color: $darkPrimaryColor! important;
+}
+
+.navbar{
+    color: $textPrimaryColor;
+    background: $darkPrimaryColor;
+    font-weight: bold;
+    border-bottom: 3px solid $accentColor;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+.navbar a{
+    color: $textPrimaryColor;
+}
+
+.btn-sm{
+    background: $accentColor;
+    color: #fafafa;
+}
+
+.nav-link:hover{
+    color: $darkPrimaryColor! important;
+    background: $textPrimaryColor;
+}

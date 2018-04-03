@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "isp-moninfotech",
+  "private_key_id": "275532d557dcacc8f6233f57b38982424e99f0e1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDIE2ywWjIIemoa\n/KZF70c9L+mpZSvARYiBcb8Zw+YIzwZnPXSr2upIjEJ3MTDnRJbGeq2P6K7e1JK9\n6tPFTCPVNELhNiydsV693bMBEV/J8+8C2JRkq49aOdT29XfUNba4EcFDEHFOGqWI\nR5A72n0Ayd3/oca+6jEnl3HssIZAEQDWR2wn4Y1452o7qLYQV1vqpnTOIWRvrF7m\nY8hcuUwtItW1VYAzbrvCnjwT5Mzo5nbyYbtzgbQvPdts64myqaeEUp3NrvfdHlM4\nwWw5pGiiT0/28JiL242E+xCvlGE4YWVgIq3QYs7YEuPipYNnNxXzux6ENRs9UsNb\nBVb+7/S1AgMBAAECggEAGZQWKKOXUusnhoS3UyiIkIOAGWZ0RfP9xCLBHi+jyIuD\nE47RTClEG3tHAgr5aA+mQQCtEMFcHePKUNplMYuO5zJzvGwbHxvuc1KVEHVirCRx\n8Yizy/z86jmLhvkR1UD6t6SZcxP2kFgqwnX3tBc2NPQZ3BUYHg89soSTjYFx4F2x\n6g/SfIBUILIhZC1ZCj7sWLrZG6t97hLJ0cv5UCfqM3GKPScimw0I4h3Eq6ExpRc0\nW60QgwpUcEz21D7KxKCnrHrayZbyNoIJN8VevzmrGvBsO/kmWKj6p4dYhVYIAHvs\nyDWvNYAUs3R6XCe/hRhmoygifyLDxupAF1BDvEBvvwKBgQD8YXs+f0ybzUx57EnO\nvbOMNWacIdEvDzDGfkfI3fDE3PuEkNPjmX0ZfXrI4U5KB6IqjJpQJgbMRxXA/rIh\n1+4Eep6FJE0rjJzulpbPKk6WUvPWWL6vKDZDCLDzorVpV7DyC/RNUry8P91SPynM\nuuwT/sEME8iGzdslb37/STOw8wKBgQDK8e0F2f5xxNXUY6LhaF180xRu/CI0r/qJ\nbrM9KlLxwPARrNvwGc9K8OU3mrixd3oPectiruCHy0U7nxuJ0W52aLoPwboLlCkZ\nahixXEIuI0/zZUp7oN3iJFqcgJwDZW9gdRbaPpNaFzvSq2ioVR+spbXes8nhXash\no1gsZgdttwKBgFEX+YPRX4pIYyRh+i1F4yVQG1Jbw109okyFUweF2NFIuECWUJ83\nOG0yVnupeYBsB31ohETwkwqcZK8Ip7AcM8yYocriKTGvEtXO6VJTo8DFkrfy+AJM\nB3NunX0LcQMSPDbqBGu8BAzw8Gp3BTVVcnnSR7FbwfkeuCXFN6dLnCJlAoGAJH2r\nqMmxvrMt36qqtu0VIkSx/+LGI8MgwWVuRSk/EMkoYYU7Zsi9RTRbgswHOaHKCM5V\ni8D2DnS2ViodwYIu4ouiKQMkeMCDQ1aYagu0uqcO0Sz9X41lWCxBPrLBWrr6c9WZ\n7lQiGqji0NaRUvM7ZsfFE+4v9p3pD3tXd2RBIbECgYAUE5MouonbpX+DlcbkFMZK\nWqkjuoViYNYn3ItE93LdSJGf2biQRRewE5PFkuLQSTOuYpD+2VJoUCMW78mlJTYM\nJURhPsHcHydq+SOY1XL3a2LnHXjjW+HlwXeRcxOmSnAgrEhDQRGm/g0E8TuZJS80\nXm9GLOCs8FjeQQ3qjVFadQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-ncocs@isp-moninfotech.iam.gserviceaccount.com",
+  "client_id": "110486427535933316240",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ncocs%40isp-moninfotech.iam.gserviceaccount.com"
+}
