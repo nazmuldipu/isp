@@ -1,0 +1,180 @@
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6 text-center" >
+        <h2>{{customer?.name}} Details</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="container customer-info">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Date</label>
+                <label class="col-8 col-form-label card">{{ customer?.date }}</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Name</label>
+                <label class="col-8 col-form-label card">{{customer?.name}}</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Email</label>
+                <label class="col-8 col-form-label card">{{customer?.email}}</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Father's Name</label>
+                <label class="col-8 col-form-label card">{{customer?.fathersName}}</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Mother's Name</label>
+                <label class="col-8 col-form-label card">{{customer?.mothersName}}</label>
+            </div>
+        </div>
+        <div class="col-md-6 no-print text-center" *ngIf="customer?.imageUrl">
+            <!-- <label class="col-4 col-form-label"></label> -->
+            <img *ngIf="customer?.imageUrl" [src]="customer?.imageUrl" alt="{{ customer?.imageUrl }}" class="card-img-top">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Gender</label>
+        <label class="col-4 col-form-label card">{{customer?.gender}}</label>
+        
+        <label class="col-2 col-form-label text-right">Date of Birth</label>
+        <label class="col-4 col-form-label card">{{customer?.dob}}</label>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Occupation</label>
+        <label class="col-4 col-form-label card">{{customer?.occupation}}</label>
+        
+        
+        <label class="col-2 col-form-label text-right">Zone</label>
+        <label class="col-4 col-form-label card">{{customer?.zone}}</label>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Present Address </label>
+        <div class="col-10 row mr-15" >
+            <label *ngIf="customer?.prAddress?.flat" class="col-form-label card address-comp">Flat# {{customer?.prAddress?.flat}}</label>
+            <label *ngIf="customer?.prAddress?.floor" class="col-form-label card address-comp">Floor# {{customer?.prAddress?.floor}}</label>
+            <label *ngIf="customer?.prAddress?.house" class="col-form-label card address-comp">House# {{customer?.prAddress?.house}}</label>
+            <label *ngIf="customer?.prAddress?.road" class="col-form-label card address-comp">Road: {{customer?.prAddress?.road}}</label>
+            <label *ngIf="customer?.prAddress?.area" class="col-form-label card address-comp">Area: {{customer?.prAddress?.area}}</label>
+            <label *ngIf="customer?.prAddress?.village" class="col-form-label card address-comp">Village: {{customer?.prAddress?.village}}</label>
+            <label *ngIf="customer?.prAddress?.post" class="col-form-label card address-comp">Post: {{customer?.prAddress?.post}}</label>
+            <label *ngIf="customer?.prAddress?.po" class="col-form-label card address-comp">Polic Station: {{customer?.prAddress?.po}}</label>
+            <label *ngIf="customer?.prAddress?.unions" class="col-form-label card address-comp">Union: {{customer?.prAddress?.unions}}</label>
+            <label *ngIf="customer?.prAddress?.city" class="col-form-label card address-comp">City: {{customer?.prAddress?.city}}</label>
+        </div>
+        
+    </div>
+    
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Permanent Address</label>
+        <label class="col-10 col-form-label card">{{customer?.perAddress}}</label>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Id Type</label>
+        <label class="col-4 col-form-label card" *ngIf="customer?.otherIdType == null">{{customer?.idType}}</label>
+        <label class="col-4 col-form-label card" *ngIf="customer?.otherIdType != null">{{customer?.otherIdType}}</label>
+        <label class="col-2 col-form-label text-right">Id Number</label>
+        <label class="col-4 col-form-label card">{{customer?.idNumber}}</label>
+    </div>
+    
+    
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Phone</label>
+        <label class="col-4 col-form-label card">{{customer?.phone}}</label>
+        <label class="col-2 col-form-label text-right">Reference</label>
+        <label class="col-4 col-form-label card">{{customer?.reference}}</label>
+    </div>
+    
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Connection Date</label>
+        <label class="col-4 col-form-label card">{{customer?.connectionDate}}</label>
+        <label class="col-2 col-form-label text-right">Connection Fee</label>
+        <label class="col-4 col-form-label card">{{customer?.connectionFee}}</label>
+    </div>
+    
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Monthly Bill</label>
+        <label class="col-4 col-form-label card">{{customer?.monthlyBill}}</label>
+        <label class="col-2 col-form-label text-right">Date of payment</label>
+        <label class="col-4 col-form-label card">{{customer?.dateOfPayment}}</label>
+    </div>
+    
+    
+    <div class="form-group row" style="border: 1px dashed black; padding: 10px 0;">
+        <div class="col-12 text-center" style="padding: 0 0 20px 0;">
+            <span style="background: black; border-radius: 10px; color: white;padding: 2px 5px;">Office Use</span>
+        </div>
+        
+        <div class="col-12 row">
+            <label class="col-2 col-form-label">Pop Location</label>
+            <label class="col-4 col-form-label card">{{customer?.popLocation}}</label>
+            
+            <label class="col-2 col-form-label text-right">Box Name</label>
+            <label class="col-4 col-form-label card">{{customer?.boxName}}</label>
+        </div>
+        
+        <div class="col-12 row extra-margin">
+            <label class="col-2 col-form-label">Installed By</label>
+            <label class="col-4 col-form-label card">{{customer?.installedBy}}</label>
+            
+            <label class="col-2 col-form-label text-right">Used Cable</label>
+            <label class="col-4 col-form-label card">{{customer?.useCable}}</label>
+        </div>
+        
+        <div class="col-12 row extra-margin">
+            <label class="col-2 col-form-label">Bandwidth Type</label>
+            <label class="col-4 col-form-label card">{{customer?.bandwidthType}}</label>
+            
+            <label class="col-2 col-form-label text-right">User Type</label>
+            <label class="col-4 col-form-label card">{{customer?.userType}}</label>
+        </div>
+        
+        
+        <div class="col-12 row extra-margin">
+            <label class="col-2 col-form-label">Packages </label>
+            <label class="col-4 col-form-label card">{{customer?.packageType}}</label>
+        </div>
+    </div>
+    
+    <div class="form-group row" style="border: 1px dotted lightcoral; padding: 10px 0;">
+        
+        <div class="col-12 text-center" style="padding: 0 0 20px 0;">
+            <span style="background: black; border-radius: 10px; color: white;padding: 2px 5px;">User</span>
+        </div>
+        
+        <div class="col-12 row">
+            <label class="col-2 col-form-label">Used Name</label>
+            <label class="col-4 col-form-label card">{{customer?.userName}}</label>
+            
+            <label class="col-2 col-form-label text-right">Password</label>
+            <label class="col-4 col-form-label card">{{customer?.password}}</label>
+        </div>
+        <div class="col-12 row extra-margin">
+            <label class="col-2 col-form-label">IP</label>
+            <label class="col-4 col-form-label card">{{customer?.ipAddress}}</label>
+
+            <label class="col-2 col-form-label text-right">Gateway</label>
+            <label class="col-4 col-form-label card">{{customer?.gateway}}</label>
+        </div>
+        
+        <div class="col-12 row extra-margin">
+            <label class="col-2 col-form-label">Subnet</label>
+            <label class="col-4 col-form-label card">{{customer?.subnet}}</label>
+        </div>
+    </div>
+    <div class="form-group row mt-5 pt-5">
+        <label class="col-2 col-form-label" style="border-top: 1px dashed black;">Authorized Signature</label>
+        <label class="col-8"></label>
+        <label class="col-2 col-form-label text-right" style="border-top: 1px dashed black;">Customer Signature</label>
+    </div>
+
+    <div class="form-group row extra-margin no-print pb-3">
+        <a class="btn btn-sm btn-warning raised" routerLink="/dashboard/customer/add-customer/edit/{{customer?.id}}">Edit</a>
+    </div>
+</div>

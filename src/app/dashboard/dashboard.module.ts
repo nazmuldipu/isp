@@ -7,6 +7,8 @@ import { DashboardNavbarComponent } from './dashboard-navbar/dashboard-navbar.co
 import { DashboardComponent } from './dashboard.component';
 import { IndexComponent } from './index/index.component';
 import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
+import { AuthGuard } from 'shared/services/auth-guard.service';
+import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
           { path: 'index', component: IndexComponent },
           { path: 'user', loadChildren:'app/dashboard/user/user.module#UserModule', canActivate:[AdminAuthGuard]},
           { path: 'company', loadChildren:'app/dashboard/company/company.module#CompanyModule', canActivate:[AdminAuthGuard]},
+          { path: 'customer', loadChildren:'app/dashboard/customer/customer.module#CustomerModule', canActivate:[AuthGuard, IspAuthGuard]},
         ]
       },
       { path: '**', redirectTo: '/' }
@@ -27,7 +30,7 @@ import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
   declarations: [
     DashboardComponent,
     IndexComponent,
-    DashboardNavbarComponent
+    DashboardNavbarComponent,
   ]
 })
 export class DashboardModule { }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Company } from 'shared/models/company';
+import { Company } from 'shared/models/company.model';
 
 @Component({
   selector: 'company-list-child',

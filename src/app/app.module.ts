@@ -5,11 +5,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
 import { AuthGuard } from 'shared/services/auth-guard.service';
 import { SharedModule } from 'shared/shared.module';
 
 import { environment } from '../environments/environment';
-import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
 import { AppComponent } from './app.component';
 import { ChangePasswordComponent } from './core/components/change-password/change-password.component';
 import { HomeNavbarComponent } from './core/components/home-navbar/home-navbar.component';
@@ -35,6 +36,7 @@ import { UserService } from './shared/services/user.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     
     RouterModule.forRoot([
       { path: '', component: HomeComponent },

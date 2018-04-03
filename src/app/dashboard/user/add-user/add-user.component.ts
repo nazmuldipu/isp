@@ -5,7 +5,7 @@ import { UserService } from 'shared/services/user.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { CompanyService } from 'shared/services/company.service';
-import { Company } from 'shared/models/company';
+import { Company } from 'shared/models/company.model';
 
 @Component({
   selector: 'app-add-user',
