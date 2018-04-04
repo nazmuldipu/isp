@@ -34,7 +34,6 @@ export class HomeNavbarComponent implements OnInit {
             // for(let i = 0; i < this.appUser.roles.length; i++){
             //   this.roles.push(this.appUser.roles[i]);
             // }
-            console.log(this.roles);
           });
       }
     });

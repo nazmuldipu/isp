@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerService } from 'shared/services/customer.service';
-import { Customer } from 'shared/models/customer.model';
 import { AngularFireStorage } from 'angularfire2/storage';
+import { Ng2ImgMaxService } from 'ng2-img-max';
 import { Observable } from 'rxjs/Observable';
+import { Customer } from 'shared/models/customer.model';
+import { CustomerService } from 'shared/services/customer.service';
 
 @Component({
   selector: 'app-customer-images',
@@ -14,15 +15,9 @@ export class CustomerImagesComponent implements OnInit {
   id;
   customer: Customer;
   uploadPercent: Observable<number>;
-  downloadURL: Observable<string>;
-
-  // The next two lines are just to show the resize debug
-  // they can be removed
-  public debug_size_before: string;
-  public debug_size_after: string;
-  public file_srcs: string;
 
   constructor(
+    private ng2ImgMax: Ng2ImgMaxService,
     private route: ActivatedRoute,
     private customerService: CustomerService,
     private storage: AngularFireStorage,
@@ -39,118 +34,65 @@ export class CustomerImagesComponent implements OnInit {
       .subscribe(data => {
         this.customer = data as Customer;
         this.customer.id = id;
+        if (!this.customer.idImagesUrl)
+          this.customer.idImagesUrl = [];
+
+        // console.log(this.customer.idImagesUrl.length);
+
+        switch (this.customer.idImagesUrl.length) {
+          case 0: this.customer.idImagesUrl.push['1'];
+          case 1: this.customer.idImagesUrl.push['2']; break;
+        }
+        console.log(this.customer);
       })
   }
 
-  uploadFile(event) {
-    const file = event.target.files[0];
-    const filePath = 'customer/profile/' + this.id;
-    const task = this.storage.upload(filePath, file);
+  onProfileImageChange(event) {
+    let image = event.target.files[0];
+    this.resizeImage(image, 400, 300, 'customer/profile/' + this.id, 0);
+  }
+
+  onId1ImageChange(event) {
+    let image = event.target.files[0];
+    this.resizeImage(image, 600, 600, 'customer/Id1/' + this.id, 1);
+  }
+
+  onId2ImageChange(event) {
+    let image = event.target.files[0];
+    this.resizeImage(image, 600, 600, 'customer/Id2/' + this.id, 2);
+  }
+
+  resizeImage(image, maxWidth, maxHeight, url, mode) {
+    this.ng2ImgMax.resizeImage(image, maxWidth, maxHeight).subscribe(
+      result => {
+        this.uploadToFireStorage(result, url, mode);
+      },
+      error => {
+        console.log('😢 Image Resize error!!', error);
+      }
+    );
+  }
+
+  uploadToFireStorage(image, url, mode) {
+    const filePath = url
+
+    const task = this.storage.upload(filePath, image);
     this.uploadPercent = task.percentageChanges();
-    task.downloadURL().subscribe(data =>{
-      this.customer.imageUrl = data;
+    console.log('Yes');
+
+    task.downloadURL().subscribe(data => {
+      switch (mode) {
+        case 0: this.customer.imageUrl = data; break;
+        case 1: this.customer.idImagesUrl[0] = data; break;
+        case 2: this.customer.idImagesUrl[1] = data; break;
+      }
+      console.log(this.customer);
       this.customerService.update(this.customer.id, this.customer)
-      .then(data =>{
-        console.log('Image url updated');
-      })
+        .then(data => {
+          console.log('😢 Image url updated');
+        })
     })
   }
 
-  // uploadFile(event) {
-  //   const file = event.target.files[0];
-  //   console.log(event.target.files[0]);
-  //   const filePath = 'customer/profile/' + this.id;
-  //   const task = this.storage.upload(filePath, file);
-  //   // observe percentage changes
-  //   this.uploadPercent = task.percentageChanges();
-  //   // get notified when the download URL is available
-  //   this.downloadURL = task.downloadURL();
-
-  //   console.log(this.downloadURL);
-  // }
-
-
-
-  // fileChange(input) {
-  //   // Create the file reader
-  //   let reader = new FileReader();
-  //   this.readFile(input.files[0], reader, (result) => {
-  //     var img = document.createElement("img");
-  //     img.src = result;
-  //     this.resize(img, 250, 250, (resized_jpeg) => {
-  //       this.file_srcs = resized_jpeg;
-
-  //       const filePath = 'customer/profile/' + this.id;
-  //       var strImage = resized_jpeg.replace(/^data:image\/[a-z]+;base64,/, "");
-  //       console.log(strImage);
-  //       // let newFile = this.blobToFile(resized_jpeg, 'profile');
-  //       const ref = this.storage.ref(strImage);
-  //       // const task = this.storage.upload(filePath, strImage);
-  //       const task = ref.put(resized_jpeg);
-  //       // observe percentage changes
-  //       this.uploadPercent = task.percentageChanges();
-  //       // get notified when the download URL is available
-  //       this.downloadURL = task.downloadURL();
-  //     });
-  //   });
-
-  // }
-
-  // blobToFile(theBlob, fileName){
-  //   //A Blob() is almost a File() - it's just missing the two properties below which we will add
-  //   theBlob.lastModifiedDate = new Date();
-  //   theBlob.name = fileName;
-  //   return theBlob;
-  // }
-
-  // readFile(file, reader, callback) {
-  //   // Set a callback funtion to fire after the file is fully loaded
-  //   reader.onload = () => {
-  //     // callback with the results
-  //     callback(reader.result);
-  //   }
-  //   // Read the file
-  //   reader.readAsDataURL(file);
-  // }
-
-  // resize(img, MAX_WIDTH: number, MAX_HEIGHT: number) {
-  //   // This will wait until the img is loaded before calling this function
-  //   return img.onload = () => {
-  //     console.log("img loaded");
-  //     // Get the images current width and height
-  //     var width = img.width;
-  //     var height = img.height;
-
-  //     // Set the WxH to fit the Max values (but maintain proportions)
-  //     if (width > height) {
-  //       if (width > MAX_WIDTH) {
-  //         height *= MAX_WIDTH / width;
-  //         width = MAX_WIDTH;
-  //       }
-  //     } else {
-  //       if (height > MAX_HEIGHT) {
-  //         width *= MAX_HEIGHT / height;
-  //         height = MAX_HEIGHT;
-  //       }
-  //     }
-
-  //     // create a canvas object
-  //     var canvas = document.createElement("canvas");
-
-  //     // Set the canvas to the new calculated dimensions
-  //     canvas.width = width;
-  //     canvas.height = height;
-  //     var ctx = canvas.getContext("2d");
-
-  //     ctx.drawImage(img, 0, 0, width, height);
-
-  //     // Get this encoded as a jpeg
-  //     // IMPORTANT: 'jpeg' NOT 'jpg'
-  //     var dataUrl = canvas.toDataURL('image/jpeg');
-
-  //     // callback with the results
-  //    return canvas;
-  //   };
-  // }
 
 }

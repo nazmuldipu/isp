@@ -10,11 +10,13 @@ import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { InactiveCustomerListComponent } from './inactive-customer-list/inactive-customer-list.component';
 import { CustomerImagesComponent } from './customer-images/customer-images.component';
+import { Ng2ImgMaxModule } from 'ng2-img-max';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    Ng2ImgMaxModule,
     RouterModule.forChild([
       {
         path: '', component: CustomerComponent,

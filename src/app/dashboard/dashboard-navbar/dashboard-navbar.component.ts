@@ -29,7 +29,6 @@ export class DashboardNavbarComponent implements OnInit {
           .subscribe(data => {
             this.appUser = data;
             this.roles = this.appUser.roles;
-            console.log(this.roles);
           });
       }
     });
