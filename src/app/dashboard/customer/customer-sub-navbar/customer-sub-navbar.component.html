@@ -1,5 +1,5 @@
 <nav class="nav nav-pills p-2 mb-2 bg-light text-dark no-print">
-  <a routerLink="/dashboard/customer/add-customer/add" class="btn btn-light btn-sm" [class.active]="active == 1" (click)="makeActive(1)">ADD</a>
-  <a routerLink="/dashboard/customer/customer-list" class="ml-2 btn btn-light btn-sm" [class.active]="active == 2" (click)="makeActive(2)">LIST</a>
+  <a routerLink="/dashboard/customer/customer-list" class="ml-2 btn btn-light btn-sm" [class.active]="active == 1" (click)="makeActive(1)">LIST</a>
+  <a routerLink="/dashboard/customer/add-customer/add" class="btn btn-light btn-sm" [class.active]="active == 2" (click)="makeActive(2)">ADD</a>
   <a routerLink="/dashboard/customer/inactive-customers" class="ml-2 btn btn-light btn-sm" [class.active]="active == 3" (click)="makeActive(3)">INACTIVES</a>
 </nav>

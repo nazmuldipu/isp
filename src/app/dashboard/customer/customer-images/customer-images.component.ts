@@ -43,7 +43,6 @@ export class CustomerImagesComponent implements OnInit {
           case 0: this.customer.idImagesUrl.push['1'];
           case 1: this.customer.idImagesUrl.push['2']; break;
         }
-        console.log(this.customer);
       })
   }
 
@@ -74,11 +73,8 @@ export class CustomerImagesComponent implements OnInit {
   }
 
   uploadToFireStorage(image, url, mode) {
-    const filePath = url
-
-    const task = this.storage.upload(filePath, image);
+    const task = this.storage.upload(url, image);
     this.uploadPercent = task.percentageChanges();
-    console.log('Yes');
 
     task.downloadURL().subscribe(data => {
       switch (mode) {
@@ -86,7 +82,7 @@ export class CustomerImagesComponent implements OnInit {
         case 1: this.customer.idImagesUrl[0] = data; break;
         case 2: this.customer.idImagesUrl[1] = data; break;
       }
-      console.log(this.customer);
+
       this.customerService.update(this.customer.id, this.customer)
         .then(data => {
           console.log('😢 Image url updated');

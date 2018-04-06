@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Address } from 'shared/models/address.model';
 import { Company } from 'shared/models/company.model';
 import { Customer } from 'shared/models/customer.model';
 import { User } from 'shared/models/user.model';
 import { AuthService } from 'shared/services/auth.service';
-import { CompanyService } from 'shared/services/company.service';
 import { CustomerService } from 'shared/services/customer.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
+import { CustomerLedger } from 'shared/models/customer-ledger.model';
 
 @Component({
   selector: 'app-add-customer',
@@ -26,9 +27,10 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   constructor(
-    private companyService: CompanyService,
+    // private companyService: CompanyService,
     private authService: AuthService,
     private customerService: CustomerService,
+    private customerLedgerService: CustomerLedgerService,
     private activeRoute: ActivatedRoute,
     private router: Router,
   ) {
@@ -62,23 +64,33 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  getCustomer(id){
+  getCustomer(id) {
     this.customerService.get(id).take(1)
-    .subscribe( data=>{
-      this.customer = data;
-      this.customer.companyId = this.companyId;
-      this.customer.id = id;
-    })
+      .subscribe(data => {
+        this.customer = data;
+        this.customer.companyId = this.companyId;
+        this.customer.id = id;
+      })
   }
 
   saveCustomer(customer: NgForm) {
-    console.log(customer);
+    let balance = this.customer.monthlyBill + this.customer.connectionFee;
     let newCustomer = JSON.parse(JSON.stringify(this.customer))//remove all null values from object
-    console.log(newCustomer.id);
+
     if (!newCustomer.id) {
       this.customerService.create(newCustomer)
-        .then(() => {
+        .then((ref) => {
           this.message = "Customer Saved";
+
+          //after create new customer create customer ledger
+          let cLedger = new CustomerLedger(null, ref.id, new Date(), 'Connection fee + One month bill', null, balance, 0, balance);
+          delete cLedger["id"];
+          cLedger = JSON.parse(JSON.stringify(cLedger))//remove all null values from object
+          cLedger.date = new Date();
+          this.customerLedgerService.create(cLedger)
+            .then(() => this.message += 'Customer Ledger created')
+            .catch((error) => console.log('customer ledger could not save'));
+
           this.router.navigate(['/dashboard/customer/customer-list']);
         })
         .catch((error) => {

@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
+  companyId;
   customers: Customer[] = [];
   message = '';
   errorMessage = '';
@@ -16,21 +17,25 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   constructor(
     private customerService: CustomerService
-  ) { }
-
-  async ngOnInit() {
-    this.subscription = await this.customerService.getActiveCustomers()
-      .subscribe(data => {
-        this.customers = [];
-        data.forEach(resp => {
-          let comp = resp.payload.doc.data() as Customer;
-          comp.id = resp.payload.doc.id;
-          this.customers.push(comp);
-        });
-      })
+  ) {
+    this.companyId = localStorage.getItem('companyId');
   }
 
-  ngOnDestroy(){
+  async ngOnInit() {
+    if (this.companyId) {
+      this.subscription = await this.customerService.getActiveCompanyCustomer(this.companyId)
+        .subscribe(data => {
+          this.customers = [];
+          data.forEach(resp => {
+            let comp = resp.payload.doc.data() as Customer;
+            comp.id = resp.payload.doc.id;
+            this.customers.push(comp);
+          });
+        })
+    }
+  }
+
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 

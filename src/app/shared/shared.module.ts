@@ -8,6 +8,9 @@ import { CompanyService } from 'shared/services/company.service';
 import { CustomerService } from 'shared/services/customer.service';
 import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
 import { StorageService } from 'shared/services/storage.service';
+import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
+import { InvoiceService } from 'shared/services/invoice.service';
+import { CashBookService } from 'shared/services/cash-book.service';
 
 @NgModule({
   imports: [
@@ -24,7 +27,10 @@ import { StorageService } from 'shared/services/storage.service';
     CompanyService,
     IspAuthGuard,
     CustomerService,
-    StorageService
+    StorageService,
+    CustomerLedgerService,
+    InvoiceService,
+    CashBookService
   ],
   exports:[
     CommonModule,

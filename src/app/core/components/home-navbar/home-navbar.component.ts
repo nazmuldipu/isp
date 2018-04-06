@@ -30,10 +30,10 @@ export class HomeNavbarComponent implements OnInit {
         this.userService.get(user.uid).take(1)
           .subscribe(data => {
             this.appUser = data;
+            if (this.appUser.companyId)
+              localStorage.setItem('companyId', this.appUser.companyId);
+
             this.roles = this.appUser.roles;
-            // for(let i = 0; i < this.appUser.roles.length; i++){
-            //   this.roles.push(this.appUser.roles[i]);
-            // }
           });
       }
     });

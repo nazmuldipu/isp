@@ -327,42 +327,42 @@
         <div class="col-md-10">
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P1">P1
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="1mbps">1mbps
             </label>
           </div>
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P2">P2
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="1.5mbps">1.5mbps
             </label>
           </div>
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P3">P3
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="2mbps">2mbps
             </label>
           </div>
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P4">P4
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="3mbps">3mbps
             </label>
           </div>
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P5">P5
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="4mbps">4mbps
             </label>
           </div>
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P6">P6
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="5mbps">5mbps
             </label>
           </div>
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P7">P7
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="8mbps">8mbps
             </label>
           </div>
           <div class="col-md-1 form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="P8">P8
+              <input class="form-check-input" type="radio" [(ngModel)]="customer.packageType" name="packageType" value="10mbps">10mpbs
             </label>
           </div>
         </div>
@@ -394,37 +394,31 @@
         </div>
       </div>
       <div class="col-12 row" style="margin-bottom: 15px;">
-        <label class="col-md-2 col-form-label">IP
-          <sup>*</sup>
-        </label>
+        <label class="col-md-2 col-form-label">IP</label>
         <div class="col-md-4">
           <input class="form-control" type="text" #ipAddress="ngModel" [(ngModel)]="customer.ipAddress" name="ipAddress" placeholder="Ip Address"
-            required/>
+          />
           <small class="form-text text-danger" *ngIf="ipAddress.touched && ipAddress.invalid">Zone required</small>
         </div>
 
-        <label class="col-md-2 col-form-label text-right">Gateway
-          <sup>*</sup>
-        </label>
+        <label class="col-md-2 col-form-label text-right">Gateway</label>
         <div class="col-md-4">
           <input class="form-control" type="text" #gateway="ngModel" [(ngModel)]="customer.gateway" name="gateway" placeholder="Gateway"
-            required/>
+          />
           <small class="form-text text-danger" *ngIf="gateway.touched && gateway.invalid">Zone required</small>
         </div>
       </div>
 
       <div class="col-12 row" style="margin-bottom: 15px;">
-        <label class="col-md-2 col-form-label">Subnet
-          <sup>*</sup>
-        </label>
+        <label class="col-md-2 col-form-label">Subnet</label>
         <div class="col-md-4">
           <input class="form-control" type="text" #subnet="ngModel" [(ngModel)]="customer.subnet" name="subnet" placeholder="Subnet Mask"
-            required/>
+          />
           <small class="form-text text-danger" *ngIf="subnet.touched && subnet.invalid">Zone required</small>
         </div>
 
         <label class="col-md-2 col-form-label text-right">
-          <input class="form-check-input" type="checkbox" #active="ngModel" [(ngModel)]="customer.active" name="active"/>
+          <input class="form-check-input" type="checkbox" #active="ngModel" [(ngModel)]="customer.active" name="active" />
         </label>
         <div class="col-md-4">
           <label class="form-check-label" for="active">Active</label>

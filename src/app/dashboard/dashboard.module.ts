@@ -22,6 +22,7 @@ import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
           { path: 'user', loadChildren:'app/dashboard/user/user.module#UserModule', canActivate:[AdminAuthGuard]},
           { path: 'company', loadChildren:'app/dashboard/company/company.module#CompanyModule', canActivate:[AdminAuthGuard]},
           { path: 'customer', loadChildren:'app/dashboard/customer/customer.module#CustomerModule', canActivate:[AuthGuard, IspAuthGuard]},
+          { path: 'accounting', loadChildren:'app/dashboard/accounting/accounting.module#AccountingModule', canActivate:[AuthGuard, IspAuthGuard]},
         ]
       },
       { path: '**', redirectTo: '/' }

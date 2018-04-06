@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./inactive-customer-list.component.css']
 })
 export class InactiveCustomerListComponent implements OnInit, OnDestroy {
+  companyId;
   customers: Customer[] = [];
   message = '';
   errorMessage = '';
@@ -18,11 +19,14 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
 
   constructor(
     private customerService: CustomerService
-  ) { }
+  ) {
+    this.companyId = localStorage.getItem('companyId');
+   }
 
 
   async ngOnInit() {
-    this.subscription = await this.customerService.getInactiveCustomers()
+    if (this.companyId) {
+    this.subscription = await this.customerService.getInactiveCompanyCustomer(this.companyId)
       .subscribe(data => {
         this.customers = [];
         data.forEach(resp => {
@@ -31,6 +35,7 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
           this.customers.push(cust);
         });
       });
+    }
   }
 
   ngOnDestroy(){

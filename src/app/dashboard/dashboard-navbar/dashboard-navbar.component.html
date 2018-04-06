@@ -23,7 +23,12 @@
           </a>
         </li>
         <li class="nav-item active" *ngIf="hasIspRole()">
-          <a class="nav-link" routerLink="/dashboard/customer/add-customer/add"> Customer
+          <a class="nav-link" routerLink="/dashboard/customer/customer-list"> Customer
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item active" *ngIf="hasIspRole()">
+          <a class="nav-link" routerLink="/dashboard/accounting/invoice"> Accounting
             <span class="sr-only">(current)</span>
           </a>
         </li>

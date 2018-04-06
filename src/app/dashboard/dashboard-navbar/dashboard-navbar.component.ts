@@ -26,10 +26,13 @@ export class DashboardNavbarComponent implements OnInit {
       if (user) {
         this.appUser$ = user;
         this.userService.get(user.uid).take(1)
-          .subscribe(data => {
-            this.appUser = data;
-            this.roles = this.appUser.roles;
-          });
+        .subscribe(data => {
+          this.appUser = data;
+          if (this.appUser.companyId)
+            localStorage.setItem('companyId', this.appUser.companyId);
+
+          this.roles = this.appUser.roles;
+        });
       }
     });
   }

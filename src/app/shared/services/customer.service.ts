@@ -28,8 +28,24 @@ export class CustomerService {
     return this.afs.collection('customer', ref => ref.where('active', '==', false)).snapshotChanges();
   }
 
+  getCompanyCustomer(companyId){
+    return this.afs.collection('customer', ref => ref.where('companyId', '==', companyId)).snapshotChanges();
+  }
+
+  getActiveCompanyCustomer(companyId){
+    return this.afs.collection('customer', ref => ref.where('companyId', '==', companyId).where('active', '==', true)).snapshotChanges();
+  }
+  
+  getInactiveCompanyCustomer(companyId){
+    return this.afs.collection('customer', ref => ref.where('companyId', '==', companyId).where('active', '==', false)).snapshotChanges();
+  }
+
   get(cid) {
     return this.afs.doc('customer/' + cid).valueChanges();
+  }
+
+  searchCustomer(start, end, companyId){
+    return this.afs.collection('customer', ref => ref.orderBy('name').startAt(start).endAt(end)).snapshotChanges();
   }
 
   update(cid, customer: Customer) {
