@@ -14,7 +14,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   message = '';
   errorMessage = '';
   subscription: Subscription;
-
+  showSpiner = false;
+  
   constructor(
     private customerService: CustomerService
   ) {
@@ -23,15 +24,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     if (this.companyId) {
-      this.subscription = await this.customerService.getActiveCompanyCustomer(this.companyId)
-        .subscribe(data => {
-          this.customers = [];
-          data.forEach(resp => {
-            let comp = resp.payload.doc.data() as Customer;
-            comp.id = resp.payload.doc.id;
-            this.customers.push(comp);
-          });
-        })
+      this.showSpiner = true;
+      this.subscription = await this.customerService.customers$
+        .subscribe(item => {
+          this.customers = item.filter(cus => cus.active == true);
+          this.showSpiner = false;
+        });
     }
   }
 

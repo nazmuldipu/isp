@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+
 import { User } from '../models/user.model';
+
 // import * as admin from 'firebase-admin';
 
 // var serviceAccount = require('shared/jsons/firebase-admin-model.json');

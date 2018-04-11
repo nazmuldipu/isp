@@ -16,6 +16,7 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
   message = '';
   errorMessage = '';
   subscription: Subscription;
+  showSpiner = false;
 
   constructor(
     private customerService: CustomerService
@@ -24,17 +25,14 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
    }
 
 
-  async ngOnInit() {
+   async ngOnInit() {
     if (this.companyId) {
-    this.subscription = await this.customerService.getInactiveCompanyCustomer(this.companyId)
-      .subscribe(data => {
-        this.customers = [];
-        data.forEach(resp => {
-          let cust = resp.payload.doc.data() as Customer;
-          cust.id = resp.payload.doc.id;
-          this.customers.push(cust);
+      this.showSpiner = true;
+      this.subscription = await this.customerService.customers$
+        .subscribe(item => {
+          this.customers = item.filter(cus => cus.active == false);
+          this.showSpiner = false;
         });
-      });
     }
   }
 

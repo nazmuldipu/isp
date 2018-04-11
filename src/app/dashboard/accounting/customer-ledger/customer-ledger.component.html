@@ -4,9 +4,9 @@
       <input class="form-control mb-3" type="text" (keyup)="search($event)" placeholder="search customer...">
       <div *ngIf="customers?.length > 0; else noInfo">
         <div class="border rounded p-2 mb-2 cus-list" *ngFor="let cus of customers" (click)="loadCustomerLedger(cus.id)">
-          <h4 class="mb-1">{{cus?.name}}</h4>
+          <h4 class="mb-1">{{cus?.name}} <small>({{ cus?.userName }})</small></h4>
           <p class="mb-0">
-            Phone: {{cus?.phone}} | Username: {{ cus?.userName }}
+            Phone: {{cus?.phone}}
           </p>
         </div>
       </div>

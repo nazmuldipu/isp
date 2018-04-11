@@ -88,15 +88,16 @@ export class InvoiceComponent implements OnInit {
   }
 
   search($event) {
-    let metaKey = $event.keyCode < 65 || $event.keyCode > 90;
     let q = $event.target.value;
-    this.startAt = q;
-    this.endAt = q + "\uf8ff";
-    if (q && !metaKey) {
-      this.findCustomers();
-    }
-    if (!q) {
-      this.customers = [];
+    this.customers = [];
+    if (q) {
+      this.customerService.customers$
+        .subscribe(cus => {
+          let search = cus.filter(ci => ci.name.toLowerCase().indexOf(q.toLowerCase()) > -1).slice(0, 5);
+          search.forEach(cus => {
+            this.customers.push(cus);
+          });
+        });
     }
   }
 

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row mt-2">
     <div class="col-12 raised">
-      <table class="table">
+      <table class="table table-responsive-xl">
         <thead>
           <tr>
             <th>Name</th>
@@ -25,7 +25,9 @@
           </tr>
         </tbody>
       </table>
+      <loading-spiner *ngIf="showSpiner"></loading-spiner>
     </div>
   </div>
 </div>
+
 <!-- {{ customers | json}} -->

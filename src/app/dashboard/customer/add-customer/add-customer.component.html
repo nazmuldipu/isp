@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container p-0">
   <div class="text-center">
     <h5 class="h3 mb-3 font-weight-normal" [class.bg-warning]="customer.id">
       <strong> {{customer.id?'EDIT':'ADD'}} CUSTOMER </strong>
@@ -11,12 +11,12 @@
     </div>
   </div>
 
-  <form class="p-3" #cusForm="ngForm" (ngSubmit)="saveCustomer(cusForm.value)" novalidate>
+  <form class="py-3" #cusForm="ngForm" (ngSubmit)="saveCustomer(cusForm.value)" novalidate>
     <div class="row m-0">
       <div class="col-md-6 p-0">
         <div class="form-group row">
           <label class="col-md-4 col-form-label">Date</label>
-          <div class="col-md-8 pl-2 pr-4">
+          <div class="col-md-8">
             <input class="form-control" type="date" name="date" [(ngModel)]="customer.date" />
           </div>
         </div>
@@ -25,7 +25,7 @@
           <label class="col-md-4 col-form-label">Name
             <sup>*</sup>
           </label>
-          <div class="col-md-8 pl-2 pr-4">
+          <div class="col-md-8">
             <input class="form-control" name="name" #name="ngModel" [(ngModel)]="customer.name" placeholder="Name" required/>
             <small class="form-text text-danger" *ngIf="name.touched && name.invalid">Name is required</small>
           </div>
@@ -109,32 +109,36 @@
 
     <div class="form-group row">
       <label class="col-md-2 col-form-label">Present Address </label>
-      <div class="col-md-10 row">
-        <input class="col-md-2 form-control ml-3" #flat="ngModel" [(ngModel)]="customer.prAddress.flat" name="prAddress.flat" placeholder="Flat #"
-        />
-        <input class="col-md-2 form-control ml-3" #floor="ngModel" [(ngModel)]="customer.prAddress.floor" name="prAddress.floor"
-          placeholder="Floor #" />
-        <input class="col-md-2 form-control ml-3" #house="ngModel" [(ngModel)]="customer.prAddress.house" name="prAddress.house"
-          placeholder="House #" />
-        <input class="col-md-2 form-control ml-3" #road="ngModel" [(ngModel)]="customer.prAddress.road" name="prAddress.road" placeholder="Road #"
-        />
-        <input class="col-md-2 form-control ml-3" #road="ngModel" [(ngModel)]="customer.prAddress.area" name="prAddress.road" placeholder="*Area"
-          required/>
+      <div class="col-md-10">
+        <div class="row p-3 p-md-0">
+          <input class="col-md-2 form-control ml-md-3" #flat="ngModel" [(ngModel)]="customer.prAddress.flat" name="prAddress.flat"
+            placeholder="Flat #" />
+          <input class="col-md-2 form-control ml-md-3" #floor="ngModel" [(ngModel)]="customer.prAddress.floor" name="prAddress.floor"
+            placeholder="Floor #" />
+          <input class="col-md-2 form-control ml-md-3" #house="ngModel" [(ngModel)]="customer.prAddress.house" name="prAddress.house"
+            placeholder="House #" />
+          <input class="col-md-2 form-control ml-md-3" #road="ngModel" [(ngModel)]="customer.prAddress.road" name="prAddress.road"
+            placeholder="Road #" />
+          <input class="col-md-2 form-control ml-md-3" #road="ngModel" [(ngModel)]="customer.prAddress.area" name="prAddress.road"
+            placeholder="*Area" required/>
+        </div>
       </div>
     </div>
     <div class="form-group row">
       <label class="col-md-2 col-form-label"></label>
-      <div class="col-md-10 row">
-        <input class="col-md-2 form-control ml-3" #village="ngModel" [(ngModel)]="customer.prAddress.village" name="prAddress.village"
-          placeholder="Village" />
-        <input class="col-md-2 form-control ml-3" #post="ngModel" [(ngModel)]="customer.prAddress.post" name="prAddress.post" placeholder="Post"
-        />
-        <input class="col-md-2 form-control ml-3" #po="ngModel" [(ngModel)]="customer.prAddress.po" name="prAddress.po" placeholder="*Polic Station"
-          required/>
-        <input class="col-md-2 form-control ml-3" #unions="ngModel" [(ngModel)]="customer.prAddress.unions" name="prAddress.unions"
-          placeholder="Union" />
-        <input class="col-md-2 form-control ml-3" #city="ngModel" [(ngModel)]="customer.prAddress.city" name="prAddress.city" placeholder="*City"
-          required/>
+      <div class="col-md-10">
+        <div class="row p-3 p-md-0">
+          <input class="col-md-2 form-control ml-md-3" #village="ngModel" [(ngModel)]="customer.prAddress.village" name="prAddress.village"
+            placeholder="Village" />
+          <input class="col-md-2 form-control ml-md-3" #post="ngModel" [(ngModel)]="customer.prAddress.post" name="prAddress.post"
+            placeholder="Post" />
+          <input class="col-md-2 form-control ml-md-3" #po="ngModel" [(ngModel)]="customer.prAddress.po" name="prAddress.po" placeholder="*Polic Station"
+            required/>
+          <input class="col-md-2 form-control ml-md-3" #unions="ngModel" [(ngModel)]="customer.prAddress.unions" name="prAddress.unions"
+            placeholder="Union" />
+          <input class="col-md-2 form-control ml-md-3" #city="ngModel" [(ngModel)]="customer.prAddress.city" name="prAddress.city"
+            placeholder="*City" required/>
+        </div>
       </div>
     </div>
 
@@ -262,26 +266,30 @@
         <span style="background: black; border-radius: 10px; color: white;padding: 2px 5px;">Office Use</span>
       </div>
 
-      <div class="col-12 row">
-        <label class="col-md-2 col-form-label">Pop Location</label>
-        <div class="col-md-4">
-          <input class="form-control" [(ngModel)]="customer.popLocation" name="popLocation" placeholder="Pop Location" />
-        </div>
-        <label class="col-md-2 col-form-label text-right">Box Name</label>
-        <div class="col-lg-4 col-md-4">
-          <input class="form-control" [(ngModel)]="customer.boxName" name="boxName" placeholder="Box Name" />
+      <div class="col-12">
+        <div class="row p-3">
+          <label class="col-md-2 col-form-label p-0">Pop Location</label>
+          <div class="col-md-4 p-0">
+            <input class="form-control" [(ngModel)]="customer.popLocation" name="popLocation" placeholder="Pop Location" />
+          </div>
+          <label class="col-md-2 col-form-label text-right p-0 px-md-3">Box Name</label>
+          <div class="col-lg-4 col-md-4 p-0">
+            <input class="form-control" [(ngModel)]="customer.boxName" name="boxName" placeholder="Box Name" />
+          </div>
         </div>
       </div>
 
-      <div class="col-12 row" style="margin-top: 15px;">
-        <label class="col-md-2 col-form-label">Installed By</label>
-        <div class="col-md-4">
-          <input class="form-control" [(ngModel)]="customer.installedBy" name="installedBy" placeholder="Installed By" />
-        </div>
+      <div class="col-12">
+        <div class="row p-3">
+          <label class="col-md-2 col-form-label p-0">Installed By</label>
+          <div class="col-md-4 p-0">
+            <input class="form-control" [(ngModel)]="customer.installedBy" name="installedBy" placeholder="Installed By" />
+          </div>
 
-        <label class="col-md-2 col-form-label text-right">Used Cable</label>
-        <div class="col-md-4">
-          <input class="form-control" [(ngModel)]="customer.useCable" name="useCable" placeholder="Used Cable" />
+          <label class="col-md-2 col-form-label text-right p-0 px-md-3">Used Cable</label>
+          <div class="col-md-4 p-0">
+            <input class="form-control" [(ngModel)]="customer.useCable" name="useCable" placeholder="Used Cable" />
+          </div>
         </div>
       </div>
 
@@ -302,10 +310,10 @@
           </div>
         </div>
 
-        <label class="col-2 col-form-label text-right">User Type
+        <label class="col-md-2 col-form-label text-right">User Type
           <sup>*</sup>
         </label>
-        <div class="col-4">
+        <div class="col-md-4">
           <div class="form-check form-check-inline">
             <label class="form-check-label">
               <input class="form-check-input" type="radio" [(ngModel)]="customer.userType" name="userType" value="New User">New User
@@ -376,8 +384,8 @@
         <span style="background: black; border-radius: 10px; color: white;padding: 2px 5px;">User</span>
       </div>
 
-      <div class="col-md-12 row" style="margin-bottom: 15px;">
-        <label class="col-md-2 col-form-label">Used Name
+      <div class="col-md-12 p-0" style="margin-bottom: 15px;">
+        <label class="col-md-2 col-form-label">User Name
           <sup>*</sup>
         </label>
         <div class="col-md-4">
@@ -393,7 +401,8 @@
           <small class="form-text text-danger" *ngIf="password.touched && password.invalid">Zone required</small>
         </div>
       </div>
-      <div class="col-12 row" style="margin-bottom: 15px;">
+
+      <div class="col-12 p-0" style="margin-bottom: 15px;">
         <label class="col-md-2 col-form-label">IP</label>
         <div class="col-md-4">
           <input class="form-control" type="text" #ipAddress="ngModel" [(ngModel)]="customer.ipAddress" name="ipAddress" placeholder="Ip Address"
@@ -409,7 +418,7 @@
         </div>
       </div>
 
-      <div class="col-12 row" style="margin-bottom: 15px;">
+      <div class="col-12 p-0" style="margin-bottom: 15px;">
         <label class="col-md-2 col-form-label">Subnet</label>
         <div class="col-md-4">
           <input class="form-control" type="text" #subnet="ngModel" [(ngModel)]="customer.subnet" name="subnet" placeholder="Subnet Mask"
@@ -417,11 +426,11 @@
           <small class="form-text text-danger" *ngIf="subnet.touched && subnet.invalid">Zone required</small>
         </div>
 
-        <label class="col-md-2 col-form-label text-right">
-          <input class="form-check-input" type="checkbox" #active="ngModel" [(ngModel)]="customer.active" name="active" />
-        </label>
-        <div class="col-md-4">
-          <label class="form-check-label" for="active">Active</label>
+        <!-- <label class="col-md-2 col-form-label text-right">
+        </label> -->
+        <div class="col-md-6 mt-2">
+          <input class="col-2 p-0" type="checkbox" id="active" #active="ngModel" [(ngModel)]="customer.active" name="active" />
+          <label class="col-6 p-0" for="active">Active</label>
         </div>
       </div>
     </div>

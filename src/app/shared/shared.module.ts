@@ -11,6 +11,7 @@ import { StorageService } from 'shared/services/storage.service';
 import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
 import { InvoiceService } from 'shared/services/invoice.service';
 import { CashBookService } from 'shared/services/cash-book.service';
+import { LoadingSpinerComponent } from './ui/loading-spiner/loading-spiner/loading-spiner.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { CashBookService } from 'shared/services/cash-book.service';
     ReactiveFormsModule,
     CommonModule
   ],
-  declarations: [],
+  declarations: [LoadingSpinerComponent],
   providers:[
     AuthService,
     AuthGuard,
@@ -36,6 +37,7 @@ import { CashBookService } from 'shared/services/cash-book.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    LoadingSpinerComponent
   ]
 })
 export class SharedModule { }

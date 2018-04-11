@@ -3,6 +3,7 @@ import 'rxjs/add/operator/take';
 import { Component, OnInit } from '@angular/core';
 import { CashBookService } from 'shared/services/cash-book.service';
 import { Cashbook } from 'shared/models/cashbook.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-cashbook',
@@ -12,6 +13,8 @@ import { Cashbook } from 'shared/models/cashbook.model';
 export class CashbookComponent implements OnInit {
   companyId;
   cashbooks: Cashbook[] = [];
+  subscription: Subscription;
+  lastCashbook;
 
   constructor(
     private cashbookService: CashBookService
@@ -20,16 +23,12 @@ export class CashbookComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.cashbookService.getByCompnayId(this.companyId)
-    .subscribe( 
-      data =>{
-        this.cashbooks = [];
-        data.forEach(resp => {
-          let cash = resp.payload.doc.data() as Cashbook;
-          cash.id = resp.payload.doc.id;
-          this.cashbooks.push(cash);
+    if (this.companyId) {
+      this.subscription = await this.cashbookService.cashbooks$
+        .subscribe(item => {
+          this.cashbooks = item;
         });
-      });
+    }
   }
 
 }

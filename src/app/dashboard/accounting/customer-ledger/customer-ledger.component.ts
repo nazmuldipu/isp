@@ -12,50 +12,31 @@ import { CustomerService } from 'shared/services/customer.service';
   styleUrls: ['./customer-ledger.component.scss']
 })
 export class CustomerLedgerComponent implements OnInit {
-  companyId;
   customers: Customer[] = [];
   customer: Customer;
   ledgers: CustomerLedger[] = [];
-  startAt = '';
-  endAt = '';
-
+  
   constructor(
     private customerService: CustomerService,
     private customerLedgerService: CustomerLedgerService,
   ) {
-    this.companyId = localStorage.getItem('companyId');
   }
 
-  ngOnInit() {
-    
-  }
-
-  async findCustomers() {
-    if (this.companyId) {
-      await this.customerService.searchCustomer(this.startAt, this.endAt, this.companyId).take(1)
-        .subscribe(data => {
-          this.customers = [];
-          data.forEach(resp => {
-            let comp = resp.payload.doc.data() as Customer;
-            comp.id = resp.payload.doc.id;
-            this.customers.push(comp);
-          });
-        });
-    }
-  }
+  ngOnInit() {}
 
   search($event) {
-    let metaKey = $event.keyCode < 65 || $event.keyCode > 90;
     let q = $event.target.value;
-    this.startAt = q;
-    this.endAt = q + "\uf8ff";
-    if (q && !metaKey) {
-      this.findCustomers();
+    this.customers = [];
+    if (q) {
+      this.customerService.customers$
+        .subscribe(cus => {
+          let search = cus.filter(ci => ci.name.toLowerCase().indexOf(q.toLowerCase()) > -1).slice(0, 5);
+          search.forEach(cus => {
+            this.customers.push(cus);
+          })
+        })
     }
-    if (!q) {
-      this.customers = [];
-      this.ledgers = [];
-    }
+    
   }
 
   async loadCustomerLedger(customerId) {
