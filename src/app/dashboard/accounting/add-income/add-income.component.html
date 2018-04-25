@@ -23,6 +23,38 @@
             <td>{{ cash?.balance }}</td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              Show
+              <select name="limit" #cl (change)="changeLimit(cl.value)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+              entries &nbsp;
+            </td>
+            <td colspan="4">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item">
+                    <a class="page-link" (click)="first()">First</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="prev()">Previous</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="next()">Next</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="last()">Last</a>
+                  </li>
+                </ul>
+              </nav>
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
 
@@ -36,10 +68,11 @@
           <strong>{{errorMessage}}</strong>
         </div>
 
-        <form class="px-4" #addInc="ngForm" (ngSubmit)="saveIncome(addInc.value)">
+        <form class="p-4" #addInc="ngForm" (ngSubmit)="saveIncome(addInc.value)">
           <div class="form-group">
             <label for="date">Date</label>
-            <input class="form-control" type="date" id="date" name="date" #date="ngModel" [ngModel]="cashbook.date | date:'yyyy-MM-dd'" readonly/>
+            <input class="form-control" type="date" id="date" name="date" #date="ngModel" [ngModel]="cashbook.date | date:'yyyy-MM-dd'"
+              readonly/>
             <small class="form-text text-danger" *ngIf="date.invalid && date.touched">Date Required.</small>
           </div>
 
@@ -58,6 +91,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary" [disabled]="addInc.invalid">Save</button>
+          <button type="button" class="btn btn-warning" (click)="clear()">Clear</button>
         </form>
       </div>
     </div>

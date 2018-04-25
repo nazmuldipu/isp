@@ -25,6 +25,14 @@ export class InvoiceService {
     return this.afs.doc(this.serviceUrl + '/' + iid).valueChanges();
   }
 
+  getPaginatedForward(companyId, orderBy, limit, startAfter) {
+    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, 'desc').limit(limit).startAfter(startAfter)).snapshotChanges();
+  }
+  
+  getPaginatedReverse(companyId, orderBy, limit, endBefore) {
+    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, 'desc').limit(limit).endBefore(endBefore)).snapshotChanges();
+  }
+
   update(iid, invoice: Invoice) {
     delete invoice["id"]
     return this.afs.doc(this.serviceUrl + '/' + iid).update({

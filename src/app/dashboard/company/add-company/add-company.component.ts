@@ -38,7 +38,7 @@ export class AddCompanyComponent implements OnInit, OnDestroy {
   }
 
   editCompany(id) {
-    Object.assign(this.company, this.companies.find(cp => cp.id === id));
+    Object.assign(this.company, this.companies.find(cp => cp.id == id));
   }
 
   save(company) {

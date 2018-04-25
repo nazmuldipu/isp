@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { Ng2ImgMaxService } from 'ng2-img-max';
 import { Observable } from 'rxjs/Observable';
 import { Customer } from 'shared/models/customer.model';
 import { CustomerService } from 'shared/services/customer.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-customer-images',
   templateUrl: './customer-images.component.html',
   styleUrls: ['./customer-images.component.css']
 })
-export class CustomerImagesComponent implements OnInit {
+export class CustomerImagesComponent implements OnInit, OnDestroy {
   id;
   customer: Customer;
   uploadPercent: Observable<number>;
+  subscription: Subscription;
 
   constructor(
     private ng2ImgMax: Ng2ImgMaxService,
@@ -23,27 +25,18 @@ export class CustomerImagesComponent implements OnInit {
     private storage: AngularFireStorage,
   ) {
     this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) this.getCustomer(this.id);
+
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.subscription = await this.customerService.customers$
+      .subscribe(item => {
+        this.customer = item.find(cus => cus.id == this.id);
+      });
   }
 
-  async getCustomer(id) {
-    this.customerService.get(id).take(1)
-      .subscribe(data => {
-        this.customer = data as Customer;
-        this.customer.id = id;
-        if (!this.customer.idImagesUrl)
-          this.customer.idImagesUrl = [];
-
-        // console.log(this.customer.idImagesUrl.length);
-
-        switch (this.customer.idImagesUrl.length) {
-          case 0: this.customer.idImagesUrl.push['1'];
-          case 1: this.customer.idImagesUrl.push['2']; break;
-        }
-      })
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onProfileImageChange(event) {

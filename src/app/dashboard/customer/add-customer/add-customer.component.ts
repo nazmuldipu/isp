@@ -58,8 +58,6 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
       });
   }
 
-
-
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

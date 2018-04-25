@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Cashbook } from 'shared/models/cashbook.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { OrderByDirection } from '@firebase/firestore-types';
 
 @Injectable()
 export class CashBookService {
@@ -49,6 +50,14 @@ export class CashBookService {
 
   getCompanyLastCashbook(companyId) {
     return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy('date', 'desc').limit(1)).valueChanges();
+  }
+
+  getPaginatedStartAfter(companyId, orderBy, limit, startAfter, order: OrderByDirection = 'asc') {
+    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, order).limit(limit).startAfter(startAfter)).snapshotChanges();
+  }
+  
+  getPaginatedEndBefore(companyId, orderBy, limit, endBefore, order: OrderByDirection = 'asc') {
+    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, order).limit(limit).endBefore(endBefore)).snapshotChanges();
   }
 
   update(cid, cashbook : Cashbook) {

@@ -1,3 +1,70 @@
-<p>
-  index works!
-</p>
+<div class="container">
+    <div class="row my-2">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="info-box hover-expand-effect">
+                <div class="icon bg-deep-purple">
+                    <i class="fa fa-users"></i>
+                </div>
+                <div class="content">
+                    <div class="text">CUSTOMERS</div>
+                    <div class="number">{{customers.length}}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="info-box hover-expand-effect">
+                <div class="icon bg-green">
+                    <i class="fa fa-graduation-cap"></i>
+                </div>
+                <div class="content" *ngIf="!hasRole('ADMIN'); else elseBlock">
+                    <div class="text">STUDENTS</div>
+                    <div class="number">{{students.length}} / {{company?.maximumNumberOfStudent}} </div>
+                </div>
+                <ng-template #elseBlock>
+                    <div class="content">
+                        <div class="text">STUDENTS</div>
+                        <div class="number"></div>
+                    </div>
+                </ng-template>
+            </div>
+        </div> -->
+
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="info-box hover-expand-effect">
+                <div class="icon bg-teal">
+                    <i class="fa fa-envelope"></i>
+                </div>
+                <div class="content">
+                    <div class="text">SMS REMAIN</div>
+                    <div class="number">{{company?.smsQuota}}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- <div class="row my-2">
+        <div class="col-12 col-md-6 px-3 ">
+            <table class="table table-bordered table-hover m-0 text-center rounded raised ">
+                <thead>
+                    <tr class="bg-light-green">
+                        <th>
+                            <span *ngIf="!hasRole('ADMIN'); else elseCompany">Class Name</span>
+                            <ng-template #elseCompany>Company</ng-template>
+                        </th>
+                        <th>
+                            <span *ngIf="!hasRole('ADMIN'); else elseCompany">Number of Students</span>
+                            <ng-template #elseCompany>SMS Remain</ng-template>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let report of studentTable">
+                        <td>{{report.className}}</td>
+                        <td>{{report.studentNumber}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> -->
+</div>

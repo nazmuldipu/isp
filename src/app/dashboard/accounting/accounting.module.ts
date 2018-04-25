@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { SharedModule } from 'shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
+    SharedModule,
     RouterModule.forChild([
       {
         path: '', component: AccountingComponent,

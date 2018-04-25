@@ -27,6 +27,7 @@ export class CompanyService {
 
   update(cid, company: Company) {
     delete company["id"]
+    delete company["balance"]
     return this.afs.doc('company/' + cid).update({
       ...company
     });

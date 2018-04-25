@@ -3,7 +3,7 @@ import { InvoiceItems } from './invoice-items.model';
 
 export class Invoice {
     constructor(
-        public id?: number,
+        public id?: string,
         public companyId?: string,
         public date?: Date,
         public customerId?: string,

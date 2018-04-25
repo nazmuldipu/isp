@@ -12,12 +12,14 @@ import { InactiveCustomerListComponent } from './inactive-customer-list/inactive
 import { CustomerImagesComponent } from './customer-images/customer-images.component';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { SharedModule } from 'shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     Ng2ImgMaxModule,
+    NgbModule,
     SharedModule,
     RouterModule.forChild([
       {

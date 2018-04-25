@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { UserSubNavbarComponent } from './user-sub-navbar/user-sub-navbar.component';
 import { UserRolesComponent } from './user-roles/user-roles.component';
 import { UserListChildComponent } from 'shared/components/user-list-child/user-list-child.component';
+import { AdminUserComponent } from './admin-user/admin-user.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { UserListChildComponent } from 'shared/components/user-list-child/user-l
           { path: 'user-list', component:  UserListComponent},
           { path: 'user-roles', component:  UserRolesComponent},
           { path: 'add-user', component:  AddUserComponent},
+          { path: 'admin-user', component:  AdminUserComponent},
         ]
       },
       { path: '**', redirectTo: '/' }
@@ -31,7 +33,8 @@ import { UserListChildComponent } from 'shared/components/user-list-child/user-l
     AddUserComponent,
     UserSubNavbarComponent,
     UserRolesComponent,
-    UserListChildComponent
+    UserListChildComponent,
+    AdminUserComponent
   ]
 })
 export class UserModule { }

@@ -26,6 +26,7 @@ export class InvoiceComponent implements OnInit {
   lastCashBook: Cashbook;
   startAt = '';
   endAt = '';
+  showSpiner = false;
 
   constructor(
     private customerService: CustomerService,
@@ -39,6 +40,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   async ngOnInit() {
+    //initialize invoice variables
     this.invoice = new Invoice();
     this.invoice.discount = 0;
     this.invoice.deposit = 0;
@@ -129,7 +131,7 @@ export class InvoiceComponent implements OnInit {
       .then(ref => {
         //Add cutomer deposite ledger
         let depositBalance = this.lastLedger.balance - newInvoice.deposit;
-        let cLedger = new CustomerLedger('', newInvoice.customerId, this.invoice.date, newInvoice.explanation, null, 0, invoice.deposit, depositBalance)
+        let cLedger = new CustomerLedger('', newInvoice.customerId, new Date(), newInvoice.explanation, null, 0, invoice.deposit, depositBalance)
         delete cLedger['id'];
         this.customerLedgerService.create(cLedger)
           .then(ref => {
@@ -149,7 +151,7 @@ export class InvoiceComponent implements OnInit {
 
         //Add cash book
         let balance = (this.lastCashBook == undefined ? 0 : this.lastCashBook.balance) + this.invoice.deposit;
-        let cashb =    new Cashbook('', this.invoice.date, this.companyId, this.customer.name + ' : ' + newInvoice.explanation, null, invoice.deposit, 0, balance);
+        let cashb =    new Cashbook('', new Date(), this.companyId, this.customer.name + ' : ' + newInvoice.explanation, null, invoice.deposit, 0, balance);
         delete cashb["id"];
         this.cashbookService.create(cashb)
           .then(ref => console.log('Cashbook saved'));

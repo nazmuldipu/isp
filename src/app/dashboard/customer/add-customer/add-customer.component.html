@@ -16,7 +16,7 @@
       <div class="col-md-6 p-0">
         <div class="form-group row">
           <label class="col-md-4 col-form-label">Date</label>
-          <div class="col-md-8">
+          <div class="col-md-8 extra-margin">
             <input class="form-control" type="date" name="date" [(ngModel)]="customer.date" />
           </div>
         </div>
@@ -25,22 +25,25 @@
           <label class="col-md-4 col-form-label">Name
             <sup>*</sup>
           </label>
-          <div class="col-md-8">
+          <div class="col-md-8 extra-margin">
             <input class="form-control" name="name" #name="ngModel" [(ngModel)]="customer.name" placeholder="Name" required/>
             <small class="form-text text-danger" *ngIf="name.touched && name.invalid">Name is required</small>
           </div>
         </div>
+
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label">Email
+          </label>
+          <div class="col-md-8 extra-margin">
+            <input class="form-control" name="email" #email="ngModel" [(ngModel)]="customer.email" placeholder="Email" />
+          </div>
+        </div>
+
       </div>
+
     </div>
 
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Email
-      </label>
-      <div class="col-md-4">
-        <input class="form-control" name="email" #email="ngModel" [(ngModel)]="customer.email" placeholder="Email" />
-      </div>
-      <label class="col-md-2 col-form-label text-right">Image</label>
-    </div>
+
 
     <div class="form-group row">
       <label class="col-md-2 col-form-label">Father's Name
@@ -378,59 +381,66 @@
       </div>
     </div>
 
-    <div class="form-group row" style="border: 1px dotted lightcoral; padding: 10px 0;">
+    <div class="row form-group" style="border: 1px dotted lightcoral; padding: 10px 0;">
 
       <div class="col-12 text-center" style="padding: 0 0 20px 0;">
         <span style="background: black; border-radius: 10px; color: white;padding: 2px 5px;">User</span>
       </div>
 
-      <div class="col-md-12 p-0" style="margin-bottom: 15px;">
-        <label class="col-md-2 col-form-label">User Name
-          <sup>*</sup>
-        </label>
-        <div class="col-md-4">
-          <input class="form-control" #userName="ngModel" [(ngModel)]="customer.userName" name="userName" placeholder="User Name" required/>
-          <small class="form-text text-danger" *ngIf="userName.touched && userName.invalid">Zone required</small>
-        </div>
+      <div class="col-12 px-4 py-2">
+        <div class="row">
+          <label class="col-md-2 col-form-label">User Name
+            <sup>*</sup>
+          </label>
+          <div class="col-md-4">
+            <input class="form-control" #userName="ngModel" [(ngModel)]="customer.userName" name="userName" placeholder="User Name" required/>
+            <small class="form-text text-danger" *ngIf="userName.touched && userName.invalid">Zone required</small>
+          </div>
 
-        <label class="col-md-2 col-form-label text-right">Password
-          <sup>*</sup>
-        </label>
-        <div class="col-md-4">
-          <input class="form-control" #password="ngModel" [(ngModel)]="customer.password" name="password" placeholder="Password" required/>
-          <small class="form-text text-danger" *ngIf="password.touched && password.invalid">Zone required</small>
-        </div>
-      </div>
-
-      <div class="col-12 p-0" style="margin-bottom: 15px;">
-        <label class="col-md-2 col-form-label">IP</label>
-        <div class="col-md-4">
-          <input class="form-control" type="text" #ipAddress="ngModel" [(ngModel)]="customer.ipAddress" name="ipAddress" placeholder="Ip Address"
-          />
-          <small class="form-text text-danger" *ngIf="ipAddress.touched && ipAddress.invalid">Zone required</small>
-        </div>
-
-        <label class="col-md-2 col-form-label text-right">Gateway</label>
-        <div class="col-md-4">
-          <input class="form-control" type="text" #gateway="ngModel" [(ngModel)]="customer.gateway" name="gateway" placeholder="Gateway"
-          />
-          <small class="form-text text-danger" *ngIf="gateway.touched && gateway.invalid">Zone required</small>
+          <label class="col-md-2 col-form-label text-right">Password
+            <sup>*</sup>
+          </label>
+          <div class="col-md-4">
+            <input class="form-control" #password="ngModel" [(ngModel)]="customer.password" name="password" placeholder="Password" required/>
+            <small class="form-text text-danger" *ngIf="password.touched && password.invalid">Zone required</small>
+          </div>
         </div>
       </div>
 
-      <div class="col-12 p-0" style="margin-bottom: 15px;">
-        <label class="col-md-2 col-form-label">Subnet</label>
-        <div class="col-md-4">
-          <input class="form-control" type="text" #subnet="ngModel" [(ngModel)]="customer.subnet" name="subnet" placeholder="Subnet Mask"
-          />
-          <small class="form-text text-danger" *ngIf="subnet.touched && subnet.invalid">Zone required</small>
-        </div>
+      <div class="col-12 px-4 py-2">
+        <div class="row">
+          <label class="col-md-2 col-form-label">IP</label>
+          <div class="col-md-4">
+            <input class="form-control" type="text" #ipAddress="ngModel" [(ngModel)]="customer.ipAddress" name="ipAddress" placeholder="Ip Address"
+            />
+            <small class="form-text text-danger" *ngIf="ipAddress.touched && ipAddress.invalid">Zone required</small>
+          </div>
 
-        <!-- <label class="col-md-2 col-form-label text-right">
+          <label class="col-md-2 col-form-label text-right">Gateway</label>
+          <div class="col-md-4">
+            <input class="form-control" type="text" #gateway="ngModel" [(ngModel)]="customer.gateway" name="gateway" placeholder="Gateway"
+            />
+            <small class="form-text text-danger" *ngIf="gateway.touched && gateway.invalid">Zone required</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 px-4 py-2">
+        <div class="row">
+          <label class="col-md-2 col-form-label">Subnet</label>
+          <div class="col-md-4">
+            <input class="form-control" type="text" #subnet="ngModel" [(ngModel)]="customer.subnet" name="subnet" placeholder="Subnet Mask"
+            />
+            <small class="form-text text-danger" *ngIf="subnet.touched && subnet.invalid">Zone required</small>
+          </div>
+
+          <!-- <label class="col-md-2 col-form-label text-right">
         </label> -->
-        <div class="col-md-6 mt-2">
-          <input class="col-2 p-0" type="checkbox" id="active" #active="ngModel" [(ngModel)]="customer.active" name="active" />
-          <label class="col-6 p-0" for="active">Active</label>
+          <div class="col-md-2"></div>
+          <div class="col-md-4 mt-2">
+            <input class="col-2 p-0" type="checkbox" id="active" #active="ngModel" [(ngModel)]="customer.active" name="active" />
+            <label class="col-6 p-0" for="active">Active</label>
+          </div>
         </div>
       </div>
     </div>

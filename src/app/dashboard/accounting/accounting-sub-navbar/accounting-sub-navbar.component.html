@@ -1,5 +1,6 @@
-<nav class="nav nav-pills p-2 mb-2 bg-light text-dark">
+<nav class="nav nav-pills p-2 mb-2 bg-light text-dark d-print-none">
     <a routerLink="/dashboard/accounting/invoice" class="btn btn-light btn-sm" [class.active]="active == 1" (click)="makeActive(1)">INVOICE</a>
+    <a routerLink="/dashboard/accounting/invoice-list" class="ml-2 btn btn-light btn-sm" [class.active]="active == 6" (click)="makeActive(6)">INVOICE LIST</a>
     <a routerLink="/dashboard/accounting/customer-ledger" class="ml-2 btn btn-light btn-sm" [class.active]="active == 2" (click)="makeActive(2)">CUSTOMER LEDGER</a>
     <a routerLink="/dashboard/accounting/cashbook" class="ml-2 btn btn-light btn-sm" [class.active]="active == 3" (click)="makeActive(3)">CASHBOOK</a>
     <a routerLink="/dashboard/accounting/add-income" class="ml-2 btn btn-light btn-sm" [class.active]="active == 4" (click)="makeActive(4)">ADD INCOME</a>
