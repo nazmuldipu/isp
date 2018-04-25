@@ -50,8 +50,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     })
   }
 
-  async getPaginated(companyId, orderBy, limit, startAfter, order){
-    this.subscription = await this.cashbookService.getPaginatedStartAfter(companyId, orderBy, limit, startAfter, order)
+  async getPaginated(companyId, orderBy, order, limit, startAfter){
+    this.subscription = await this.cashbookService.getPaginatedStartAfter(companyId, orderBy, order, limit, startAfter)
     .subscribe(data => {
       if (data.length > 0) {
         this.lastVisible = data[data.length - 1].payload.doc.data();
@@ -65,6 +65,9 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
         });//end data loop
 
         if(order === 'desc'){
+          let swap = this.lastVisible;
+          this.lastVisible = this.firstVisible;
+          this.firstVisible = swap;
           this.cashbooks.reverse();
         }
       }
@@ -72,19 +75,19 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   first() {
-    this.getPaginated(this.companyId,'date',this.limit, null, 'asc');
+    this.getPaginated(this.companyId,'date', 'asc',this.limit, null);
   }
 
   prev() {
-    this.getPaginated(this.companyId, 'date', this.limit, this.lastVisible.date, 'desc');
+    this.getPaginated(this.companyId, 'date', 'desc', this.limit, this.firstVisible.date);
   }
 
   next() {
-    this.getPaginated(this.companyId, 'date', this.limit, this.lastVisible.date, 'asc');
+    this.getPaginated(this.companyId, 'date', 'asc', this.limit, this.lastVisible.date);
   }
 
   last() {
-    this.getPaginated(this.companyId, 'date', this.limit, new Date(), 'desc')
+    this.getPaginated(this.companyId, 'date', 'desc', this.limit, new Date())
   }
   
   changeLimit(value){

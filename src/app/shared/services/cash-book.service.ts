@@ -52,7 +52,7 @@ export class CashBookService {
     return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy('date', 'desc').limit(1)).valueChanges();
   }
 
-  getPaginatedStartAfter(companyId, orderBy, limit, startAfter, order: OrderByDirection = 'asc') {
+  getPaginatedStartAfter(companyId, orderBy, order: OrderByDirection = 'asc', limit, startAfter) {
     return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, order).limit(limit).startAfter(startAfter)).snapshotChanges();
   }
   

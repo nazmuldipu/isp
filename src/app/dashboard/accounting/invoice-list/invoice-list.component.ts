@@ -21,6 +21,7 @@ export class InvoiceListComponent implements OnInit {
   lastVisible;
   firstVisible;
   subscription: Subscription;
+  limit: number;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -28,7 +29,7 @@ export class InvoiceListComponent implements OnInit {
     private companyService: CompanyService
   ) {
     this.companyId = localStorage.getItem('companyId');
-    console.log(this.companyId);
+    this.limit = 5;
   }
 
   async ngOnInit() {
@@ -40,51 +41,55 @@ export class InvoiceListComponent implements OnInit {
           error => console.log('Company info loading error', error),
       )
       //load invoice paginated
-      this.getInvoiceReverse(this.companyId, 'date', 10, new Date());
+      this.last();
     }
   }
 
-  async getInvoiceForward(companyId, orderBy, limit, startAfter) {
-    this.subscription = await this.invoiceService.getPaginatedForward(companyId, orderBy, limit, startAfter)
-      .subscribe(data => {
-        if (data.length > 0) {
-          this.lastVisible = data[data.length - 1].payload.doc.data();
-          this.firstVisible = data[0].payload.doc.data();
+  async getPaginated(companyId, orderBy, order, limit, startAfter){
+    this.subscription = await this.invoiceService.getPaginatedStartAfter(companyId, orderBy, order, limit, startAfter)
+    .subscribe(data => {
+      console.log(data);
+      if (data.length > 0) {
+        this.lastVisible = data[data.length - 1].payload.doc.data();
+        this.firstVisible = data[0].payload.doc.data();
+        
+        this.invoices = [];
+        data.forEach(inv => {
+          let invo = inv.payload.doc.data() as Invoice;
+          invo.id = inv.payload.doc.id;
+          this.invoices.push(invo);
+        });//end data loop
 
-          this.invoices = [];
-          data.forEach(inv => {
-            let invoice = inv.payload.doc.data() as Invoice;
-            invoice.id = inv.payload.doc.id;
-            this.invoices.push(invoice);
-          });//end data loop
+        // Reverse the first and last if order was desc
+        if(order === 'desc'){
+          let swap = this.lastVisible;
+          this.lastVisible = this.firstVisible;
+          this.firstVisible = swap;
+          this.invoices.reverse();
         }
-      });//end subscription loop
-  }
-
-
-  async getInvoiceReverse(companyId, orderBy, limit, endBefore) {
-    this.subscription = await this.invoiceService.getPaginatedReverse(companyId, orderBy, limit, endBefore)
-      .subscribe(data => {
-        if (data.length > 0) {
-          this.lastVisible = data[data.length - 1].payload.doc.data();
-          this.firstVisible = data[0].payload.doc.data();
-
-          this.invoices = [];
-          data.forEach(inv => {
-            let invoice = inv.payload.doc.data() as Invoice;
-            invoice.id = inv.payload.doc.id;
-            this.invoices.push(invoice);
-          });//end data loop
-        }
-      });//end subscription loop
+      }
+    });//end subscription loop
   }
 
   first() {
-    // TODO: Complete this function
+    this.getPaginated(this.companyId,'date', 'asc',this.limit, null);
+  }
+
+  prev() {
+    this.getPaginated(this.companyId, 'date', 'desc', this.limit, this.firstVisible.date);
   }
 
   next() {
-    // TODO: Complete this function
+    this.getPaginated(this.companyId, 'date', 'asc', this.limit, this.lastVisible.date);
+  }
+
+  last() {
+    this.getPaginated(this.companyId, 'date', 'desc', this.limit, new Date())
+  }
+  
+  changeLimit(value){
+    this.limit = parseInt(value);
+    this.last();
   }
 
   loadCustomer(customerId) {
@@ -100,22 +105,4 @@ export class InvoiceListComponent implements OnInit {
     this.invoice = this.invoices.find(inv => inv.id == id);
     this.loadCustomer(this.invoice.customerId);
   }
-
-
-  print(): void {
-    let printContents, popupWin;
-    printContents = document.getElementById('print-section').innerHTML;
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    popupWin.document.open();
-    popupWin.document.write(`
-      <html>
-        <head>
-          <title>Invoice</title>
-        </head>
-    <body onload="window.print();window.close()">${printContents}</body>
-      </html>`
-    );
-    popupWin.document.close();
-  }
-
 }

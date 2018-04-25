@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Invoice } from 'shared/models/invoice.model';
+import { OrderByDirection } from '@firebase/firestore-types';
 
 @Injectable()
 export class InvoiceService {
@@ -25,12 +26,8 @@ export class InvoiceService {
     return this.afs.doc(this.serviceUrl + '/' + iid).valueChanges();
   }
 
-  getPaginatedForward(companyId, orderBy, limit, startAfter) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, 'desc').limit(limit).startAfter(startAfter)).snapshotChanges();
-  }
-  
-  getPaginatedReverse(companyId, orderBy, limit, endBefore) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, 'desc').limit(limit).endBefore(endBefore)).snapshotChanges();
+  getPaginatedStartAfter(companyId, orderBy, order: OrderByDirection = 'asc', limit, startAfter) {
+    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, order).limit(limit).startAfter(startAfter)).snapshotChanges();
   }
 
   update(iid, invoice: Invoice) {

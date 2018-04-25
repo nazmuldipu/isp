@@ -127,6 +127,7 @@ export class InvoiceComponent implements OnInit {
   async saveInvoice(invoice) {
     let newInvoice = JSON.parse(JSON.stringify(this.invoice))//remove all null values from object
     delete newInvoice['id'];
+    newInvoice.date = new Date();
     this.invoiceService.create(newInvoice)
       .then(ref => {
         //Add cutomer deposite ledger
