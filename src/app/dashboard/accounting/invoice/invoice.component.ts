@@ -65,7 +65,7 @@ export class InvoiceComponent implements OnInit {
       await this.cashbookService.getCompanyLastCashbook(this.companyId).take(1)
         .subscribe(
           data => {
-            data.forEach(lcash =>{
+            data.forEach(lcash => {
               this.lastCashBook = lcash as Cashbook;
             })
           },
@@ -150,9 +150,16 @@ export class InvoiceComponent implements OnInit {
             }
           });
 
+        // update customer balance
+        this.customer.balance = depositBalance;
+        this.customerService.update(this.customer.id, this.customer)
+          .then(upCus => {
+            console.log('customer balance updated');
+          })
+
         //Add cash book
         let balance = (this.lastCashBook == undefined ? 0 : this.lastCashBook.balance) + this.invoice.deposit;
-        let cashb =    new Cashbook('', new Date(), this.companyId, this.customer.name + ' : ' + newInvoice.explanation, null, invoice.deposit, 0, balance);
+        let cashb = new Cashbook('', new Date(), this.companyId, this.customer.name + ' : ' + newInvoice.explanation, null, invoice.deposit, 0, balance);
         delete cashb["id"];
         this.cashbookService.create(cashb)
           .then(ref => console.log('Cashbook saved'));
@@ -161,7 +168,7 @@ export class InvoiceComponent implements OnInit {
       })
   }
 
-  test(invoice){
-    
+  test(invoice) {
+
   }
 }

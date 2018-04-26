@@ -10,6 +10,8 @@ import { AuthService } from 'shared/services/auth.service';
 import { CustomerService } from 'shared/services/customer.service';
 import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
 import { CustomerLedger } from 'shared/models/customer-ledger.model';
+import { SmsService } from 'shared/services/sms.service';
+import { CompanyService } from 'shared/services/company.service';
 
 @Component({
   selector: 'app-add-customer',
@@ -19,6 +21,7 @@ import { CustomerLedger } from 'shared/models/customer-ledger.model';
 export class AddCustomerComponent implements OnInit, OnDestroy {
   editing = false;
   companyId;
+  company: Company;
   customerId;
   customer: Customer;
   companies: Company[] = [];
@@ -27,12 +30,13 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   constructor(
-    // private companyService: CompanyService,
+    private companyService: CompanyService,
     private authService: AuthService,
     private customerService: CustomerService,
     private customerLedgerService: CustomerLedgerService,
     private activeRoute: ActivatedRoute,
     private router: Router,
+    private smsService: SmsService
   ) {
     this.customer = new Customer();
     this.customer.prAddress = new Address();
@@ -45,6 +49,14 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    // Load company info
+    this.subscription = await this.companyService.get(this.companyId).take(1)
+    .subscribe(
+      data => this.company = data,
+      error => console.log('Company info loading error', error)
+    )
+
+    // Load user info
     this.subscription = await this.authService.getUser$()
       .subscribe(async user$ => {
         if (user$) {
@@ -71,14 +83,18 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
       })
   }
 
-  saveCustomer(customer: NgForm) {
-    let balance = this.customer.monthlyBill + this.customer.connectionFee;
+  saveCustomer(cust: NgForm) {
+    // let balance = this.customer.monthlyBill + this.customer.connectionFee;
+    this.customer.balance = this.customer.monthlyBill + this.customer.connectionFee;
     let newCustomer = JSON.parse(JSON.stringify(this.customer))//remove all null values from object
 
     if (!newCustomer.id) {
       this.customerService.create(newCustomer)
         .then((ref) => {
           this.message = "Customer Saved";
+          
+          //Send Registration SMS
+          this.smsService.sendRegistrationSMS(newCustomer, this.company);
 
           //after create new customer create customer ledger
           let cLedger = new CustomerLedger(null, ref.id, new Date(), 'Connection fee + One month bill', null, balance, 0, balance);

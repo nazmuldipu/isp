@@ -13,32 +13,26 @@
       <ul *ngIf="appUser" class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" (click)="isCollapsed = !isCollapsed" routerLink="/dashboard/index"> Dashboard
-            <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item active" *ngIf="hasAdminRole()">
           <a class="nav-link" (click)="isCollapsed = !isCollapsed" routerLink="/dashboard/user/add-user"> Users
-            <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item active" *ngIf="hasAdminRole()">
           <a class="nav-link" (click)="isCollapsed = !isCollapsed" routerLink="/dashboard/company/add-company"> Company
-            <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item active" *ngIf="hasIspRole()">
           <a class="nav-link" (click)="isCollapsed = !isCollapsed" routerLink="/dashboard/customer/customer-list"> Customer
-            <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item active" *ngIf="hasIspRole()">
           <a class="nav-link" (click)="isCollapsed = !isCollapsed" routerLink="/dashboard/accounting/invoice"> Accounting
-            <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item active" *ngIf="hasIspRole()">
-          <a class="nav-link" (click)="isCollapsed = !isCollapsed" routerLink="/dashboard/sms/sms-history"> SMS
-            <span class="sr-only">(current)</span>
+          <a class="nav-link" (click)="isCollapsed = !isCollapsed" routerLink="/dashboard/sms/send-sms"> SMS
           </a>
         </li>
       </ul>

@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CustomerService } from 'shared/services/customer.service';
-import { Customer } from 'shared/models/customer.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Customer } from 'shared/models/customer.model';
+import { CustomerService } from 'shared/services/customer.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -17,7 +17,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   showSpiner = false;
   
   constructor(
-    private customerService: CustomerService
+    private customerService: CustomerService,
   ) {
     this.companyId = localStorage.getItem('companyId');
   }
