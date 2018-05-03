@@ -17,12 +17,12 @@
     </div>
     <div class="col-4 text-center border">
       <h5 class="bg-light text-center">ID Picture 1</h5>
-      <img *ngIf="customer?.idImagesUrl" [src]="customer?.idImagesUrl[0]" alt="{{ customer?.idImagesUrl[0] }}" class="card-img-top img-fluid">
+      <img *ngIf="customer?.idImagesUrl1" [src]="customer?.idImagesUrl1" alt="{{ customer?.idImagesUrl1 }}" class="card-img-top img-fluid">
       <input type="file" (change)="onId1ImageChange($event)" accept="image/*">
     </div>
     <div class="col-4 text-center border">
       <h5 class="bg-light text-center">ID Picture 2</h5>
-      <img *ngIf="customer?.idImagesUrl[1]" [src]="customer?.idImagesUrl[1]" alt="{{ customer?.idImagesUrl[1] }}" class="card-img-top img-fluid">
+      <img *ngIf="customer?.idImagesUrl2" [src]="customer?.idImagesUrl2" alt="{{ customer?.idImagesUrl2 }}" class="card-img-top img-fluid">
       <input type="file" (change)="onId2ImageChange($event)" accept="image/*">
     </div>
     

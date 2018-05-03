@@ -48,7 +48,6 @@ export class InvoiceListComponent implements OnInit {
   async getPaginated(companyId, orderBy, order, limit, startAfter){
     this.subscription = await this.invoiceService.getPaginatedStartAfter(companyId, orderBy, order, limit, startAfter)
     .subscribe(data => {
-      console.log(data);
       if (data.length > 0) {
         this.lastVisible = data[data.length - 1].payload.doc.data();
         this.firstVisible = data[0].payload.doc.data();
@@ -97,7 +96,6 @@ export class InvoiceListComponent implements OnInit {
     this.subscription = this.customerService.customers$
       .subscribe(data => {
         this.customer = data.find(cus => cus.id == customerId);
-        console.log(this.customer);
       })
   }
 

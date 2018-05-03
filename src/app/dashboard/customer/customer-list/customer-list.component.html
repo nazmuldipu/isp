@@ -1,6 +1,11 @@
 <div class="container">
   <div class="row mt-2">
-    <div class="col-12 raised">
+    <div class="col-12 border">
+      <!-- <div [@spoonAnimation]="customers.length" class="col-md-3">
+        <ul *ngFor="let spoon of customers">
+          <li class="spoon-block d-flex justify-content-center">{{spoon.name}}</li>
+        </ul>
+      </div> -->
       <table class="table table-responsive-xl">
         <thead>
           <tr>
@@ -12,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let cus of customers">
+          <tr *ngFor="let cus of customers" >
             <td>{{cus?.name}}</td>
             <td>{{cus?.userName}}</td>
             <td>{{cus?.phone}}</td>
@@ -27,5 +32,6 @@
       </table>
       <loading-spiner *ngIf="showSpiner"></loading-spiner>
     </div>
+
   </div>
 </div>

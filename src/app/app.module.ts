@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from 'angularfire2';
@@ -32,19 +33,20 @@ import { UserService } from './shared/services/user.service';
   imports: [
     SharedModule,
     BrowserModule,
+    BrowserAnimationsModule,
     NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    
+
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'changePassword', component: ChangePasswordComponent },
-      { path: 'admin', loadChildren:'app/admin/admin.module#AdminModule', canActivate: [AuthGuard, AdminAuthGuard]},
-      { path: 'dashboard', loadChildren:'app/dashboard/dashboard.module#DashboardModule', canActivate: [AuthGuard]},
+      { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule', canActivate: [AuthGuard, AdminAuthGuard] },
+      { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule', canActivate: [AuthGuard] },
       { path: '**', redirectTo: '/' }
     ])
   ],

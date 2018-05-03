@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Customer } from 'shared/models/customer.model';
@@ -6,7 +7,7 @@ import { CustomerService } from 'shared/services/customer.service';
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.css']
+  styleUrls: ['./customer-list.component.css'],
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
   companyId;
@@ -15,7 +16,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   errorMessage = '';
   subscription: Subscription;
   showSpiner = false;
-  
+  state = 'active';
+
   constructor(
     private customerService: CustomerService,
   ) {
@@ -23,14 +25,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    if (this.companyId) {
+    
       this.showSpiner = true;
       this.subscription = await this.customerService.customers$
         .subscribe(item => {
           this.customers = item.filter(cus => cus.active == true);
           this.showSpiner = false;
         });
-    }
+
   }
 
   ngOnDestroy() {
@@ -43,6 +45,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     if (customer.id) {
       this.customerService.update(customer.id, customer)
         .then(() => {
+          this.customers.splice(this.customers.findIndex(cus => cus.id == id),1);
           this.message = "Customer deactivated";
         })
         .catch((error) => {

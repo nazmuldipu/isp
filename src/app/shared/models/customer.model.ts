@@ -5,7 +5,9 @@ export class Customer {
     constructor(
 
         public id?: string,
+        public createdDate?: Date,
         public companyId?: string,
+        public createdBy?: string,
         public date?: Date,
         public name?: string,
         public imageUrl?: string,
@@ -44,7 +46,8 @@ export class Customer {
         public gateway?: string,
         public subnet?: string,
         public active?: boolean,
-        public idImagesUrl?: string[],
+        public idImagesUrl1?: string,
+        public idImagesUrl2?: string,
         ) { }
 
 }

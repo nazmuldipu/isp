@@ -11,17 +11,21 @@ export class CashBookService {
   cashbooks$ = this._cashbookSource.asObservable();
   cashbooks: Cashbook[] = [];
   companyId;
+  userId;
   
   constructor(
     private afs: AngularFirestore,
   ) { 
     this.companyId = localStorage.getItem('companyId');
+    this.userId = localStorage.getItem('userId');
     if(this.companyId)
       this.getAll(this.companyId);
   }
 
   create(cashbook: Cashbook) {
-    delete cashbook["id"]
+    delete cashbook["id"];
+    cashbook.createdDate = new Date();
+    cashbook.createdBy = this.userId;
     return this.afs.collection(this.serviceUrl).add({
       ...cashbook
     });

@@ -4,14 +4,17 @@ import { Company } from 'shared/models/company.model';
 
 @Injectable()
 export class CompanyService {
-
+  userId;
   constructor(
     private afs: AngularFirestore,
   ) {
+    this.userId = localStorage.getItem('userId');
   }
 
   create(company: Company) {
-    delete company["id"]
+    delete company["id"];
+    company.createdDate = new Date();
+    company.createdBy = this.userId;
     return this.afs.collection('company').add({
       ...company
     });

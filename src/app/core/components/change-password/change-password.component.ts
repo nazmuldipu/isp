@@ -17,7 +17,6 @@ export class ChangePasswordComponent implements OnInit {
     await this.auth.getUser$()
     .subscribe(data=>{
       this.user = data;
-      console.log(this.user.email);
       if(this.user.email){
         this.resetPassword(this.user.email);
       }

@@ -44,7 +44,6 @@ export class BuySmsComponent implements OnInit, OnDestroy {
 
   save(form) {
     this.company.smsQuota += this.numberOfSMS;
-    console.log(this.company);
     if (this.company.id) {
       let newCompany = JSON.parse(JSON.stringify(this.company))//remove all null values from object
       this.companyService.update(this.company.id, newCompany)

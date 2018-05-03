@@ -1,6 +1,8 @@
 export class Company {
     constructor(
         public id?: string,
+        public createdDate?: Date,
+        public createdBy?: string,
         public companyName?: string,
         public companyNameBangla?: string,
         public companyAddress?: string,

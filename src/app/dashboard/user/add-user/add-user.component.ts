@@ -57,7 +57,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
   //TODO: on user update mode email or password can not change because of 2 different table
   registerUser(user: User) {
-    console.log(this.user);
     if (!this.user.id) {
       this.authService.register(user.email, user.password)
         .then((usr) => {

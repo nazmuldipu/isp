@@ -4,6 +4,8 @@ import { InvoiceItems } from './invoice-items.model';
 export class Invoice {
     constructor(
         public id?: string,
+        public createdDate?: Date,
+        public createdBy?: string,
         public companyId?: string,
         public date?: Date,
         public customerId?: string,

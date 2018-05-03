@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   user: User;
   errorMessage;
   appUser;
-  
+
   constructor(
     private auth: AuthService,
     private userService: UserService,
@@ -29,13 +29,14 @@ export class LoginComponent implements OnInit {
   login(user: User) {
     this.auth.loginWithEmail(user.email, user.password)
       .then(data => {
+        localStorage.setItem('userId', data.uid);
         let returnUrl = '/';
         if (data.emailVerified)
           returnUrl = localStorage.getItem('returnUrl');
         else
           this.auth.sendVerificationEmail();
-          
-          this.userService.get(data.uid).take(1)
+
+        this.userService.get(data.uid).take(1)
           .subscribe(udata => {
             this.appUser = udata;
             if (this.appUser.companyId) {

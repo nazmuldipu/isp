@@ -1,5 +1,7 @@
 export class User {
     id: string;
+    createdDate: Date;
+    createdBy: string;
     name: string;
     email: string;
     roles: string[];

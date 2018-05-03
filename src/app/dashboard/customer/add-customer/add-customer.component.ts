@@ -41,6 +41,7 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
     this.customer = new Customer();
     this.customer.prAddress = new Address();
     this.customer.active = false;
+    this.companyId = localStorage.getItem('companyId');
 
     this.editing = activeRoute.snapshot.params['mode'] == 'edit';
     if (this.editing) {
@@ -50,11 +51,14 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // Load company info
-    this.subscription = await this.companyService.get(this.companyId).take(1)
-    .subscribe(
-      data => this.company = data,
-      error => console.log('Company info loading error', error)
-    )
+    this.subscription = await this.companyService.get(this.companyId)
+      .subscribe(
+        data => {
+          this.company = data;
+          this.company.id = this.companyId;
+        },
+        error => console.log('Company info loading error', error)
+      )
 
     // Load user info
     this.subscription = await this.authService.getUser$()
@@ -87,43 +91,47 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
     // let balance = this.customer.monthlyBill + this.customer.connectionFee;
     this.customer.balance = this.customer.monthlyBill + this.customer.connectionFee;
     let newCustomer = JSON.parse(JSON.stringify(this.customer))//remove all null values from object
+    if (this.customerService.numberOfCustomers < this.company.maximumNumberOfCustomer) {
+      if (!newCustomer.id) {
+        this.customerService.create(newCustomer)
+          .then((ref) => {
+            this.message = "Customer Saved; ";
 
-    if (!newCustomer.id) {
-      this.customerService.create(newCustomer)
-        .then((ref) => {
-          this.message = "Customer Saved";
-          
-          //Send Registration SMS
-          this.smsService.sendRegistrationSMS(newCustomer, this.company);
+            //Send Registration SMS
+            this.smsService.sendRegistrationSMS(newCustomer, this.company)
 
-          //after create new customer create customer ledger
-          let cLedger = new CustomerLedger(null, ref.id, new Date(), 'Connection fee + One month bill', null, balance, 0, balance);
-          delete cLedger["id"];
-          cLedger = JSON.parse(JSON.stringify(cLedger))//remove all null values from object
-          cLedger.date = new Date();
-          this.customerLedgerService.create(cLedger)
-            .then(() => this.message += 'Customer Ledger created')
-            .catch((error) => console.log('customer ledger could not save'));
+            //after create new customer create customer ledger
+            let cLedger = new CustomerLedger(null, null, null, ref.id, new Date(), 'Connection fee + One month bill', null, this.customer.balance, 0, this.customer.balance);
+            delete cLedger["id"];
+            cLedger = JSON.parse(JSON.stringify(cLedger))//remove all null values from object
+            cLedger.date = new Date();
+            this.customerLedgerService.create(cLedger)
+              .then(() => {
+                this.message += 'Customer Ledger created';
+                this.customer = new Customer();
+                this.customer.prAddress = new Address();
+              })
+              .catch((error) => console.log('customer ledger could not save; '));
 
-          this.router.navigate(['/dashboard/customer/customer-list']);
-        })
-        .catch((error) => {
-          this.errorMessage = "Customer SAVING ERROR ! ", error;
-          console.log("Customer SAVING ERROR ! ", error);
-        });
-      this.clear();
-    }
-    else {
-      this.customerService.update(newCustomer.id, newCustomer)
-        .then(() => {
-          this.message = "Customer Updated";
-          this.router.navigate(['/dashboard/customer/customer-list']);
-        })
-        .catch((error) => {
-          this.errorMessage = "Customer Updating ERROR ! ", error;
-          console.log("Customer Updating ERROR ! ", error);
-        });
-      this.clear();
+            // this.router.navigate(['/dashboard/customer/customer-list']);
+          })
+          .catch((error) => {
+            this.errorMessage = "Customer SAVING ERROR ! ", error;
+            console.log("Customer SAVING ERROR ! ", error);
+          });
+      }
+      else {
+        this.customerService.update(newCustomer.id, newCustomer)
+          .then(() => {
+            this.message = "Customer Updated";
+            this.router.navigate(['/dashboard/customer/customer-list']);
+          })
+          .catch((error) => {
+            this.errorMessage = "Customer Updating ERROR ! ", error;
+            console.log("Customer Updating ERROR ! ", error);
+          });
+        this.clear();
+      }
     }
   }
 

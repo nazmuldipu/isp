@@ -10,6 +10,7 @@ import { CompanyService } from 'shared/services/company.service';
 import { CustomerService } from 'shared/services/customer.service';
 import { SmsApiService } from 'shared/services/sms-api.service';
 import { SmsService } from 'shared/services/sms.service';
+import { CompileDirectiveMetadata } from '@angular/compiler';
 
 @Component({
   selector: 'app-send-sms',
@@ -49,7 +50,6 @@ export class SendSmsComponent implements OnInit {
       this.subscription = await this.customerService.customers$
         .subscribe(item => {
           this.customers = item.filter(cus => cus.active == true);
-          console.log(this.customers);
         });
 
       // Load user id
@@ -65,14 +65,14 @@ export class SendSmsComponent implements OnInit {
     let saveSmsResult = [];
     let time = new Date();
     let quota = this.company.smsQuota;
+    this.showSpiner = true;
     if (quota > this.customers.length) {
       this.customers.forEach(cus => {
         time.setSeconds(time.getSeconds() + 1);
-        let message = 'Dear customer, your current balance is ' + cus.balance + 'taka, please pay your monthly bill. Thank you. Regards-' + this.company.companyName + this.company.telephone;
-        console.log('length : ' + message.length + ' : ' + message);
-        let sms = new SMS(null, time, this.companyId, this.userId, cus.phone, message, 'BILL SMS: ' + --quota);
+        let smsmessage = 'Dear customer, your current balance is ' + cus.balance + 'taka, please pay your monthly bill. Thank you. Regards-' + this.company.companyName + this.company.telephone;
+        let sms = new SMS('', null, null, new Date(), this.companyId, this.userId, cus.phone, smsmessage, 'SEND SMS ' + --quota);
         saveSmsResult.push(this.smsService.create(sms));
-        smsURL.push(this.smsApiService.sendSMSUrl(cus.phone, message, false));
+        smsURL.push(this.smsApiService.sendSMSUrl(cus.phone, smsmessage, false));
       });
 
       //update company SMS QUOTA 
@@ -81,6 +81,7 @@ export class SendSmsComponent implements OnInit {
       Observable.forkJoin(smsURL)//Send sms
         .subscribe(
           data => {
+            this.showSpiner = false;
             console.log(data);
           },
           error => {
@@ -105,6 +106,7 @@ export class SendSmsComponent implements OnInit {
   }
 
   clear(){
+    this.showSpiner = false;
     this.message = '';
     this.errorMessage = '';
   }

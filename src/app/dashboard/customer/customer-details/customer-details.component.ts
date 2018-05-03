@@ -29,6 +29,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.customerService.get(id).take(1)
     .subscribe(data =>{
       this.customer = data as Customer;
+      this.customer.id = this.id;
     })
   }
 
