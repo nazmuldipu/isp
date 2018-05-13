@@ -1,0 +1,54 @@
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-12 px-3">
+      <div class="alert alert-success" role="alert" *ngIf="message?.length>0">
+        <strong>{{message}}</strong>
+        <a class="btn btn-warning btn-sm" (click)="clear()">Clear</a>
+      </div>
+      <div class="alert alert-warning" role="alert" *ngIf="errorMessage?.length>0">
+        <strong>{{errorMessage}}</strong>
+        <a class="btn btn-warning btn-sm" (click)="clear()">Clear</a>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="raised">
+        <div class="from-group px-2">
+          <h3 class="text-center">MANUAL SMS</h3>
+        </div>
+        <loading-spiner *ngIf="showSpiner else showForm"></loading-spiner>
+        <ng-template #showForm>
+          <form #manu="ngForm" (ngSubmit)="send(manu.value)">
+            <div class="form-group px-2">
+              <label for="manualsmsnumber">Phone Number</label>
+              <input class="form-control" name="phone" #phoneNumber="ngModel" [(ngModel)]="phone" required pattern="01[0-9][ ]?[0-9]{2}[ ]?[0-9]{3}[ ]?[0-9]{3}$"
+              />
+              <small class="form-text text-danger" *ngIf="phoneNumber.touched && phoneNumber.invalid">
+                <small *ngIf="phoneNumber.errors.required">Phone number required</small>
+                <small *ngIf="phoneNumber.hasError('pattern') && !phoneNumber.errors.required">Please enter a valid Phone number (01923940239)</small>
+              </small>
+            </div>
+
+            <div class="form-group px-2">
+              <label for="manualsmsmessage">Type your message here</label>
+              <textarea class="form-control" id="manualsmsmessage" rows="4" maxlength="160" #tmessage (keyup)="nameKeyup(tmessage.value)"
+                [(ngModel)]="smsMessge" name="smsMessge" required>
+              </textarea>
+              <small class="form-text pull-right">{{tmessage.value?.length}}/160</small>
+            </div>
+
+            <div class="form-group px-2 pb-2">
+              <button class="btn btn-primary" [disabled]="manu.invalid">
+                <i class="fa fa-paper-plane"></i>Send
+              </button>
+            </div>
+          </form>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

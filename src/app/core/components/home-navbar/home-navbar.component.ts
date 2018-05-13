@@ -27,6 +27,7 @@ export class HomeNavbarComponent implements OnInit {
     await this.auth.getUser$().subscribe(user => {
       if (user) {
         this.appUser$ = user;
+        localStorage.setItem('userId', user.uid);
         this.userService.get(user.uid).take(1)
           .subscribe(data => {
             this.appUser = data;

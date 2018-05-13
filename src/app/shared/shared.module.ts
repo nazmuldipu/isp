@@ -12,13 +12,17 @@ import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
 import { InvoiceService } from 'shared/services/invoice.service';
 import { CashBookService } from 'shared/services/cash-book.service';
 import { LoadingSpinerComponent } from './ui/loading-spiner/loading-spiner/loading-spiner.component';
+import { SmsService } from 'shared/services/sms.service';
+import { SmsApiService } from 'shared/services/sms-api.service';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule, 
+    HttpModule,
   ],
   declarations: [LoadingSpinerComponent],
   providers:[
@@ -31,9 +35,12 @@ import { LoadingSpinerComponent } from './ui/loading-spiner/loading-spiner/loadi
     StorageService,
     CustomerLedgerService,
     InvoiceService,
-    CashBookService
+    CashBookService,
+    SmsService,
+    SmsApiService
   ],
   exports:[
+    HttpModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

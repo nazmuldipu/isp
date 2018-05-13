@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from 'angularfire2';
@@ -9,6 +10,7 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
 import { AuthGuard } from 'shared/services/auth-guard.service';
 import { SharedModule } from 'shared/shared.module';
+import { Store } from 'store';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -32,25 +34,27 @@ import { UserService } from './shared/services/user.service';
   imports: [
     SharedModule,
     BrowserModule,
+    BrowserAnimationsModule,
     NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    
+
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'changePassword', component: ChangePasswordComponent },
-      { path: 'admin', loadChildren:'app/admin/admin.module#AdminModule', canActivate: [AuthGuard, AdminAuthGuard]},
-      { path: 'dashboard', loadChildren:'app/dashboard/dashboard.module#DashboardModule', canActivate: [AuthGuard]},
+      { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule', canActivate: [AuthGuard, AdminAuthGuard] },
+      { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule', canActivate: [AuthGuard] },
       { path: '**', redirectTo: '/' }
     ])
   ],
   providers: [
     AuthService,
     UserService,
+    Store
   ],
   bootstrap: [AppComponent]
 })

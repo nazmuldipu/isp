@@ -6,13 +6,20 @@ import { OrderByDirection } from '@firebase/firestore-types';
 @Injectable()
 export class InvoiceService {
   serviceUrl = 'invoices'
+  companyId;
+  userId;
 
   constructor(
     private afs: AngularFirestore,
-  ) { }
+  ) {
+    this.companyId = localStorage.getItem('companyId');
+    this.userId = localStorage.getItem('userId');
+   }
 
   create(invoice: Invoice) {
-    delete invoice["id"]
+    delete invoice["id"];
+    invoice.createdDate = new Date();
+    invoice.createdBy = this.userId;
     return this.afs.collection(this.serviceUrl).add({
       ...invoice
     });

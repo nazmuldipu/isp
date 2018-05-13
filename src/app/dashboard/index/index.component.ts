@@ -18,7 +18,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   customers: Customer[] = [];
 
   constructor(
-    private customerService: CustomerService, 
+    private customerService: CustomerService,
     private companyService: CompanyService
   ) {
     this.companyId = localStorage.getItem('companyId');
@@ -28,12 +28,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     if (this.companyId) {
       // Load company info
       this.subscription = await this.companyService.get(this.companyId).take(1)
-      .subscribe( 
-        data => {
-          this.company = data;
-        },
-        error => console.log('ERROR !', error)
-      )
+        .subscribe(
+          data => {
+            this.company = data;
+          },
+          error => console.log('ERROR !', error)
+        )
       // Load customer list
       this.subscription = await this.customerService.customers$
         .subscribe(item => {
@@ -43,7 +43,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

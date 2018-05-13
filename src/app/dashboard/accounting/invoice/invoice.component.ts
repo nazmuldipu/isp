@@ -10,6 +10,9 @@ import { InvoiceService } from 'shared/services/invoice.service';
 import { Router } from '@angular/router';
 import { CashBookService } from 'shared/services/cash-book.service';
 import { Cashbook } from 'shared/models/cashbook.model';
+import { SMS } from 'shared/models/sms.model';
+import { SmsApiService } from 'shared/services/sms-api.service';
+import { SmsService } from 'shared/services/sms.service';
 
 @Component({
   selector: 'app-invoice',
@@ -18,6 +21,7 @@ import { Cashbook } from 'shared/models/cashbook.model';
 })
 export class InvoiceComponent implements OnInit {
   companyId;
+  userId;
   customers: Customer[] = [];
   customer: Customer;
   company: Company;
@@ -34,9 +38,12 @@ export class InvoiceComponent implements OnInit {
     private companyService: CompanyService,
     private invoiceService: InvoiceService,
     private cashbookService: CashBookService,
+    private smsApiService: SmsApiService,
+    private smsService: SmsService,
     private router: Router,
   ) {
     this.companyId = localStorage.getItem('companyId');
+    this.userId = localStorage.getItem('userId');
   }
 
   async ngOnInit() {
@@ -45,11 +52,6 @@ export class InvoiceComponent implements OnInit {
     this.invoice.discount = 0;
     this.invoice.deposit = 0;
     this.invoice.date = new Date();
-
-    // console.log(this.invoice.date);
-    // let discountdate = new Date();
-    // discountdate.setSeconds(this.invoice.date.getSeconds() + 10);
-    // console.log(discountdate);
 
     if (this.companyId) {
       this.invoice.companyId = this.companyId;
@@ -65,7 +67,7 @@ export class InvoiceComponent implements OnInit {
       await this.cashbookService.getCompanyLastCashbook(this.companyId).take(1)
         .subscribe(
           data => {
-            data.forEach(lcash =>{
+            data.forEach(lcash => {
               this.lastCashBook = lcash as Cashbook;
             })
           },
@@ -132,27 +134,50 @@ export class InvoiceComponent implements OnInit {
       .then(ref => {
         //Add cutomer deposite ledger
         let depositBalance = this.lastLedger.balance - newInvoice.deposit;
-        let cLedger = new CustomerLedger('', newInvoice.customerId, new Date(), newInvoice.explanation, null, 0, invoice.deposit, depositBalance)
+        let cLedger = new CustomerLedger('', null, null, newInvoice.customerId, new Date(), newInvoice.explanation, null, 0, invoice.deposit, depositBalance)
         delete cLedger['id'];
         this.customerLedgerService.create(cLedger)
           .then(ref => {
             console.log('Deposite saved')
+            // update customer balance
+            this.customer.balance = depositBalance - invoice.discount;
+            this.customerService.update(this.customer.id, this.customer)
+              .then(upCus => {
+                console.log('customer balance updated');
+              })
+
+            // Send invoice SMS + Save sms history + update company sms quota 
+            if (this.company.smsQuota > 1) {
+              this.company.smsQuota--;
+              let message = 'Dear customer, You have successfully deposited ' + newInvoice.deposit + 'Taka, Your current balance is ' + depositBalance + 'Taka, Thank you. Regards-' + this.company.companyName;
+              let sms = new SMS('', null, null, new Date(), this.companyId, this.userId, this.customer.phone, message, 'IVOICE SMS : ' + this.company.smsQuota);
+              this.smsApiService.sendSMSUrl(sms.phone, sms.message, false)
+                .subscribe(data => console.log('SMS Send complete'));
+              this.smsService.create(sms)
+                .then(ref => console.log('sms created'));
+              this.companyService.update(this.companyId, this.company)
+                .then(ref => console.log('Company SMS quota updated'));
+            }
+
+
             //If any discount then add to the customer ledger
             if (newInvoice.discount > 0) {
               let discountBalance = depositBalance - invoice.discount;
               let discountdate = new Date();
               discountdate.setSeconds(this.invoice.date.getSeconds() + 10);
 
-              let disLedger = new CustomerLedger('', newInvoice.customerId, discountdate, 'Discount', null, 0, invoice.discount, discountBalance)
+              let disLedger = new CustomerLedger('', null, null, newInvoice.customerId, discountdate, 'Discount', null, 0, invoice.discount, discountBalance)
               delete disLedger['id'];
               this.customerLedgerService.create(disLedger)
                 .then(ref => console.log('Discount saved'));
             }
           });
 
+
+
         //Add cash book
         let balance = (this.lastCashBook == undefined ? 0 : this.lastCashBook.balance) + this.invoice.deposit;
-        let cashb =    new Cashbook('', new Date(), this.companyId, this.customer.name + ' : ' + newInvoice.explanation, null, invoice.deposit, 0, balance);
+        let cashb = new Cashbook('', null, null, new Date(), this.companyId, this.customer.name + ' : ' + newInvoice.explanation, null, invoice.deposit, 0, balance);
         delete cashb["id"];
         this.cashbookService.create(cashb)
           .then(ref => console.log('Cashbook saved'));
@@ -161,7 +186,7 @@ export class InvoiceComponent implements OnInit {
       })
   }
 
-  test(invoice){
-    
+  test(invoice) {
+
   }
 }

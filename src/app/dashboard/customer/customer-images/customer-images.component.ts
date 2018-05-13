@@ -70,10 +70,11 @@ export class CustomerImagesComponent implements OnInit, OnDestroy {
     this.uploadPercent = task.percentageChanges();
 
     task.downloadURL().subscribe(data => {
+      console.log(data);
       switch (mode) {
         case 0: this.customer.imageUrl = data; break;
-        case 1: this.customer.idImagesUrl[0] = data; break;
-        case 2: this.customer.idImagesUrl[1] = data; break;
+        case 1: this.customer.idImagesUrl1 = data; break;
+        case 2: this.customer.idImagesUrl2 = data; break;
       }
 
       this.customerService.update(this.customer.id, this.customer)

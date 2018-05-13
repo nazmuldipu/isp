@@ -45,7 +45,6 @@ export class AddIncomeComponent implements OnInit, OnDestroy {
     this.subscription = await this.cashbookService.getCompanyLastCashbook(this.companyId).take(1)
     .subscribe(data => {
       this.lastCashbook= data[0] as Cashbook;
-      console.log(this.lastCashbook);
     })
   }
 
