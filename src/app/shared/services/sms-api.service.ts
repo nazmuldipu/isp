@@ -27,7 +27,6 @@ export class SmsApiService {
   sendSMSUrl(phone: string, message: string, bd: boolean = false) {
     let param = 'url?baseUrl=' + this.baseUrl + '&user=' + this.username + '&password=' + this.password + '&sender=' + this.senderId + '&SMSText=' + message + '&GSM=+88' + phone+'&BD='+bd;
     console.log(message.length + ' : ' + this.proxy + param);
-    // return Observable.of({ phone :"success"})
     return this.http.get(this.proxy + param)
       .map(response => response.json());
   }

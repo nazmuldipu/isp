@@ -46,7 +46,7 @@ export class SmsHistoryComponent implements OnInit, OnDestroy {
             pss.id = inv.payload.doc.id;
             this.smsHistory.push(pss);
           });//end data loop
-          console.log(this.smsHistory);
+
           if (order === 'desc') {
             let swap = this.lastVisible;
             this.lastVisible = this.firstVisible;
@@ -59,7 +59,6 @@ export class SmsHistoryComponent implements OnInit, OnDestroy {
 
   
   paginaiton(page: string) {
-    console.log(page);
     switch (page) {
       case 'first':
         this.getPaginated(this.companyId, 'date', 'asc', this.limit, null);

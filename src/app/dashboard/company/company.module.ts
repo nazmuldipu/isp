@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CompanyListChildComponent } from 'shared/components/company-list-child/company-list-child.component';
+import { CompanyListChildComponent } from './components/company-list-child/company-list-child.component';
 
-import { AddCompanyComponent } from './add-company/add-company.component';
-import { BuySmsComponent } from './buy-sms/buy-sms.component';
-import { CompanySubNavbarComponent } from './company-sub-navbar/company-sub-navbar.component';
+import { AddCompanyComponent } from './containers/add-company/add-company.component';
+import { BuySmsComponent } from './containers/buy-sms/buy-sms.component';
+import { CompanySubNavbarComponent } from './containers/company-sub-navbar/company-sub-navbar.component';
 import { CompanyComponent } from './company.component';
-import { CustomerLimitComponent } from './customer-limit/customer-limit.component';
-import { PerMonthCostComponent } from './per-month-cost/per-month-cost.component';
+import { CustomerLimitComponent } from './containers/customer-limit/customer-limit.component';
+import { PerMonthCostComponent } from './containers/per-month-cost/per-month-cost.component';
 
 @NgModule({
   imports: [

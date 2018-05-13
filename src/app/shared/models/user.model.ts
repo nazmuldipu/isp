@@ -4,7 +4,7 @@ export class User {
     createdBy: string;
     name: string;
     email: string;
-    roles: string[];
+    roles: string;
     password: string;
     companyId: string;
 
@@ -12,7 +12,7 @@ export class User {
         $key?: string,
         name?: string,
         email?: string,
-        roles?: string[],
+        roles?: string,
         password?: string,
         companyId?: string
     ){}
