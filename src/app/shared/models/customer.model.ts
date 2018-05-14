@@ -10,6 +10,7 @@ export class Customer {
         public createdBy?: string,
         public date?: Date,
         public name?: string,
+        public organization?: string,
         public imageUrl?: string,
         public fathersName?: string,
         public mothersName?: string,
