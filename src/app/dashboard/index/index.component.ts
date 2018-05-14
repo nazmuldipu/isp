@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { Customer } from 'shared/models/customer.model';
-import { CustomerService } from 'shared/services/customer.service';
-import { CompanyService } from 'shared/services/company.service';
 import { Company } from 'shared/models/company.model';
+import { Customer } from 'shared/models/customer.model';
+import { CompanyService } from 'shared/services/company.service';
+import { CustomerService } from 'shared/services/customer.service';
+import { Store } from 'store';
 
 @Component({
   selector: 'app-index',
@@ -11,41 +13,31 @@ import { Company } from 'shared/models/company.model';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit, OnDestroy {
+  customers$: Observable<Customer[]>;
+  subscriptions: Subscription[] = [];
 
   companyId;
   company: Company;
-  subscription: Subscription;
   customers: Customer[] = [];
 
   constructor(
-    // private customerService: CustomerService,
-    // private companyService: CompanyService
+    private store: Store,
+    private customerService: CustomerService,
+    private companyService: CompanyService
   ) {
     this.companyId = localStorage.getItem('companyId');
   }
 
   async ngOnInit() {
-    // if (this.companyId) {
-    //   // Load company info
-    //   this.subscription = await this.companyService.get(this.companyId).take(1)
-    //     .subscribe(
-    //       data => {
-    //         this.company = data;
-    //       },
-    //       error => console.log('ERROR !', error)
-    //     )
-    //   // Load customer list
-    //   this.subscription = await this.customerService.customers$
-    //     .subscribe(item => {
-    //       this.customers = item;
-    //     });
-    // }
+    this.customers$ = this.store.select<Customer[]>('customer');
+    this.subscriptions = [
+      this.customerService.customers$.subscribe(),
+      this.companyService.get(this.companyId).subscribe(data => this.company = data),
+    ]
   }
 
   ngOnDestroy() {
-    // if (this.subscription) {
-    //   this.subscription.unsubscribe();
-    // }
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
 }
