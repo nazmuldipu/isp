@@ -1,0 +1,21 @@
+.address-comp{
+    margin-right: 8px;
+    margin-bottom: 8px; 
+    padding: 8px;
+}
+
+.extra-margin{
+    margin-top:12px;
+}
+.card-img-top {
+    max-height: 250px;
+    width: auto;
+}
+@media print {
+    .customer-info{font-size: 12px;}
+    .form-group {margin-bottom: 4px;}
+    .col-form-label{padding: 2px 4px;}
+    .address-comp{margin-bottom: 4px; margin-right:4px; padding:4px;}
+    .extra-margin{margin-top:6px;}
+    .no-print{ display: none !important; }
+}

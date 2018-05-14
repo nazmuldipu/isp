@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-12 col-md-7">
+      <company-list-child [companies]="companies$ | async" (edit)="editCompany($event)"></company-list-child>
+    </div>
+    <div class="col-12 col-md-5 p-0 pt-3 px-md-2 pt-md-0">
+      <div class="raised">
+        <div class="text-center">
+          <h5 class="h3 mb-3 font-weight-normal" [class.bg-warning]="company.id">
+            <strong> PER MONTH COST </strong>
+          </h5>
+          <div class="alert alert-success" *ngIf="message.length>0">
+            {{message}}
+          </div>
+          <div class="alert alert-danger" *ngIf="errorMessage.length>0">
+            {{errorMessage}}
+          </div>
+        </div>
+
+        <form class="p-3" #perm="ngForm" (ngSubmit)="save(perm.value)" novalidate>
+          <div class="form-group">
+            <label>Company Name</label>
+            <label class="form-control">{{company.companyName}} &nbsp;</label>
+          </div>
+          <div class="form-group">
+            <label for="perMonthValue">Per month cost</label>
+            <input type="number" class="form-control" id="perMonthValue" #perMonthValue="ngModel" name="perMonthValue" [(ngModel)]="company.perMonthValue"
+              placeholder="Per month cost" required>
+            <small class="text-danger" *ngIf="perMonthValue.touched && perMonthValue.invalid">Per month cost Required</small>
+          </div>
+
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-sm btn-success raised" type="submit" [disabled]="perm.invalid || !company.id">
+              <i class="fa fa-user-plus"></i> CHANGE
+            </button>
+            <button type="button" class="btn btn-sm btn-light raised" (click)="clear()">Clear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

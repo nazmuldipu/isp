@@ -1,0 +1,50 @@
+<form class="p-3 raised" [formGroup]="form" (ngSubmit)="save()">
+  <div class="form-group row">
+    <label class="col-2 col-form-label" for="name">Name</label>
+    <div class="col-10">
+      <label class="form-control">{{name}} &nbsp;</label>
+    </div>
+  </div>
+
+  <div class="form-group row ">
+    <label class="col-2 col-form-label">Roles</label>
+    <div class="col-10">
+      <select class="form-control" formControlName="uroles">
+        <option *ngFor="let role of roleList" [ngValue]="role">{{role}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-around">
+    <button class="btn btn-sm btn-success raised" type="submit" [disabled]="form.invalid || !name">
+      <i class="fa fa-user-plus"></i> Change
+    </button>
+    <button type="button" class="btn btn-sm btn-light raised" (click)="clear()">Clear</button>
+  </div>
+
+</form>
+
+<!-- <form class="p-3" #usr="ngForm" (ngSubmit)="save(usr.value)" novalidate>
+    <div class="form-group row">
+      <label class="col-2 col-form-label" for="name">Name</label>
+      <div class="col-10">
+        <label class="form-control">{{user.name}} &nbsp;</label>
+      </div>
+    </div>
+
+    <div class="form-group row ">
+      <label class="col-2 col-form-label">Roles</label>
+      <div class="col-10">
+        <select class="form-control" name="roles" [(ngModel)]="user.roles">
+          <option *ngFor="let role of roleList" [ngValue]="role">{{role}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-around">
+      <button class="btn btn-sm btn-success raised" type="submit" [disabled]="!user.id">
+        <i class="fa fa-user-plus"></i> CHANGE
+      </button>
+      <button type="button" class="btn btn-sm btn-light raised" (click)="clear()">Clear</button>
+    </div>
+  </form> -->

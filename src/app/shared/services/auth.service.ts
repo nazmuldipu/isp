@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { UserService } from 'shared/services/user.service';
 import { User } from 'shared/models/user.model';
-import { FirebaseAuth } from '@firebase/auth-types';
+import { UserService } from 'shared/services/user.service';
 
 
 @Injectable()
@@ -22,7 +20,6 @@ export class AuthService {
     private userService: UserService,
   ) {
     this.user$ = afAuth.authState;
-    
   }
 
   get appUser$(): Observable<User>{
@@ -74,6 +71,7 @@ export class AuthService {
   logout() {
     this.afAuth.auth.signOut()
       .then(data => {
+        localStorage.clear();
         console.log('SIGNOUT');
       })
       .catch(error => {

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row p-0">
+    <div class="col-12">
+      <div class="alert alert-success text-center" role="alert" *ngIf="message?.length>0">
+        <strong>{{message}}</strong>
+        <a class="btn btn-warning btn-sm" (click)="clear()">Clear</a>
+      </div>
+      <div class="alert alert-danger text-center" role="alert" *ngIf="errorMessage?.length>0">
+        <strong>{{errorMessage}}</strong>
+        <a class="btn btn-warning btn-sm" (click)="clear()">Clear</a>
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered table-responsive-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Send balance sms to all active customer</td>
+        <td>
+          <loading-spiner *ngIf="showSpiner else showButton"></loading-spiner>
+          <ng-template #showButton>
+            <button class="btn btn-success btn-sm" (click)="balanceSMS()">Send</button>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

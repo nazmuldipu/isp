@@ -12,6 +12,8 @@ export class DashboardNavbarComponent implements OnInit {
 
   isCollapsed = true;
   appUser;
+  appUser$;
+  roles = [];
 
   constructor(
     private auth: AuthService,
@@ -22,12 +24,26 @@ export class DashboardNavbarComponent implements OnInit {
   async ngOnInit() {
     await this.auth.getUser$().subscribe(user => {
       if (user) {
+        this.appUser$ = user;
+        localStorage.setItem('userId', user.uid);
         this.userService.get(user.uid).take(1)
-          .subscribe(data => {
-            this.appUser = data;
-          });
+        .subscribe(data => {
+          this.appUser = data;
+          if (this.appUser.companyId)
+            localStorage.setItem('companyId', this.appUser.companyId);
+
+          this.roles = this.appUser.roles;
+        });
       }
     });
+  }
+
+  hasAdminRole(): boolean {
+    return this.roles.includes('ADMIN');
+  }
+
+  hasIspRole():boolean{
+    return this.roles.includes('ISP');
   }
 
   logout() {

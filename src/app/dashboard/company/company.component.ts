@@ -15,11 +15,9 @@ import { Component, OnInit } from '@angular/core';
 
 // <user-sub-navbar></user-sub-navbar>
 
-export class CompanyComponent implements OnInit {
+export class CompanyComponent {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  
 }

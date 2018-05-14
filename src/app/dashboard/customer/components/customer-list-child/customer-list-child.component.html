@@ -1,0 +1,25 @@
+<div class="list-item">
+  <a routerLink="/dashboard/customer/customer-details/{{customer?.id}}">
+    <p class="list-item__name">{{ customer?.name }}</p>
+    <p class="list-item__details">
+      Phone: {{customer?.phone}} | Username: {{customer?.userName}} | Area: {{customer?.prAddress?.area}}
+    </p>
+  </a>
+  <div class="list-item__delete" *ngIf="toggled">
+    <p>Sure ?</p>
+    <p>
+      <button class="confirm" type="button" (click)="deActivateItem(customer?.id)">
+        Yes
+      </button>
+      <button class="cancel" type="button" (click)="toggle()">
+        No
+      </button>
+    </p>
+  </div>
+  <button class="trash" type="button" *ngIf="!toggled" (click)="toggle()">
+    <i class="fa fa-power-off"></i>
+  </button>
+  <button class="trash" type="button" *ngIf="!toggled" (click)="showImage(customer?.id)">
+    <i class="fa fa-camera"></i>
+  </button>
+</div>

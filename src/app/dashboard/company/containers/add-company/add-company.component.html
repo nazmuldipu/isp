@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-12 col-md-7">
+      <company-list-child [companies]="companies$ | async" (edit)="editCompany($event)"></company-list-child>
+    </div>
+    <div class="col-12 col-md-5 p-0 pt-3 px-md-2 pt-md-0">
+      <div class="raised">
+        <div class="text-center">
+          <h5 class="h3 mb-3 font-weight-normal" [class.bg-warning]="company.id">
+            <strong> {{company.id?'EDIT':'ADD'}} COMPANY </strong>
+          </h5>
+          <div class="alert alert-success" *ngIf="message.length>0">
+            {{message}}
+          </div>
+          <div class="alert alert-danger" *ngIf="errorMessage.length>0">
+            {{errorMessage}}
+          </div>
+        </div>
+
+        <form class="p-3" #comp="ngForm" (ngSubmit)="save(comp.value)" novalidate>
+
+          <div class="form-group">
+            <!-- <label for="companyName">Company Name</label> -->
+            <input class="form-control" id="companyName" #companyName="ngModel" name="companyName" [(ngModel)]="company.companyName"
+              placeholder="Company Name" required maxlength="30" autofocus/>
+            <small class="form-text text-danger" *ngIf="companyName.touched && companyName.invalid">Company Name is required</small>
+          </div>
+
+          <div class="form-group">
+            <!-- <label for="companyNameBangla">Company Name Bangla</label> -->
+            <input class="form-control" id="companyNameBangla" #companyNameBangla="ngModel" name="companyNameBangla" [(ngModel)]="company.companyNameBangla"
+              placeholder="Company Name Bangla" maxlength="21" required>
+            <small class="text-danger" *ngIf="companyNameBangla.touched && companyNameBangla.invalid">Company Name Bangla Required</small>
+          </div>
+
+          <div class="form-group">
+            <!-- <label for="contactPerson">Contact Person</label> -->
+            <input class="form-control" id="contactPerson" #contactPerson="ngModel" name="contactPerson" [(ngModel)]="company.contactPerson"
+              placeholder="Contact Person" required>
+            <small class="text-danger" *ngIf="contactPerson.touched && contactPerson.invalid">ContactPerson Required</small>
+          </div>
+          <div class="form-group">
+            <!-- <label >Telephone</label> -->
+            <input class="form-control" id="telephone" #telephone="ngModel" name="telephone" [(ngModel)]="company.telephone" placeholder="Telephone"
+              required pattern="^01[0-9][ ]?[0-9]{2}[ ]?[0-9]{3}[ ]?[0-9]{3}$" maxlength="11">
+            <small class="text-danger" *ngIf="telephone.touched && telephone.invalid">
+              <small *ngIf="telephone.errors.required">Telephone number required</small>
+              <small *ngIf="telephone.hasError('pattern') && !telephone.errors.required">Please enter a valid Phone number</small>
+            </small>
+          </div>
+
+          <div class="form-group">
+            <!-- <label for="companyAddress">Address</label> -->
+            <input class="form-control" id="companyAddress" #companyAddress="ngModel" name="companyAddress" [(ngModel)]="company.companyAddress"
+              placeholder="companyAddress">
+          </div>
+          <div class="form-group">
+            <!-- <label for="webAddress">Web Address</label> -->
+            <input class="form-control" id="webAddress" #webAddress="ngModel" name="webAddress" [(ngModel)]="company.webAddress" placeholder="Web Address">
+          </div>
+          <div class="form-group">
+            <!-- <label for="maximumNumberOfCustomer">Maximum Number Of Customer</label> -->
+            <input type="number" class="form-control" id="maximumNumberOfCustomer" #maximumNumberOfCustomer="ngModel" name="maximumNumberOfCustomer"
+              [(ngModel)]="company.maximumNumberOfCustomer" placeholder="Maximum Number Of Customer" required>
+            <small class="text-danger" *ngIf="maximumNumberOfCustomer.touched && maximumNumberOfCustomer.invalid">Maximum Number Of Customer Required</small>
+          </div>
+          <div class="form-group">
+            <!-- <label for="smsQuota">SMS Quota</label> -->
+            <input type="number" class="form-control" id="smsQuota" #smsQuota="ngModel" name="smsQuota" [(ngModel)]="company.smsQuota"
+              placeholder="SMS Quota" required>
+            <small class="text-danger" *ngIf="smsQuota.touched && smsQuota.invalid">SMS Quota Required</small>
+          </div>
+          <div class="form-group">
+            <!-- <label for="perMonthValue">Per month cost</label> -->
+            <input type="number" class="form-control" id="perMonthValue" #perMonthValue="ngModel" name="perMonthValue" [(ngModel)]="company.perMonthValue"
+              placeholder="Per month cost" required>
+            <small class="text-danger" *ngIf="perMonthValue.touched && perMonthValue.invalid">Per month cost Required</small>
+          </div>
+
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-sm btn-success raised" type="submit" [disabled]="comp.invalid">
+              <i class="fa fa-user-plus"></i> {{company.id?'UPDATE':'SAVE'}}
+            </button>
+            <button type="button" *ngIf="company.id" class="btn btn-sm btn-danger raised" (click)="delete(company.id)">Delete</button>
+            <button type="button" class="btn btn-sm btn-light raised" (click)="clear()">Clear</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

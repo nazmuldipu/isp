@@ -1,0 +1,11 @@
+
+.extra-margin{
+    padding-left: 10px;
+    padding-right: 30px;
+}
+@media(max-width: 767px) {
+    .extra-margin{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}

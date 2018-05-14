@@ -1,0 +1,56 @@
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-12 px-3">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <!-- <th>User</th> -->
+            <th>Phone</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sm of smsHistory">
+            <td>{{ sm.date | date:'yyyy-MM-dd HH:mm:ss a '}}</td>
+            <!-- <td>{{getUserName(sm.userId)}}</td> -->
+            <td>{{ sm.phone }}</td>
+            <td>{{ sm.notes }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              Show
+              <select name="limit" #cl (change)="changeLimit(cl.value)">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+              entries &nbsp;
+            </td>
+            <td colspan="4">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination m-0 justify-content-end">
+                  <li class="page-item">
+                    <a class="page-link" (click)="paginaiton('first')">First</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="paginaiton('previous')">Previous</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="paginaiton('next')">Next</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" (click)="paginaiton('last')">Last</a>
+                  </li>
+                </ul>
+              </nav>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

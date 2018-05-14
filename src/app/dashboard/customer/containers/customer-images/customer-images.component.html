@@ -1,0 +1,78 @@
+<div class="container">
+  <!-- <p><ngb-progressbar type="success" [value]="25"></ngb-progressbar></p> -->
+  <div class="row raised mb-3">
+
+    <div class="col-12">
+      <!-- <div>Percentages : {{ uploadPercent | async | number}} %</div> -->
+      <div><ngb-progressbar showValue="true" type="info" [value]="uploadPercent | async"></ngb-progressbar></div>
+    </div>
+    <div class="col-12 p-0">
+      <h5 class="bg-dark text-light text-center m-0">{{ customer?.name }} Picture</h5>
+    </div>
+
+    <div class="col-4 text-center border">
+      <h5 class="bg-light text-center">Profile Picture</h5>
+      <img *ngIf="customer?.imageUrl" [src]="customer?.imageUrl" alt="{{ customer?.imageUrl }}" class="card-img-top img-fluid">
+      <input type="file" (change)="onProfileImageChange($event)" accept="image/*">
+    </div>
+    <div class="col-4 text-center border">
+      <h5 class="bg-light text-center">ID Picture 1</h5>
+      <img *ngIf="customer?.idImagesUrl1" [src]="customer?.idImagesUrl1" alt="{{ customer?.idImagesUrl1 }}" class="card-img-top img-fluid">
+      <input type="file" (change)="onId1ImageChange($event)" accept="image/*">
+    </div>
+    <div class="col-4 text-center border">
+      <h5 class="bg-light text-center">ID Picture 2</h5>
+      <img *ngIf="customer?.idImagesUrl2" [src]="customer?.idImagesUrl2" alt="{{ customer?.idImagesUrl2 }}" class="card-img-top img-fluid">
+      <input type="file" (change)="onId2ImageChange($event)" accept="image/*">
+    </div>
+    
+  </div>
+  <div class="text-center">
+      <a routerLink="/dashboard/customer/customer-list" class="btn btn-warning">Back</a>
+  </div>
+
+  <!-- <div class="row raised mb-3">
+    <div class="col-12 p-0">
+      <h5 class="bg-dark text-light text-center m-0">{{ customer?.name }} Id Pictures</h5>
+    </div>
+    <div class="col-6 text-center">
+      <div *ngIf="customer">
+        <img *ngIf="customer.idImagesUrl" [src]="customer?.idImagesUrl[0]" alt="{{ customer?.idImagesUrl[0] }}" class="card-img-top img-fluid">
+      </div>
+      <input type="file" (change)="onId1ImageChange($event)" accept="image/*">
+    </div>
+    <div class="col-6">
+      <div *ngIf="customer">
+        <img *ngIf="customer.idImagesUrl" [src]="customer?.idImagesUrl[1]" alt="{{ customer?.idImagesUrl[1] }}" class="card-img-top img-fluid">
+      </div>
+      <input type="file" (change)="onId2ImageChange($event)" accept="image/*">
+    </div>
+  </div> -->
+
+  <!-- <div class="row raised mb-3">
+    <div class="col-12 p-0">
+      <h5 class="bg-dark text-light text-center m-0">{{ customer?.name }} ID1 Picture</h5>
+    </div>
+    <div class="col-4 text-center">
+      <img *ngIf="customer?.idImagesUrl" [src]="customer?.idImagesUrl[0]" alt="{{ customer?.imageUrl }}" class="card-img-top img-fluid">
+    </div>
+    <div class="col-8 border">
+      <h5 class="bg-light text-center">Profile Picture</h5>
+      <input type="file" (change)="onId1ImageChange($event)" accept="image/*">
+    </div>
+  </div>
+
+  <div class="row raised mb-3">
+    <div class="col-12 p-0">
+      <h5 class="bg-dark text-light text-center m-0">{{ customer?.name }} ID1 Picture</h5>
+    </div>
+    <div class="col-4 text-center">
+      <img *ngIf="customer?.idImagesUrl[1]" [src]="customer?.idImagesUrl[1]" alt="{{ customer?.imageUrl }}" class="card-img-top img-fluid">
+    </div>
+    <div class="col-8 border">
+      <h5 class="bg-light text-center">Profile Picture</h5>
+      <input type="file" (change)="onId2ImageChange($event)" accept="image/*">
+    </div>
+  </div> -->
+
+</div>

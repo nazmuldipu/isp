@@ -1,0 +1,129 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-md-4 p-0 p-md-3 d-print-none">
+      <div class="border rounded p-2 mb-2 cus-list" *ngFor="let inv of invoices" (click)="loadInvoice(inv.id)">
+        {{inv?.date | date }}
+        <small>{{ inv?.deposit }}</small>
+      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li class="page-item">
+            <select class="page-link" name="limit" #cl (change)="changeLimit(cl.value)" style="padding: 0.40rem 0.25rem">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="first()">First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="prev()">Previous</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="next()">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="last()">Last</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="col-md-8" *ngIf="customer">
+      <loading-spiner *ngIf="showSpiner else showForm"></loading-spiner>
+      <ng-template #showForm id="print-section">
+        <!-- Invoice Top Row -->
+        <div class="row">
+          <div class="col-md-4 col-sm-4 border border-secondary rounded">
+            <h5 class="m-0">{{company?.companyName}}</h5>
+            <small>{{company?.companyAddress}}
+              <br>Phone: {{company?.telephone}}</small>
+          </div>
+
+          <div class="col-md-4 col-sm-4">
+            <h5 class="text-center">Invoice</h5>
+            <small> Date : {{invoice?.date | date:'yyyy-MM-dd'}}
+              <br> ID : {{invoice?.id}} </small>
+          </div>
+
+          <div class="col-md-4 col-sm-4 border border-secondary rounded">
+            <h5 class="m-0">{{customer?.name}}</h5>
+            <small>
+              {{customer?.prAddress?.flat == null? '' : 'Flat:' + customer?.prAddress?.flat + ', '}} {{customer?.prAddress?.floor == null?
+              '' : 'Floor:' + customer?.prAddress?.floor + ', '}} {{customer?.prAddress?.house == null? '' : 'House:' + customer?.prAddress?.house
+              + ', '}} {{customer?.prAddress?.road == null? '' : 'Road:' + customer?.prAddress?.road + ', '}} {{customer?.prAddress?.area
+              == null? '' : 'Area:' + customer?.prAddress?.area + ', '}} {{customer?.prAddress?.village == null? '' : 'Village:'
+              + customer?.prAddress?.village + ', '}} {{customer?.prAddress?.post == null? '' : 'Post:' + customer?.prAddress?.post
+              + ', '}} {{customer?.prAddress?.po == null? '' : 'Police Office:' + customer?.prAddress?.po + ', '}} {{customer?.prAddress?.unions
+              == null? '' : 'Union:' + customer?.prAddress?.unions + ', '}} {{customer?.prAddress?.city == null? '' : 'City:'
+              + customer?.prAddress?.city }}
+
+              <br> Phone: {{customer?.phone}}
+            </small>
+          </div>
+        </div>
+        <!-- End Invoice Top Row -->
+
+        <!-- Invoice body -->
+        <div class="row invoice-body">
+          <div class="col-md-6">
+            <label class="form-control mt-4"> {{invoice.explanation}}</label>
+            <!-- <input class="form-control mt-4" [(ngModel)]="invoice.explanation" name="explanation" placeholder="Explanation" required/> -->
+          </div>
+          <div class="col-md-6" style="border-left:1px solid black;">
+            <table class="table border border-secondary mt-2">
+              <tr>
+                <td>Previous Due</td>
+                <td class="text-right">
+                  <label class="text-right">{{ invoice.previousDue }}</label>
+                  <!-- <input class="text-right" [(ngModel)]="invoice.previousDue" name="previousDue" readonly/> -->
+                </td>
+              </tr>
+              <tr>
+                <td>Discount</td>
+                <td class="text-right">
+                  <label>{{ invoice.discount }}</label>
+                  <!-- <input *ngIf="invoice.id == null" class="text-right" type="number" [(ngModel)]="invoice.discount" name="discount" (keyup)="calculateBalance()"
+                        required/> -->
+                </td>
+              </tr>
+              <tr>
+                <td>Total</td>
+                <td class="text-right">
+                  <label>{{ invoice.total }}</label>
+                  <!-- <input class="text-right" [(ngModel)]="invoice.total" name="total" readonly/> -->
+                </td>
+              </tr>
+
+              <tr>
+                <td>Deposit</td>
+                <td class="text-right">
+                  <label>{{ invoice.deposit }}</label>
+                  <!-- <input *ngIf="invoice.id == null" class="text-right" type="number" [(ngModel)]="invoice.deposit" name="deposit" (keyup)="calculateBalance()"
+                        required/> -->
+                </td>
+              </tr>
+              <tr>
+                <td>Due Amount</td>
+                <td class="text-right">
+                  <label>{{ invoice.due }}</label>
+                  <input class="text-right" [(ngModel)]="invoice.due" name="due" readonly/>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- End Invoice body -->
+
+
+      </ng-template>
+    </div>
+
+  </div>
+  <!-- <div class="row mt-1">
+    <button class="btn btn-success" (click)="print()">Print</button>
+  </div> -->
+
+</div>
