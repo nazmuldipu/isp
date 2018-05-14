@@ -113,10 +113,6 @@ angularfire2@5.0.0-rc.6
 MIT
 MIT
 
-@angular/animations@5.2.9
-MIT
-MIT
-
 pica@4.1.1
 MIT
 (The MIT License)
@@ -174,6 +170,10 @@ MIT
 MIT
 
 @angular/http@5.2.9
+MIT
+MIT
+
+@angular/animations@5.2.9
 MIT
 MIT
 
