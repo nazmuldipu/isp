@@ -26,6 +26,7 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
   customer: Customer;
   companies: Company[] = [];
   subscription: Subscription;
+  showSpiner = false;
   message = '';
   errorMessage = '';
 
@@ -89,6 +90,7 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
 
   saveCustomer(cust: NgForm) {
     // let balance = this.customer.monthlyBill + this.customer.connectionFee;
+    this.showSpiner = true;
     this.customer.balance = this.customer.monthlyBill + this.customer.connectionFee;
     let newCustomer = JSON.parse(JSON.stringify(this.customer))//remove all null values from object
     if (this.customerService.numberOfCustomers < this.company.maximumNumberOfCustomer) {
@@ -107,6 +109,7 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
             cLedger.date = new Date();
             this.customerLedgerService.create(cLedger)
               .then(() => {
+                this.showSpiner = false;
                 this.message += 'Customer Ledger created';
                 this.customer = new Customer();
                 this.customer.prAddress = new Address();
