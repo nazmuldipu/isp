@@ -11,7 +11,7 @@ export class CustomerService {
   companyId = localStorage.getItem('companyId');
   userId = localStorage.getItem('userId');
   //TODO: If there is no company Id then what should we do?
-  customers$: Observable<any> = this.afs.collection<Customer>(this.serviceUrl, ref => ref.where('companyId', '==', this.companyId)).snapshotChanges()
+  customers$: Observable<any> = this.afs.collection<Customer>(this.serviceUrl, ref => ref.where('companyId', '==', this.companyId).orderBy('userName').orderBy('createdDate')).snapshotChanges()
     .map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Customer;

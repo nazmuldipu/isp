@@ -26,6 +26,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.customers$ = this.store.select<Customer[]>('customer')
       .map(cus => {
+        console.log(cus);
         return (cus ? cus.filter(c => c.active === true) : null);
       });
     this.subscription = this.customerService.customers$.subscribe();

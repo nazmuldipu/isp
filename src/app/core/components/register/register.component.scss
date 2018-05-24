@@ -1,1 +1,10 @@
 @import "~themes.scss";
+
+
+.logo{
+    text-decoration: none;
+    color: black;
+    &:hover {
+        color: gray;
+    }
+}

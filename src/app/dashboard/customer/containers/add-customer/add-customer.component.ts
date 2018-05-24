@@ -12,11 +12,12 @@ import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
 import { CustomerLedger } from 'shared/models/customer-ledger.model';
 import { SmsService } from 'shared/services/sms.service';
 import { CompanyService } from 'shared/services/company.service';
+import { Store } from 'store';
 
 @Component({
   selector: 'app-add-customer',
   templateUrl: './add-customer.component.html',
-  styleUrls: ['./add-customer.component.css']
+  styleUrls: ['./add-customer.component.scss']
 })
 export class AddCustomerComponent implements OnInit, OnDestroy {
   editing = false;
@@ -26,11 +27,13 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
   customer: Customer;
   companies: Company[] = [];
   subscription: Subscription;
+  numberOfCustomers;
   showSpiner = false;
   message = '';
   errorMessage = '';
 
   constructor(
+    private store: Store,
     private companyService: CompanyService,
     private authService: AuthService,
     private customerService: CustomerService,
@@ -43,18 +46,25 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
     this.customer.prAddress = new Address();
     this.customer.active = false;
     this.companyId = localStorage.getItem('companyId');
-
+    
+    
     this.editing = activeRoute.snapshot.params['mode'] == 'edit';
     if (this.editing) {
       this.getCustomer(activeRoute.snapshot.params['id']);
     }
   }
-
+  
   async ngOnInit() {
+    // Load number of customers
+    this.store.select<Customer[]>('customer')
+      .subscribe(data =>{
+        this.numberOfCustomers = data? data.length : 0 ;
+      })
+    this.subscription = this.customerService.customers$.subscribe();
     // Load company info
     this.subscription = await this.companyService.get(this.companyId)
-      .subscribe(
-        data => {
+    .subscribe(
+      data => {
           this.company = data;
           this.company.id = this.companyId;
         },
@@ -93,7 +103,7 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
     this.showSpiner = true;
     this.customer.balance = this.customer.monthlyBill + this.customer.connectionFee;
     let newCustomer = JSON.parse(JSON.stringify(this.customer))//remove all null values from object
-    if (this.customerService.numberOfCustomers < this.company.maximumNumberOfCustomer) {
+    if (this.numberOfCustomers < this.company.maximumNumberOfCustomer) {
       if (!newCustomer.id) {
         this.customerService.create(newCustomer)
           .then((ref) => {
