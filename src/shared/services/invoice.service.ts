@@ -5,19 +5,17 @@ import { OrderByDirection } from '@firebase/firestore-types';
 
 @Injectable()
 export class InvoiceService {
-  serviceUrl = 'invoices'
+  serviceUrl = 'invoices';
   companyId;
   userId;
 
-  constructor(
-    private afs: AngularFirestore,
-  ) {
+  constructor(private afs: AngularFirestore) {
     this.companyId = localStorage.getItem('companyId');
     this.userId = localStorage.getItem('userId');
-   }
+  }
 
   create(invoice: Invoice) {
-    delete invoice["id"];
+    delete invoice['id'];
     invoice.createdDate = new Date();
     invoice.createdBy = this.userId;
     return this.afs.collection(this.serviceUrl).add({
@@ -33,12 +31,26 @@ export class InvoiceService {
     return this.afs.doc(this.serviceUrl + '/' + iid).valueChanges();
   }
 
-  getPaginatedStartAfter(companyId, orderBy, order: OrderByDirection = 'asc', limit, startAfter) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, order).limit(limit).startAfter(startAfter)).snapshotChanges();
+  getPaginatedStartAfter(
+    companyId,
+    orderBy,
+    order: OrderByDirection = 'asc',
+    limit,
+    startAfter
+  ) {
+    return this.afs
+      .collection(this.serviceUrl, ref =>
+        ref
+          .where('companyId', '==', companyId)
+          .orderBy(orderBy, order)
+          .limit(limit)
+          .startAfter(startAfter)
+      )
+      .snapshotChanges();
   }
 
   update(iid, invoice: Invoice) {
-    delete invoice["id"]
+    delete invoice['id'];
     return this.afs.doc(this.serviceUrl + '/' + iid).update({
       ...invoice
     });
@@ -47,5 +59,4 @@ export class InvoiceService {
   delete(iid) {
     return this.afs.doc(this.serviceUrl + '/' + iid).delete();
   }
-
 }

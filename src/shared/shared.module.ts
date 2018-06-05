@@ -15,17 +15,22 @@ import { LoadingSpinerComponent } from './ui/loading-spiner/loading-spiner/loadi
 import { SmsService } from 'shared/services/sms.service';
 import { SmsApiService } from 'shared/services/sms-api.service';
 import { HttpModule } from '@angular/http';
+import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule, 
+    CommonModule,
     HttpModule,
+    NgbModule,
+    RouterModule
   ],
-  declarations: [LoadingSpinerComponent],
-  providers:[
+  declarations: [LoadingSpinerComponent, DashboardNavbarComponent],
+  providers: [
     AuthService,
     AuthGuard,
     AdminAuthGuard,
@@ -39,12 +44,14 @@ import { HttpModule } from '@angular/http';
     SmsService,
     SmsApiService
   ],
-  exports:[
+  exports: [
     HttpModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    LoadingSpinerComponent
+    LoadingSpinerComponent,
+    DashboardNavbarComponent,
+    NgbModule
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

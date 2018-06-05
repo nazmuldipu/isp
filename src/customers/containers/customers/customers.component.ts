@@ -9,26 +9,24 @@ import { CustomerService } from 'shared/services/customer.service';
 import { Store } from 'store';
 
 @Component({
-  selector: 'app-customer-list',
-  templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.scss'],
+  selector: 'customers',
+  templateUrl: './customers.component.html',
+  styleUrls: ['./customers.component.scss']
 })
-export class CustomerListComponent implements OnInit, OnDestroy {
+export class CustomersComponent implements OnInit, OnDestroy {
   customers$: Observable<Customer[]>;
   subscription: Subscription;
 
   constructor(
     private store: Store,
     private router: Router,
-    private customerService: CustomerService,
-  ) { }
+    private customerService: CustomerService
+  ) {}
 
   async ngOnInit() {
-    this.customers$ = this.store.select<Customer[]>('customer')
-      .map(cus => {
-        console.log(cus);
-        return (cus ? cus.filter(c => c.active === true) : null);
-      });
+    this.customers$ = this.store.select<Customer[]>('customer').map(cus => {
+      return cus ? cus.filter(c => c.active === true) : null;
+    });
     this.subscription = this.customerService.customers$.subscribe();
   }
 
@@ -42,7 +40,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   deactivate(customer: Customer) {
     customer.active = false;
-    this.customerService.update(customer.id, customer).then(() => console.log('Customer deactivated'));
+    this.customerService
+      .update(customer.id, customer)
+      .then(() => console.log('Customer deactivated'));
   }
-
 }

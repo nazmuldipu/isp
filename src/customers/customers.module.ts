@@ -5,33 +5,55 @@ import { CustomerSubNavbarComponent } from './containers/customer-sub-navbar/cus
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AddCustomerComponent } from './containers/add-customer/add-customer.component';
-import { CustomerListComponent } from './containers/customer-list/customer-list.component';
 import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
 import { CustomerDetailsComponent } from './containers/customer-details/customer-details.component';
 import { InactiveCustomerListComponent } from './containers/inactive-customer-list/inactive-customer-list.component';
 import { CustomerImagesComponent } from './containers/customer-images/customer-images.component';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { SharedModule } from 'shared/shared.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerListChildComponent } from './components/customer-list-child/customer-list-child.component';
+import { CustomersComponent } from './containers/customers/customers.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
+    SharedModule,
     Ng2ImgMaxModule,
-    NgbModule,
     SharedModule,
     RouterModule.forChild([
       {
-        path: '', component: CustomerComponent,
+        path: '',
+        component: CustomerComponent,
         children: [
-          { path: 'add-customer/:mode', component:  AddCustomerComponent, canActivate:[IspAuthGuard]},
-          { path: 'add-customer/:mode/:id', component:  AddCustomerComponent, canActivate:[IspAuthGuard]},
-          { path: 'customer-details/:id', component:  CustomerDetailsComponent, canActivate:[IspAuthGuard]},
-          { path: 'customer-images/:id', component:  CustomerImagesComponent, canActivate:[IspAuthGuard]},
-          { path: 'customer-list', component:  CustomerListComponent, canActivate:[IspAuthGuard]},
-          { path: 'inactive-customers', component:  InactiveCustomerListComponent, canActivate:[IspAuthGuard]},
+          {
+            path: '',
+            component: CustomersComponent,
+            canActivate: [IspAuthGuard]
+          },
+          {
+            path: 'new',
+            component: AddCustomerComponent,
+            canActivate: [IspAuthGuard]
+          },
+          {
+            path: 'new/:id',
+            component: AddCustomerComponent,
+            canActivate: [IspAuthGuard]
+          },
+          {
+            path: 'details/:id',
+            component: CustomerDetailsComponent,
+            canActivate: [IspAuthGuard]
+          },
+          {
+            path: 'customer-images/:id',
+            component: CustomerImagesComponent,
+            canActivate: [IspAuthGuard]
+          },
+          {
+            path: 'inactive',
+            component: InactiveCustomerListComponent,
+            canActivate: [IspAuthGuard]
+          }
         ]
       },
       { path: '**', redirectTo: '/' }
@@ -39,13 +61,13 @@ import { CustomerListChildComponent } from './components/customer-list-child/cus
   ],
   declarations: [
     CustomerComponent,
+    CustomersComponent,
     CustomerSubNavbarComponent,
     AddCustomerComponent,
-    CustomerListComponent,
     CustomerDetailsComponent,
     InactiveCustomerListComponent,
     CustomerImagesComponent,
     CustomerListChildComponent
   ]
 })
-export class CustomerModule { }
+export class CustomersModule {}

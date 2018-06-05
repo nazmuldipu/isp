@@ -11,7 +11,6 @@ import { UserService } from 'shared/services/user.service';
   styleUrls: ['./admin-navbar.component.scss']
 })
 export class AdminNavbarComponent implements OnInit {
-
   isCollapsed = true;
   appUser;
 
@@ -19,12 +18,14 @@ export class AdminNavbarComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private userService: UserService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     await this.auth.getUser$().subscribe(user => {
       if (user) {
-        this.userService.get(user.uid).take(1)
+        this.userService
+          .get(user.uid)
+          .take(1)
           .subscribe(data => {
             this.appUser = data;
           });
@@ -37,5 +38,4 @@ export class AdminNavbarComponent implements OnInit {
     this.auth.logout();
     this.router.navigate(['/login']);
   }
-
 }

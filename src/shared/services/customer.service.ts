@@ -11,7 +11,14 @@ export class CustomerService {
   companyId = localStorage.getItem('companyId');
   userId = localStorage.getItem('userId');
   //TODO: If there is no company Id then what should we do?
-  customers$: Observable<any> = this.afs.collection<Customer>(this.serviceUrl, ref => ref.where('companyId', '==', this.companyId).orderBy('userName').orderBy('createdDate')).snapshotChanges()
+  customers$: Observable<any> = this.afs
+    .collection<Customer>(this.serviceUrl, ref =>
+      ref
+        .where('companyId', '==', this.companyId)
+        .orderBy('userName')
+        .orderBy('createdDate')
+    )
+    .snapshotChanges()
     .map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Customer;
@@ -26,10 +33,7 @@ export class CustomerService {
   // customers: Customer[] = [];
   numberOfCustomers: number;
 
-  constructor(
-    private store: Store,
-    private afs: AngularFirestore,
-  ) {
+  constructor(private store: Store, private afs: AngularFirestore) {
     // this.companyId = localStorage.getItem('companyId');
     // this.userId = localStorage.getItem('userId');
     // console.log(this.companyId);
@@ -38,7 +42,7 @@ export class CustomerService {
   }
 
   create(customer: Customer) {
-    delete customer["id"];
+    delete customer['id'];
     customer.createdDate = new Date();
     customer.createdBy = this.userId;
     return this.afs.collection(this.serviceUrl).add({
@@ -62,23 +66,39 @@ export class CustomerService {
   // }
 
   getActiveCustomers() {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('active', '==', true)).snapshotChanges();
+    return this.afs
+      .collection(this.serviceUrl, ref => ref.where('active', '==', true))
+      .snapshotChanges();
   }
 
   getInactiveCustomers() {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('active', '==', false)).snapshotChanges();
+    return this.afs
+      .collection(this.serviceUrl, ref => ref.where('active', '==', false))
+      .snapshotChanges();
   }
 
   getCompanyCustomer(companyId) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId)).snapshotChanges();
+    return this.afs
+      .collection(this.serviceUrl, ref =>
+        ref.where('companyId', '==', companyId)
+      )
+      .snapshotChanges();
   }
 
   getActiveCompanyCustomer(companyId) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).where('active', '==', true)).snapshotChanges();
+    return this.afs
+      .collection(this.serviceUrl, ref =>
+        ref.where('companyId', '==', companyId).where('active', '==', true)
+      )
+      .snapshotChanges();
   }
 
   getInactiveCompanyCustomer(companyId) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).where('active', '==', false)).snapshotChanges();
+    return this.afs
+      .collection(this.serviceUrl, ref =>
+        ref.where('companyId', '==', companyId).where('active', '==', false)
+      )
+      .snapshotChanges();
   }
 
   get(cid) {
@@ -86,11 +106,18 @@ export class CustomerService {
   }
 
   searchCustomer(start, end, companyId) {
-    return this.afs.collection(this.serviceUrl, ref => ref.orderBy('name').startAt(start).endAt(end)).snapshotChanges();
+    return this.afs
+      .collection(this.serviceUrl, ref =>
+        ref
+          .orderBy('name')
+          .startAt(start)
+          .endAt(end)
+      )
+      .snapshotChanges();
   }
 
   update(cid, customer: Customer) {
-    delete customer["id"]
+    delete customer['id'];
     return this.afs.doc(this.serviceUrl + '/' + cid).update({
       ...customer
     });
@@ -99,5 +126,4 @@ export class CustomerService {
   delete(cid) {
     return this.afs.doc(this.serviceUrl + '/' + cid).delete();
   }
-
 }

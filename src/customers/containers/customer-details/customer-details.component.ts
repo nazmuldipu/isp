@@ -28,14 +28,16 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     if (this.id) {
-      this.subscriptions.push(await this.store.select<Customer[]>('customer')
-        .map(cus => {
-          return (cus ? cus.find(c => c.id === this.id) : null);
-        })
-        .subscribe(data => {
-          this.customer = data as Customer;
-          console.log(this.customer);
-        }))
+      this.subscriptions.push(
+        await this.store
+          .select<Customer[]>('customer')
+          .map(cus => {
+            return cus ? cus.find(c => c.id === this.id) : null;
+          })
+          .subscribe(data => {
+            this.customer = data as Customer;
+          })
+      );
       this.subscriptions.push(this.customerService.customers$.subscribe());
     }
   }

@@ -12,15 +12,16 @@ import { AuthGuard } from 'shared/services/auth-guard.service';
 import { SharedModule } from 'shared/shared.module';
 import { Store } from 'store';
 
-import { environment } from '../environments/environment';
+import { environment } from 'environments/environment';
 import { AppComponent } from './app.component';
 import { ChangePasswordComponent } from './core/components/change-password/change-password.component';
 import { HomeNavbarComponent } from './core/components/home-navbar/home-navbar.component';
 import { HomeComponent } from './core/components/home/home.component';
 import { LoginComponent } from './core/components/login/login.component';
 import { RegisterComponent } from './core/components/register/register.component';
-import { AuthService } from './shared/services/auth.service';
-import { UserService } from './shared/services/user.service';
+import { AuthService } from 'shared/services/auth.service';
+import { UserService } from 'shared/services/user.service';
+import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { UserService } from './shared/services/user.service';
     HomeNavbarComponent,
     LoginComponent,
     ChangePasswordComponent,
-    RegisterComponent,
+    RegisterComponent
   ],
   imports: [
     SharedModule,
@@ -46,16 +47,25 @@ import { UserService } from './shared/services/user.service';
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'changePassword', component: ChangePasswordComponent },
-      { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule', canActivate: [AuthGuard, AdminAuthGuard] },
-      { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule', canActivate: [AuthGuard] },
+      {
+        path: 'admin',
+        loadChildren: 'app/admin/admin.module#AdminModule',
+        canActivate: [AuthGuard, AdminAuthGuard]
+      },
+      {
+        path: 'customers',
+        loadChildren: 'customers/customers.module#CustomersModule',
+        canActivate: [AuthGuard, IspAuthGuard]
+      },
+      {
+        path: 'dashboard',
+        loadChildren: 'dashboard/dashboard.module#DashboardModule',
+        canActivate: [AuthGuard]
+      },
       { path: '**', redirectTo: '/' }
     ])
   ],
-  providers: [
-    AuthService,
-    UserService,
-    Store
-  ],
+  providers: [AuthService, UserService, Store],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

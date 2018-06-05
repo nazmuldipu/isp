@@ -3,9 +3,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { User } from 'shared/models/user.model';
-import { Company } from 'shared/models/company.model';
-import { Customer } from 'shared/models/customer.model';
+import { User } from './shared/models/user.model';
+import { Company } from './shared/models/company.model';
+import { Customer } from './shared/models/customer.model';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 
 export interface State {
