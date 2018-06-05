@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as admin from 'firebase-admin';
+// import * as admin from 'firebase-admin';
 
 // // var serviceAccount = require('path/to/serviceAccountKey.json');
 // admin.initializeApp({
@@ -13,9 +13,7 @@ import * as admin from 'firebase-admin';
   styleUrls: ['./admin-user.component.css']
 })
 export class AdminUserComponent implements OnInit {
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -1,32 +1,36 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from 'angularfire2/firestore';
 import { Company } from 'shared/models/company.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from 'store';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CompanyService {
-  
-  company$: Observable<any> = this.afs.collection<Company>('company').snapshotChanges()
-    .map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data() as Company;
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      });
-    })
-    .do(next => this.store.set('company', next));
+  company$: Observable<any> = this.afs
+    .collection<Company>('company')
+    .snapshotChanges()
+    .pipe(
+      map(actions =>
+        actions.map(a => {
+          const data = a.payload.doc.data() as Company;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      ),
+      tap(next => this.store.set('company', next))
+    );
 
   userId;
-  constructor(
-    private store: Store,
-    private afs: AngularFirestore,
-  ) {
+  constructor(private store: Store, private afs: AngularFirestore) {
     this.userId = localStorage.getItem('userId');
   }
 
   create(company: Company) {
-    delete company["id"];
+    delete company['id'];
     company.createdDate = new Date();
     company.createdBy = this.userId;
     return this.afs.collection('company').add({
@@ -43,8 +47,8 @@ export class CompanyService {
   }
 
   update(cid, company: Company) {
-    delete company["id"]
-    delete company["balance"]
+    delete company['id'];
+    delete company['balance'];
     return this.afs.doc('company/' + cid).update({
       ...company
     });
@@ -53,5 +57,4 @@ export class CompanyService {
   delete(cid) {
     return this.afs.doc('company/' + cid).delete();
   }
-
 }

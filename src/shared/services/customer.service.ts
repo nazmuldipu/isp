@@ -3,7 +3,8 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Customer } from 'shared/models/customer.model';
 import { Store } from 'store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CustomerService {
@@ -19,14 +20,16 @@ export class CustomerService {
         .orderBy('createdDate')
     )
     .snapshotChanges()
-    .map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data() as Customer;
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      });
-    })
-    .do(next => this.store.set('customer', next));
+    .pipe(
+      map(actions =>
+        actions.map(a => {
+          const data = a.payload.doc.data() as Customer;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      ),
+      tap(next => this.store.set('customer', next))
+    );
 
   // private _customersSource = new BehaviorSubject<Customer[]>([]);
   // customers$ = this._customersSource.asObservable();
