@@ -50,7 +50,11 @@ export class CustomerService {
   getActiveCustomers(companyId) {
     return this.afs
       .collection(this.serviceUrl, ref =>
-        ref.where('companyId', '==', companyId).where('active', '==', true)
+        ref
+          .where('companyId', '==', companyId)
+          .where('active', '==', true)
+          .orderBy('userName')
+          .orderBy('createdDate')
       )
       .snapshotChanges()
       .pipe(
@@ -67,7 +71,11 @@ export class CustomerService {
   getInactiveCustomers(companyId) {
     return this.afs
       .collection(this.serviceUrl, ref =>
-        ref.where('companyId', '==', companyId).where('active', '==', false)
+        ref
+          .where('companyId', '==', companyId)
+          .where('active', '==', false)
+          .orderBy('userName')
+          .orderBy('createdDate')
       )
       .snapshotChanges()
       .pipe(

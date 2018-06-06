@@ -1,0 +1,426 @@
+<form [formGroup]="form">
+  <div class="row m-0">
+    <div class="col-md-6 p-0">
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label">Date</label>
+        <div class="col-md-8 extra-margin">
+          <input class="form-control" type="date" formControlName="date" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label">Name
+          <sup>*</sup>
+        </label>
+        <div class="col-md-8 extra-margin">
+          <input class="form-control" formControlName="name" placeholder="Name" />
+          <small class="form-text text-danger" *ngIf="required('name')">Name is required</small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label">Organization / Company
+        </label>
+        <div class="col-md-8 extra-margin">
+          <input class="form-control" formControlName="organization" placeholder="Organization" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label">Email
+          <sup>*</sup>
+        </label>
+        <div class="col-md-8 extra-margin">
+          <input class="form-control" formControlName="email" placeholder="Email" />
+          <small class="text-danger" *ngIf="form.controls['email'].errors && form.controls['email'].touched">
+            <div [hidden]="!form.controls['email'].errors.required">Email Required</div>
+            <div [hidden]="!form.controls['email'].errors.email">Invalid Email </div>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Father's Name
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" formControlName="fathersName" placeholder="FathersName" />
+      <small class="form-text text-danger" *ngIf="required('fathersName')">Father's Name is required</small>
+    </div>
+
+    <label class="col-md-2 col-form-label text-right">Mother's Name
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" formControlName="mothersName" placeholder="Mother's Name" required/>
+      <small class="form-text text-danger" *ngIf="required('mothersName')">Mother's Name is required</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Gender
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" formControlName="gender" id="inlineRadio1" value="Male">Male
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" formControlName="gender" id="inlineRadio2" value="Female">Female
+        </label>
+      </div>
+    </div>
+    <label class="col-md-2 col-form-label text-right">Date of Birth
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" type="date" formControlName="dob" />
+      <small class="form-text text-danger" *ngIf="required('dob')">Date of birth is required</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Occupation
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" formControlName="occupation" placeholder="Occupation" />
+      <small class="form-text text-danger" *ngIf="required('occupation')">Occupation required</small>
+    </div>
+
+    <label class="col-md-2 col-form-label text-right">Zone
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" formControlName="zone" placeholder="Zone" required />
+      <small class="form-text text-danger" *ngIf="required('zone')">Zone required</small>
+    </div>
+  </div>
+
+  <div formGroupName="prAddress">
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label">Present Address </label>
+      <div class="col-md-10">
+        <div class="row p-3 p-md-0">
+          <input class="col-md-2 form-control ml-md-3" formControlName="flat" placeholder="Flat #" />
+          <input class="col-md-2 form-control ml-md-3" formControlName="floor" placeholder="Floor #" />
+          <input class="col-md-2 form-control ml-md-3" formControlName="house" placeholder="House #" />
+          <input class="col-md-2 form-control ml-md-3" formControlName="road" placeholder="Road #" />
+          <input class="col-md-2 form-control ml-md-3" formControlName="area" placeholder="*Area" required/>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label"></label>
+      <div class="col-md-10">
+        <div class="row p-3 p-md-0">
+          <input class="col-md-2 form-control ml-md-3" formControlName="village" placeholder="Village" />
+          <input class="col-md-2 form-control ml-md-3" formControlName="post" placeholder="Post" />
+          <input class="col-md-2 form-control ml-md-3" formControlName="po" placeholder="*Polic Station" required/>
+          <input class="col-md-2 form-control ml-md-3" formControlName="unions" placeholder="Union" />
+          <input class="col-md-2 form-control ml-md-3" formControlName="city" placeholder="*City" required/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Permanent Address
+      <sup>*</sup>
+    </label>
+    <div class="col-md-10">
+      <input class="form-control" formControlName="perAddress" placeholder="Permanent Address" required/>
+      <small class="form-text text-danger" *ngIf="required('perAddress')">Permanent Address required</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Id Type
+      <sup>*</sup>
+    </label>
+    <div class="col-md-10">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" formControlName="idType" value="National-id">National-id
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" formControlName="idType" value="Passport">Passport
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" formControlName="idType" value="DrivingLicence">Driving Licence
+        </label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-check-input" type="radio" formControlName="idType" value="Other">Other
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input class="form-control" formControlName="otherIdType" placeholder="Enter Id type" type="text">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Id Number
+      <sup>*</sup>
+    </label>
+    <div class="col-md-10">
+      <input class="form-control" formControlName="idNumber" placeholder="Id Number" />
+      <small class="form-text text-danger" *ngIf="required('idNumber')">Id Number required</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Phone
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" formControlName="phone" placeholder="Phone" maxlength="11" />
+      <small class="text-danger" *ngIf="form.controls['phone'].errors && form.controls['phone'].touched">
+        <div [hidden]="!form.controls['phone'].errors.required">ফোন নাম্বার বাধ্যতামূলক</div>
+        <div [hidden]="!form.controls['phone'].errors.pattern">ফোন নাম্বার ফরমেট 01934953023</div>
+      </small>
+    </div>
+
+    <label class="col-md-2 col-form-label text-right">Reference
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" formControlName="reference" placeholder="Reference" />
+      <small class="form-text text-danger" *ngIf="required('reference')">Reference required</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Connection Date
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" type="date" formControlName="connectionDate" />
+      <small class="form-text text-danger" *ngIf="required('idNumber')">Connection Date required</small>
+    </div>
+
+    <label class="col-md-2 col-form-label">Connection Fee
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" type="number" formControlName="connectionFee" placeholder="ConnectionFee" required/>
+      <small class="form-text text-danger" *ngIf="required('connectionFee')">Connection Fee required</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Monthly Bill
+      <sup>*</sup>
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" type="number" formControlName="monthlyBill" placeholder="Monthly Bill" />
+      <small class="form-text text-danger" *ngIf="required('monthlyBill')">Monthly Bill required</small>
+    </div>
+
+    <label class="col-md-2 col-form-label">Date of payment
+    </label>
+    <div class="col-md-4">
+      <input class="form-control" formControlName="dateOfPayment" placeholder="Date Of Payment" />
+      <small class="form-text text-danger" *ngIf="required('dateOfPayment')">Date Of Payment required</small>
+    </div>
+  </div>
+
+
+  <div class="form-group row" style="border: 1px dashed black; padding: 10px 0;">
+    <div class="col-12 text-center" style="padding: 0 0 20px 0;">
+      <span style="background: black; border-radius: 10px; color: white;padding: 2px 5px;">Office Use</span>
+    </div>
+
+    <div class="col-12">
+      <div class="row p-3">
+        <label class="col-md-2 col-form-label p-0">Pop Location</label>
+        <div class="col-md-4 p-0">
+          <input class="form-control" formControlName="popLocation" placeholder="Pop Location" />
+        </div>
+        <label class="col-md-2 col-form-label text-right p-0 px-md-3">Box Name</label>
+        <div class="col-lg-4 col-md-4 p-0">
+          <input class="form-control" formControlName="boxName" placeholder="Box Name" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="row p-3">
+        <label class="col-md-2 col-form-label p-0">Installed By</label>
+        <div class="col-md-4 p-0">
+          <input class="form-control" formControlName="installedBy" placeholder="Installed By" />
+        </div>
+
+        <label class="col-md-2 col-form-label text-right p-0 px-md-3">Used Cable</label>
+        <div class="col-md-4 p-0">
+          <input class="form-control" formControlName="useCable" placeholder="Used Cable" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 row">
+      <label class="col-md-2 col-form-label">Bandwidth Type
+        <sup>*</sup>
+      </label>
+      <div class="col-md-4">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="bandwidthType" value="Shared">Shared
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="bandwidthType" value="Dedicated">Dedicated
+          </label>
+        </div>
+      </div>
+
+      <label class="col-md-2 col-form-label text-right">User Type
+        <sup>*</sup>
+      </label>
+      <div class="col-md-4">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="userType" value="New User">New User
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="userType" value="Reactive User">Reactive User
+          </label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-12 row">
+      <label class="col-md-2 col-form-label">Packages
+        <sup>*</sup>
+      </label>
+      <div class="col-md-10">
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="1mbps">1mbps
+          </label>
+        </div>
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="1.5mbps">1.5mbps
+          </label>
+        </div>
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="2mbps">2mbps
+          </label>
+        </div>
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="3mbps">3mbps
+          </label>
+        </div>
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="4mbps">4mbps
+          </label>
+        </div>
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="5mbps">5mbps
+          </label>
+        </div>
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="8mbps">8mbps
+          </label>
+        </div>
+        <div class="col-md-1 form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" formControlName="packageType" value="10mbps">10mpbs
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row form-group" style="border: 1px dotted lightcoral; padding: 10px 0;">
+
+    <div class="col-12 text-center" style="padding: 0 0 20px 0;">
+      <span style="background: black; border-radius: 10px; color: white;padding: 2px 5px;">User</span>
+    </div>
+
+    <div class="col-12 px-4 py-2">
+      <div class="row">
+        <label class="col-md-2 col-form-label">User Name
+          <sup>*</sup>
+        </label>
+        <div class="col-md-4">
+          <input class="form-control" formControlName="userName" placeholder="User Name" required/>
+          <small class="form-text text-danger" *ngIf="required('userName')">User name required</small>
+        </div>
+
+        <label class="col-md-2 col-form-label text-right">Password
+          <sup>*</sup>
+        </label>
+        <div class="col-md-4">
+          <input class="form-control" formControlName="password" placeholder="Password" required/>
+          <small class="form-text text-danger" *ngIf="required('password')">Zone required</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 px-4 py-2">
+      <div class="row">
+        <label class="col-md-2 col-form-label">IP</label>
+        <div class="col-md-4">
+          <input class="form-control" type="text" formControlName="ipAddress" placeholder="Ip Address" />
+          <small class="form-text text-danger" *ngIf="required('ipAddress')">Zone required</small>
+        </div>
+
+        <label class="col-md-2 col-form-label text-right">Gateway</label>
+        <div class="col-md-4">
+          <input class="form-control" type="text" formControlName="gateway" placeholder="Gateway" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 px-4 py-2">
+      <div class="row">
+        <label class="col-md-2 col-form-label">Subnet</label>
+        <div class="col-md-4">
+          <input class="form-control" type="text" formControlName="subnet" placeholder="Subnet Mask" />
+        </div>
+
+        <div class="col-md-2"></div>
+        <!-- <div class="col-md-4 mt-2">
+          <input class="col-2 p-0" type="checkbox" id="active" formControlName="active" />
+          <label class="col-6 p-0" for="active">Active</label>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary mx-2" type="button" (click)="createCustomer()" *ngIf="!exists" [disabled]="form.invalid">
+    <i class="fa fa-plus"></i> Create Customer
+  </button>
+  <button class="btn btn-warning mx-2" type="button" (click)="updateCustomer()" *ngIf="exists" [disabled]="form.invalid">
+    <i class="fa fa-pencil-square-o"></i> Update Customer
+  </button>
+
+  <button type="reset" class="btn btn-secondary mx-2" routerLink="/admin/customerList">
+    Cancel
+  </button>
+</form>

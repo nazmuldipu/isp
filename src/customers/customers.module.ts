@@ -13,6 +13,7 @@ import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { SharedModule } from 'shared/shared.module';
 import { CustomerListChildComponent } from './components/customer-list-child/customer-list-child.component';
 import { CustomersComponent } from './containers/customers/customers.component';
+import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import { CustomersComponent } from './containers/customers/customers.component';
     CustomerDetailsComponent,
     InactiveCustomerListComponent,
     CustomerImagesComponent,
-    CustomerListChildComponent
+    CustomerListChildComponent,
+    CustomerFormComponent
   ]
 })
 export class CustomersModule {}
