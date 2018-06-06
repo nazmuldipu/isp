@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit {
       .then(data => {
         localStorage.setItem('userId', data.user.uid);
         let returnUrl = '/';
-        if (data.emailVerified) returnUrl = localStorage.getItem('returnUrl');
+        if (data.user.emailVerified)
+          returnUrl = localStorage.getItem('returnUrl');
         else this.auth.sendVerificationEmail();
 
         this.userService
