@@ -5,6 +5,8 @@ import { Customer } from 'shared/models/customer.model';
 import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
 import { CustomerService } from 'shared/services/customer.service';
 import { SmsService } from 'shared/services/sms.service';
+import { Company } from 'shared/models/company.model';
+import { CompanyService } from 'shared/services/company.service';
 
 @Component({
   selector: 'app-add-customer',
@@ -15,12 +17,14 @@ export class AddCustomerComponent implements OnInit {
   companyId;
   customerId;
   customer: Customer;
+  company: Company;
   showSpiner = false;
   message = '';
   errorMessage = '';
 
   constructor(
     private customerService: CustomerService,
+    private companyService: CompanyService,
     private customerLedgerService: CustomerLedgerService,
     private activeRoute: ActivatedRoute,
     private router: Router,
@@ -34,6 +38,21 @@ export class AddCustomerComponent implements OnInit {
     if (this.customerId) {
       this.getCustomer(this.customerId);
     }
+
+    // Load companyinfo for sms
+    if (this.companyId) {
+      this.getCompanyInfo(this.companyId);
+    }
+  }
+
+  async getCompanyInfo(companyId) {
+    await this.companyService
+      .get(companyId)
+      .take(1)
+      .subscribe(data => {
+        this.company = data as Company;
+        this.company = companyId;
+      });
   }
 
   async getCustomer(id) {
@@ -58,7 +77,9 @@ export class AddCustomerComponent implements OnInit {
       this.message = 'Customer Saved; ';
 
       //Send Registration SMS
-      // this.smsService.sendRegistrationSMS(event, this.company);
+      if (this.company) {
+        this.smsService.sendRegistrationSMS(event, this.company);
+      }
 
       // Create customer ledger
       this.createCustomerLedger(event);

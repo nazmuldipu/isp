@@ -9,7 +9,7 @@
       </div>
       <div *ngIf="customers; else loading">
         <div class="message" *ngIf="!customers.length">
-          <i class="fa fa-frown-o"></i>&nbsp; No customer added yet
+          <i class="fa fa-frown-o"></i>&nbsp; No inactive customer yet
         </div>
         <div *ngFor="let cus of customers">
           <customer-list-child [customer]="cus" (image)="showImage($event)" (active)="activate($event)">

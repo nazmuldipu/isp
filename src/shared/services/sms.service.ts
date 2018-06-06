@@ -19,7 +19,6 @@ export class SmsService {
   smss$ = this._smsSource.asObservable();
   smss: SMS[] = [];
 
-
   constructor(
     private afs: AngularFirestore,
     private smsApi: SmsApiService,
@@ -30,7 +29,7 @@ export class SmsService {
   }
 
   create(sms: SMS) {
-    delete sms["id"];
+    delete sms['id'];
     sms.createdDate = new Date();
     sms.createdBy = this.userId;
     return this.afs.collection(this.serviceUrl).add({
@@ -39,7 +38,11 @@ export class SmsService {
   }
 
   getAll(companyId) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy('date')).snapshotChanges()
+    return this.afs
+      .collection(this.serviceUrl, ref =>
+        ref.where('companyId', '==', companyId).orderBy('date')
+      )
+      .snapshotChanges()
       .subscribe(data => {
         this.smss = [];
         data.forEach(resp => {
@@ -48,19 +51,34 @@ export class SmsService {
           this.smss.push(sms);
         });
         this._smsSource.next(this.smss);
-      })
+      });
   }
 
   get(sid) {
     return this.afs.doc(this.serviceUrl + '/' + sid).valueChanges();
   }
 
-  getPaginatedStartAfter(companyId, orderBy, order: OrderByDirection = 'asc', limit, startAfter) {
-    return this.afs.collection(this.serviceUrl, ref => ref.where('companyId', '==', companyId).orderBy(orderBy, order).orderBy('createdDate', order).limit(limit).startAfter(startAfter)).snapshotChanges();
+  getPaginatedStartAfter(
+    companyId,
+    orderBy,
+    order: OrderByDirection = 'asc',
+    limit,
+    startAfter
+  ) {
+    return this.afs
+      .collection(this.serviceUrl, ref =>
+        ref
+          .where('companyId', '==', companyId)
+          .orderBy(orderBy, order)
+          .orderBy('createdDate', order)
+          .limit(limit)
+          .startAfter(startAfter)
+      )
+      .snapshotChanges();
   }
 
   update(sid, sms: SMS) {
-    delete sms["id"]
+    delete sms['id'];
     return this.afs.doc(this.serviceUrl + '/' + sid).update({
       ...sms
     });
@@ -70,29 +88,43 @@ export class SmsService {
     return this.afs.doc(this.serviceUrl + '/' + sid).delete();
   }
 
-
   sendRegistrationSMS(customer: Customer, company: Company) {
     if (company.smsQuota > 0) {
       company.smsQuota--;
-      let message = 'Dear ' + customer.name + ', Welcome to ' + company.companyName + '. You have successfully registered for our company service. Thank you for having faith in us-' + company.telephone;
-      let sms = new SMS(null, null, null, new Date(), this.companyId, this.userId, customer.phone, message, 'REGISTRATION SMS : ' + company.smsQuota);
+      let message =
+        'Dear ' +
+        customer.name +
+        ', Welcome to ' +
+        company.companyName +
+        '. You have successfully registered for our company service. Thank you for having faith in us-' +
+        company.telephone;
+      let sms = new SMS(
+        null,
+        null,
+        null,
+        new Date(),
+        this.companyId,
+        this.userId,
+        customer.phone,
+        message,
+        'REGISTRATION SMS : ' + company.smsQuota
+      );
 
-      this.smsApi.sendSMSUrl(customer.phone, message, false)
-        .subscribe(
-          data => {
-            console.log('SMS send ok; ', data);
-          },
-          error => {
-            console.log('Error sms could not send', error);
-          }
-        );
+      this.smsApi.sendSMSUrl(customer.phone, message, false).subscribe(
+        data => {
+          console.log('SMS send ok; ', data);
+        },
+        error => {
+          console.log('Error sms could not send', error);
+        }
+      );
 
-      this.create(sms)
-        .then(ref => console.log('SMS history created'));
+      this.create(sms).then(ref => console.log('SMS history created'));
 
-      this.companyService.update(company.id, company)
+      console.log(company);
+      this.companyService
+        .update(company.id, company)
         .then(ref => console.log('company sms quota updated'));
     }
   }
-
 }
