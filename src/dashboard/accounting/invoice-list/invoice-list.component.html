@@ -2,8 +2,8 @@
   <div class="row mt-2">
     <div class="col-md-4 p-0 p-md-3 d-print-none">
       <div class="border rounded p-2 mb-2 cus-list" *ngFor="let inv of invoices" (click)="loadInvoice(inv.id)">
-        {{inv?.date | date }}
-        <small>{{ inv?.deposit }}</small>
+        {{inv?.date.toDate() | date }} (
+        <small>{{ inv?.deposit }}</small>)
       </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
@@ -44,7 +44,7 @@
 
           <div class="col-md-4 col-sm-4">
             <h5 class="text-center">Invoice</h5>
-            <small> Date : {{invoice?.date | date:'yyyy-MM-dd'}}
+            <small> Date : {{invoice?.date.toDate() | date:'yyyy-MM-dd'}}
               <br> ID : {{invoice?.id}} </small>
           </div>
 

@@ -3,10 +3,11 @@
     <div class="col-12 border p-0">
       <div class="meals__title">
         <h3>
-            <i class="fa fa-users"></i> Active Customers <small>[Total : {{(customers$ | async)?.length}}] </small> 
+          <i class="fa fa-users"></i> Active Customers
+          <small>[Total : {{customers?.length}}] </small>
         </h3>
       </div>
-      <div *ngIf="customers$ | async as customers; else loading">
+      <div *ngIf="customers; else loading">
         <div class="message" *ngIf="!customers.length">
           <i class="fa fa-frown-o"></i>&nbsp; No customer added yet
         </div>

@@ -45,7 +45,7 @@ import { CustomersComponent } from './containers/customers/customers.component';
             canActivate: [IspAuthGuard]
           },
           {
-            path: 'customer-images/:id',
+            path: 'images/:id',
             component: CustomerImagesComponent,
             canActivate: [IspAuthGuard]
           },

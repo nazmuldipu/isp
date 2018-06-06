@@ -3,7 +3,6 @@ import { Company } from 'shared/models/company.model';
 import { CompanyService } from 'shared/services/company.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { Store } from 'store';
 
 @Component({
   selector: 'app-add-company',
@@ -11,62 +10,58 @@ import { Store } from 'store';
   styleUrls: ['./add-company.component.css']
 })
 export class AddCompanyComponent implements OnInit, OnDestroy {
-  companies$: Observable<Company[]>;
-  subscriptions: Subscription[] = [];
+  companies: Company[];
+  subscriptions: Subscription;
 
   company: Company;
   message = '';
   errorMessage = '';
 
-  constructor(
-    private store: Store,
-    private companyService: CompanyService
-  ) {
+  constructor(private companyService: CompanyService) {
     this.company = new Company();
   }
 
   async ngOnInit() {
-    this.companies$ = this.store.select<Company[]>('company');
-    this.subscriptions = [
-      this.companyService.company$.subscribe()
-    ]
+    this.subscriptions = this.companyService.getAll().subscribe(
+      data => {
+        this.companies = data;
+      },
+      error => console.log(error)
+    );
   }
 
-  ngOnDestroy(){
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   editCompany(id: string) {
     console.log(id);
-    this.companies$.subscribe(
-      data => {
-        const ecompany = data.find(com => com.id === id) as Company;
-        Object.assign(this.company, ecompany);
-      }
-    )
+    const ecompany = this.companies.find(com => com.id === id) as Company;
+    Object.assign(this.company, ecompany);
   }
 
   save(company) {
     if (!this.company.id) {
-      this.companyService.create(company)
+      this.companyService
+        .create(company)
         .then(() => {
-          this.message = "Company Saved"
+          this.message = 'Company Saved';
         })
-        .catch((error) => {
-          this.errorMessage = "Company SAVING ERROR ! ", error;
-          console.log("Company SAVING ERROR ! ", error);
+        .catch(error => {
+          (this.errorMessage = 'Company SAVING ERROR ! '), error;
+          console.log('Company SAVING ERROR ! ', error);
         });
 
       this.clear();
-    }
-    else {
-      this.companyService.update(this.company.id, this.company)
+    } else {
+      this.companyService
+        .update(this.company.id, this.company)
         .then(() => {
-          this.message = "Company Updated"
+          this.message = 'Company Updated';
         })
-        .catch((error) => {
-          this.errorMessage = "Company Updating ERROR ! ", error;
-          console.log("Company Updating ERROR ! ", error);
+        .catch(error => {
+          (this.errorMessage = 'Company Updating ERROR ! '), error;
+          console.log('Company Updating ERROR ! ', error);
         });
       this.clear();
     }
@@ -74,13 +69,14 @@ export class AddCompanyComponent implements OnInit, OnDestroy {
 
   delete(id) {
     if (confirm('Are you sure to delete')) {
-      this.companyService.delete(id)
+      this.companyService
+        .delete(id)
         .then(() => {
-          this.message = "Company Delete"
+          this.message = 'Company Delete';
         })
-        .catch((error) => {
-          this.errorMessage = "Company Deleting ERROR ! ", error;
-          console.log("Company Deleting ERROR ! ", error);
+        .catch(error => {
+          (this.errorMessage = 'Company Deleting ERROR ! '), error;
+          console.log('Company Deleting ERROR ! ', error);
         });
       this.clear();
     }
@@ -91,5 +87,4 @@ export class AddCompanyComponent implements OnInit, OnDestroy {
     this.message = '';
     this.errorMessage = '';
   }
-
 }

@@ -4,36 +4,13 @@ import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
-import { Store } from 'store';
 
 import { User } from '../models/user.model';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
-  users$: Observable<any> = this.afs
-    .collection<User>('users')
-    .snapshotChanges()
-    .pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data() as User;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      }),
-      tap(next => this.store.set('users', next))
-    );
-  // .map(actions => {
-  //   return actions.map(a => {
-  //     const data = a.payload.doc.data() as User;
-  //     const id = a.payload.doc.id;
-  //     return { id, ...data };
-  //   });
-  // })
-  // .do(next => this.store.set('users', next));
-
-  constructor(private store: Store, private afs: AngularFirestore) {}
+  constructor(private afs: AngularFirestore) {}
 
   create(user) {
     return this.afs.collection('users').add(user);
@@ -51,7 +28,18 @@ export class UserService {
   }
 
   getAll() {
-    return this.afs.collection('users').snapshotChanges();
+    return this.afs
+      .collection('users')
+      .snapshotChanges()
+      .pipe(
+        map(actions =>
+          actions.map(a => {
+            const data = a.payload.doc.data() as User;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
   }
 
   get(uid) {

@@ -40,23 +40,25 @@ export class SendSmsComponent implements OnInit {
   async ngOnInit() {
     if (this.companyId) {
       // Load company Info
-      this.subscription = await this.companyService.get(this.companyId).take(1)
+      this.subscription = await this.companyService
+        .get(this.companyId)
+        .take(1)
         .subscribe(
-          data => this.company = data,
-          error => console.log('Company info loading error', error),
-      )
+          data => (this.company = data),
+          error => console.log('Company info loading error', error)
+        );
 
       // load activeCustomer
-      this.subscription = await this.customerService.customers$
+      this.subscription = await this.customerService
+        .getActiveCustomers(this.companyId)
         .subscribe(item => {
           this.customers = item.filter(cus => cus.active == true);
         });
 
       // Load user id
-      this.subscription = await this.auth.user$
-        .subscribe(usr => {
-          this.userId = usr.uid;
-        })
+      this.subscription = await this.auth.user$.subscribe(usr => {
+        this.userId = usr.uid;
+      });
     }
   }
 
@@ -69,46 +71,62 @@ export class SendSmsComponent implements OnInit {
     if (quota > this.customers.length) {
       this.customers.forEach(cus => {
         time.setSeconds(time.getSeconds() + 1);
-        let smsmessage = 'Dear customer, your current balance is ' + cus.balance + 'taka, please pay your monthly bill. Thank you. Regards-' + this.company.companyName + this.company.telephone;
-        let sms = new SMS('', null, null, new Date(), this.companyId, this.userId, cus.phone, smsmessage, 'SEND SMS ' + --quota);
+        let smsmessage =
+          'Dear customer, your current balance is ' +
+          cus.balance +
+          'taka, please pay your monthly bill. Thank you. Regards-' +
+          this.company.companyName +
+          this.company.telephone;
+        let sms = new SMS(
+          '',
+          null,
+          null,
+          new Date(),
+          this.companyId,
+          this.userId,
+          cus.phone,
+          smsmessage,
+          'SEND SMS ' + --quota
+        );
         saveSmsResult.push(this.smsService.create(sms));
-        smsURL.push(this.smsApiService.sendSMSUrl(cus.phone, smsmessage, false));
+        smsURL.push(
+          this.smsApiService.sendSMSUrl(cus.phone, smsmessage, false)
+        );
       });
 
-      //update company SMS QUOTA 
+      //update company SMS QUOTA
       this.company.smsQuota = quota;
-      saveSmsResult.push(this.companyService.update(this.companyId, this.company));
-      Observable.forkJoin(smsURL)//Send sms
+      saveSmsResult.push(
+        this.companyService.update(this.companyId, this.company)
+      );
+      Observable.forkJoin(smsURL) //Send sms
         .subscribe(
           data => {
             this.showSpiner = false;
             console.log(data);
           },
           error => {
-            console.log(error)
+            console.log(error);
           }
         );
 
-      Observable.forkJoin(saveSmsResult)//Observe save SMS and update compnay SMS quota
+      Observable.forkJoin(saveSmsResult) //Observe save SMS and update compnay SMS quota
         .subscribe(
           data => {
             console.log(data);
           },
           error => {
-            console.log(error)
+            console.log(error);
           }
         );
-
-    }
-    else {
+    } else {
       this.errorMessage = 'Sorry! no sms quota, buy sms first';
     }
   }
 
-  clear(){
+  clear() {
     this.showSpiner = false;
     this.message = '';
     this.errorMessage = '';
   }
-
 }

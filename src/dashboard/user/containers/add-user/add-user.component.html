@@ -2,7 +2,7 @@
   <div class="row mt-2">
 
     <div class="col-12 col-md-7">
-      <user-list-child [users]="users$ | async" (edit)="editUser($event)"></user-list-child>
+      <user-list-child [users]="users" (edit)="editUser($event)"></user-list-child>
     </div>
 
     <div class="col-12 col-md-5 p-0 pt-3 px-md-2 pt-md-0">
@@ -16,7 +16,7 @@
         <button class="btn btn-sm btn-warning" (click)="clear()">clear</button>
       </div>
 
-      <user-form *ngIf="showForm; else loading" [user]="user" [companies]="companies$ | async" (create)="createUser($event)" (update)="updateUser($event)"
+      <user-form *ngIf="showForm; else loading" [user]="user" [companies]="companies" (create)="createUser($event)" (update)="updateUser($event)"
         (remove)="removeUser($event)"></user-form>
 
       <ng-template #loading>

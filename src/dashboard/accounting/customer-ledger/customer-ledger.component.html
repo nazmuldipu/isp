@@ -4,7 +4,9 @@
       <input class="form-control mb-3" type="text" (keyup)="search($event)" placeholder="search customer...">
       <div *ngIf="customers?.length > 0; else noInfo">
         <div class="border rounded p-2 mb-2 cus-list" *ngFor="let cus of customers" (click)="loadCustomerLedger(cus.id)">
-          <h4 class="mb-1">{{cus?.name}} <small>({{ cus?.userName }})</small></h4>
+          <h4 class="mb-1">{{cus?.name}}
+            <small>({{ cus?.userName }})</small>
+          </h4>
           <p class="mb-0">
             Phone: {{cus?.phone}}
           </p>
@@ -20,7 +22,7 @@
     <div class="col-md-8 p-0 p-md-3" *ngIf="ledgers.length>0">
 
       <h3 class="text-center">{{customer.name}} ledger</h3>
-      <table class="table table-striped table-responsive-sm">
+      <table *ngIf="!showLoading; else loading" class="table table-striped table-responsive-sm">
         <thead class="thead-dark">
           <tr>
             <th>Date</th>
@@ -32,16 +34,23 @@
         </thead>
         <!-- {{patient.date | date:'dd-MM-yyyy'}} -->
         <tbody>
-            <tr *ngFor="let ledger of ledgers">
-                <td>{{ ledger?.date | date:'dd-MM-yyyy'}}</td>
-                <td>{{ ledger?.explanation }}</td>
-                <td>{{ ledger?.debit }}</td>
-                <td>{{ ledger?.credit }}</td>
-                <td>{{ ledger?.balance }}</td>
-            </tr>
+          <tr *ngFor="let ledger of ledgers">
+            <td>{{ ledger?.date.toDate() | date:'dd-MM-yyyy'}}</td>
+            <td>{{ ledger?.explanation }}</td>
+            <td>{{ ledger?.debit }}</td>
+            <td>{{ ledger?.credit }}</td>
+            <td>{{ ledger?.balance }}</td>
+          </tr>
         </tbody>
       </table>
+      <ng-template #loading>
+        <div class="text-center my-4">
+          <i class="fa fa-refresh"></i> Leadger loading ...
+        </div>
+      </ng-template>
     </div>
+
+
 
   </div>
 </div>

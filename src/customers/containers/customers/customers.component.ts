@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Customer } from 'shared/models/customer.model';
 import { CustomerService } from 'shared/services/customer.service';
-import { Store } from 'store';
 
 @Component({
   selector: 'customers',
@@ -17,17 +16,27 @@ export class CustomersComponent implements OnInit, OnDestroy {
   customers$: Observable<Customer[]>;
   subscription: Subscription;
 
+  customers: Customer[];
+  companyId;
+
   constructor(
-    private store: Store,
     private router: Router,
     private customerService: CustomerService
-  ) {}
+  ) {
+    this.companyId = localStorage.getItem('companyId');
+  }
 
   async ngOnInit() {
-    this.customers$ = this.store.select<Customer[]>('customer').map(cus => {
-      return cus ? cus.filter(c => c.active === true) : null;
-    });
-    this.subscription = this.customerService.customers$.subscribe();
+    this.subscription = await this.customerService
+      .getActiveCustomers(this.companyId)
+      .subscribe(
+        data => {
+          this.customers = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnDestroy() {
@@ -35,7 +44,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
   }
 
   showImage(id: string) {
-    this.router.navigate(['/dashboard/customer/customer-images', id]);
+    this.router.navigate(['customers/images', id]);
   }
 
   deactivate(customer: Customer) {

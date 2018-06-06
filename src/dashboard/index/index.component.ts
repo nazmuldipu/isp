@@ -5,7 +5,6 @@ import { Company } from 'shared/models/company.model';
 import { Customer } from 'shared/models/customer.model';
 import { CompanyService } from 'shared/services/company.service';
 import { CustomerService } from 'shared/services/customer.service';
-import { Store } from 'store';
 
 @Component({
   selector: 'app-index',
@@ -14,14 +13,13 @@ import { Store } from 'store';
 })
 export class IndexComponent implements OnInit, OnDestroy {
   customers$: Observable<Customer[]>;
-  subscriptions: Subscription[] = [];
+  subscription: Subscription;
 
   companyId;
   company: Company;
   customers: Customer[] = [];
 
   constructor(
-    private store: Store,
     private customerService: CustomerService,
     private companyService: CompanyService
   ) {
@@ -29,15 +27,21 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.customers$ = this.store.select<Customer[]>('customer');
-    this.subscriptions = [
-      this.customerService.customers$.subscribe(),
-      this.companyService.get(this.companyId).subscribe(data => this.company = data),
-    ]
+    this.subscription = await this.customerService
+      .getAll(this.companyId)
+      .subscribe(
+        data => {
+          this.customers = data;
+        },
+        error => console.log(error)
+      );
+
+    this.subscription = await this.companyService
+      .get(this.companyId)
+      .subscribe(data => (this.company = data as Company));
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscription.unsubscribe();
   }
-
 }

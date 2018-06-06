@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row mt-2">
     <div class="col-12 col-md-7">
-      <company-list-child [companies]="companies$ | async" (edit)="editCompany($event)"></company-list-child>
+      <company-list-child [companies]="companies" (edit)="editCompany($event)"></company-list-child>
     </div>
     <div class="col-12 col-md-5 p-0 pt-3 px-md-2 pt-md-0">
       <div class="raised">

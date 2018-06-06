@@ -5,7 +5,6 @@ import { UserService } from 'shared/services/user.service';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from 'shared/models/user.model';
 import { Observable } from 'rxjs/Observable';
-import { Store } from 'store';
 
 @Component({
   selector: 'app-user-list',
@@ -13,19 +12,26 @@ import { Store } from 'store';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit, OnDestroy {
-  users$: Observable<User[]>;
+  // users$: Observable<User[]>;
+  users: User[];
   subscription: Subscription;
 
   constructor(
-    private store: Store,
+    // private store: Store,
     private userService: UserService
-  ) {
-
-  }
+  ) {}
 
   async ngOnInit() {
-    this.users$ = this.store.select<User[]>('users');
-    this.subscription = this.userService.users$.subscribe();
+    this.subscription = await this.userService.getAll().subscribe(
+      data => {
+        this.users = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    // this.users$ = this.store.select<User[]>('users');
+    // this.subscription = this.userService.users$.subscribe();
   }
 
   ngOnDestroy() {

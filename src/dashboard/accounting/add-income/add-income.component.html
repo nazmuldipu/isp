@@ -16,7 +16,7 @@
         <!-- {{patient.date | date:'dd-MM-yyyy'}} -->
         <tbody>
           <tr *ngFor="let cash of cashbooks">
-            <td>{{ cash?.date | date:'dd-MM-yyyy'}}</td>
+            <td>{{ cash?.date.toDate() | date:'dd-MM-yyyy'}}</td>
             <td>{{ cash?.explanation }}</td>
             <td>{{ cash?.debit }}</td>
             <td>{{ cash?.credit }}</td>
@@ -90,8 +90,8 @@
             <small class="form-text text-danger" *ngIf="debit.invalid && debit.touched">Amount Required</small>
           </div>
 
-          <button type="submit" class="btn btn-primary" [disabled]="addInc.invalid">Save</button>
-          <button type="button" class="btn btn-warning" (click)="clear()">Clear</button>
+          <button type="submit" class="btn btn-primary mx-2" [disabled]="addInc.invalid">Save</button>
+          <button type="button" class="btn btn-warning mx-2" (click)="clear()">Clear</button>
         </form>
       </div>
     </div>

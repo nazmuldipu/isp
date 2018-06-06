@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Customer } from 'shared/models/customer.model';
 import { CustomerService } from 'shared/services/customer.service';
-import { Store } from 'store';
 
 @Component({
   selector: 'app-inactive-customer-list',
@@ -14,21 +13,29 @@ import { Store } from 'store';
   styleUrls: ['./inactive-customer-list.component.scss']
 })
 export class InactiveCustomerListComponent implements OnInit, OnDestroy {
-  customers$: Observable<Customer[]>;
+  // customers$: Observable<Customer[]>;
   subscription: Subscription;
+  customers: Customer[];
+  companyId;
 
   constructor(
-    private store: Store,
     private router: Router,
-    private customerService: CustomerService,
-  ) { }
+    private customerService: CustomerService
+  ) {
+    this.companyId = localStorage.getItem('companyId');
+  }
 
-  ngOnInit() {
-    this.customers$ = this.store.select<Customer[]>('customer')
-      .map(cus => {
-        return (cus ? cus.filter(c => c.active === false) : null);
-      });
-    this.subscription = this.customerService.customers$.subscribe();
+  async ngOnInit() {
+    this.subscription = await this.customerService
+      .getInactiveCustomers(this.companyId)
+      .subscribe(
+        data => {
+          this.customers = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnDestroy() {
@@ -41,7 +48,8 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
 
   activate(customer: Customer) {
     customer.active = true;
-    this.customerService.update(customer.id, customer).then(() => console.log('Customer activated'));
+    this.customerService
+      .update(customer.id, customer)
+      .then(() => console.log('Customer activated'));
   }
-
 }

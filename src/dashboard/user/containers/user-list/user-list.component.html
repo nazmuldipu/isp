@@ -2,7 +2,7 @@
   <div class="row mt-2">
 
     <div class="col-12 col-md-7">
-      <div *ngIf="users$ | async as users; else loading">
+      <div *ngIf="users; else loading">
         <user-list-child [users]="users"></user-list-child>
       </div>
       <ng-template #loading>

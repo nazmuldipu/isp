@@ -5,8 +5,8 @@ import { Ng2ImgMaxService } from 'ng2-img-max';
 import { Customer } from 'shared/models/customer.model';
 import { CustomerService } from 'shared/services/customer.service';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from '@firebase/util';
 import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-customer-images',
@@ -17,6 +17,7 @@ export class CustomerImagesComponent implements OnInit, OnDestroy {
   id;
   customer: Customer;
   uploadPercent: any;
+  downloadURL: Observable<string>;
   subscription: Subscription;
 
   constructor(
@@ -29,10 +30,12 @@ export class CustomerImagesComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.subscription = await this.customerService.customers$.subscribe(
-      item => {
-        this.customer = item.find(cus => cus.id == this.id);
-      }
+    this.subscription = await this.customerService.get(this.id).subscribe(
+      data => {
+        this.customer = data as Customer;
+        this.customer.id = this.id;
+      },
+      error => console.log(error)
     );
   }
 
@@ -69,28 +72,36 @@ export class CustomerImagesComponent implements OnInit, OnDestroy {
   uploadToFireStorage(image, url, mode) {
     const fileRef = this.storage.ref(url);
     const task = this.storage.upload(url, image);
+
     // observe percentage changes
     this.uploadPercent = task.percentageChanges();
-    let downloadURL: any;
 
     task
       .snapshotChanges()
-      .pipe(finalize(() => (downloadURL = fileRef.getDownloadURL())))
-      .subscribe(() => {
-        console.log(downloadURL);
-      });
-    // task.downloadURL().subscribe(data => {
-    //   console.log(data);
-    //   switch (mode) {
-    //     case 0: this.customer.imageUrl = data; break;
-    //     case 1: this.customer.idImagesUrl1 = data; break;
-    //     case 2: this.customer.idImagesUrl2 = data; break;
-    //   }
-
-    //   this.customerService.update(this.customer.id, this.customer)
-    //     .then(data => {
-    //       console.log('😢 Image url updated');
-    //     })
-    // })
+      .pipe(
+        finalize(() => {
+          this.downloadURL = fileRef.getDownloadURL();
+          this.downloadURL.subscribe(url => {
+            switch (mode) {
+              case 0:
+                this.customer.imageUrl = url;
+                break;
+              case 1:
+                this.customer.idImagesUrl1 = url;
+                break;
+              case 2:
+                this.customer.idImagesUrl2 = url;
+                break;
+            }
+            console.log('update service');
+            this.customerService
+              .update(this.customer.id, this.customer)
+              .then(data => {
+                console.log('😢 Image url updated');
+              });
+          });
+        })
+      )
+      .subscribe();
   }
 }

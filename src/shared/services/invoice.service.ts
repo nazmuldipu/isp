@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Invoice } from 'shared/models/invoice.model';
 import { OrderByDirection } from '@firebase/firestore-types';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class InvoiceService {
@@ -17,6 +18,7 @@ export class InvoiceService {
   create(invoice: Invoice) {
     delete invoice['id'];
     invoice.createdDate = new Date();
+    console.log(invoice.createdDate);
     invoice.createdBy = this.userId;
     return this.afs.collection(this.serviceUrl).add({
       ...invoice
@@ -46,7 +48,16 @@ export class InvoiceService {
           .limit(limit)
           .startAfter(startAfter)
       )
-      .snapshotChanges();
+      .snapshotChanges()
+      .pipe(
+        map(actions =>
+          actions.map(a => {
+            const data = a.payload.doc.data() as Invoice;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
   }
 
   update(iid, invoice: Invoice) {

@@ -12,7 +12,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let sm of smsHistory">
-            <td>{{ sm.date | date:'yyyy-MM-dd HH:mm:ss a '}}</td>
+            <td>{{ sm.date.toDate() | date:'yyyy-MM-dd HH:mm:ss a '}}</td>
             <!-- <td>{{getUserName(sm.userId)}}</td> -->
             <td>{{ sm.phone }}</td>
             <td>{{ sm.notes }}</td>

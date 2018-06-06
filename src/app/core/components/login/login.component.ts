@@ -3,6 +3,7 @@ import { User } from 'shared/models/user.model';
 import { Router } from '@angular/router';
 import { AuthService } from 'shared/services/auth.service';
 import { UserService } from 'shared/services/user.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,6 @@ import { UserService } from 'shared/services/user.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   user: User;
   errorMessage;
   appUser;
@@ -23,20 +23,20 @@ export class LoginComponent implements OnInit {
     this.user = new User();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   login(user: User) {
-    this.auth.loginWithEmail(user.email, user.password)
+    this.auth
+      .loginWithEmail(user.email, user.password)
       .then(data => {
-        localStorage.setItem('userId', data.uid);
+        localStorage.setItem('userId', data.user.uid);
         let returnUrl = '/';
-        if (data.emailVerified)
-          returnUrl = localStorage.getItem('returnUrl');
-        else
-          this.auth.sendVerificationEmail();
+        if (data.emailVerified) returnUrl = localStorage.getItem('returnUrl');
+        else this.auth.sendVerificationEmail();
 
-        this.userService.get(data.uid).take(1)
+        this.userService
+          .get(data.user.uid)
+          .take(1)
           .subscribe(udata => {
             this.appUser = udata;
             if (this.appUser.companyId) {
@@ -49,6 +49,6 @@ export class LoginComponent implements OnInit {
       .catch(error => {
         console.log('LOGIN ERROR', error);
         this.errorMessage = error.message;
-      })
+      });
   }
 }

@@ -10,7 +10,6 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AdminAuthGuard } from 'shared/services/admin-auth-guard.service';
 import { AuthGuard } from 'shared/services/auth-guard.service';
 import { SharedModule } from 'shared/shared.module';
-import { Store } from 'store';
 
 import { environment } from 'environments/environment';
 import { AppComponent } from './app.component';
@@ -65,7 +64,7 @@ import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
       { path: '**', redirectTo: '/' }
     ])
   ],
-  providers: [AuthService, UserService, Store],
+  providers: [AuthService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

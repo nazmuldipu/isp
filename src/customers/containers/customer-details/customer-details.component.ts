@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Customer } from 'shared/models/customer.model';
 import { CustomerService } from 'shared/services/customer.service';
-import { Store } from 'store';
 
 @Component({
   selector: 'app-customer-details',
@@ -19,7 +18,6 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   constructor(
-    private store: Store,
     private route: ActivatedRoute,
     private customerService: CustomerService
   ) {
@@ -28,17 +26,10 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     if (this.id) {
-      this.subscriptions.push(
-        await this.store
-          .select<Customer[]>('customer')
-          .map(cus => {
-            return cus ? cus.find(c => c.id === this.id) : null;
-          })
-          .subscribe(data => {
-            this.customer = data as Customer;
-          })
-      );
-      this.subscriptions.push(this.customerService.customers$.subscribe());
+      this.customerService.get(this.id).subscribe(data => {
+        this.customer = data as Customer;
+        this.customer.id = this.id;
+      });
     }
   }
 

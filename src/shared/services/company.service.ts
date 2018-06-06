@@ -5,27 +5,12 @@ import {
 } from 'angularfire2/firestore';
 import { Company } from 'shared/models/company.model';
 import { Observable } from 'rxjs';
-import { Store } from 'store';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CompanyService {
-  company$: Observable<any> = this.afs
-    .collection<Company>('company')
-    .snapshotChanges()
-    .pipe(
-      map(actions =>
-        actions.map(a => {
-          const data = a.payload.doc.data() as Company;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        })
-      ),
-      tap(next => this.store.set('company', next))
-    );
-
   userId;
-  constructor(private store: Store, private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore) {
     this.userId = localStorage.getItem('userId');
   }
 
@@ -39,7 +24,18 @@ export class CompanyService {
   }
 
   getAll() {
-    return this.afs.collection('company').snapshotChanges();
+    return this.afs
+      .collection('company')
+      .snapshotChanges()
+      .pipe(
+        map(actions =>
+          actions.map(a => {
+            const data = a.payload.doc.data() as Company;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
   }
 
   get(cid) {

@@ -16,7 +16,7 @@
 
         <tbody>
           <tr *ngFor="let cash of cashbooks">
-            <td>{{ cash?.date | date:'yyyy-MM-dd HH:mm'}}</td>
+            <td>{{ cash?.date.toDate() | date:'dd-MM-yyyy HH:mm'}}</td>
             <td>{{ cash?.explanation }}</td>
             <td>{{ cash?.debit }}</td>
             <td>{{ cash?.credit }}</td>

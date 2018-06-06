@@ -12,7 +12,6 @@ import { CustomerLedgerService } from 'shared/services/customer-ledger.service';
 import { CustomerLedger } from 'shared/models/customer-ledger.model';
 import { SmsService } from 'shared/services/sms.service';
 import { CompanyService } from 'shared/services/company.service';
-import { Store } from 'store';
 
 @Component({
   selector: 'app-add-customer',
@@ -33,7 +32,6 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   constructor(
-    private store: Store,
     private companyService: CompanyService,
     private authService: AuthService,
     private customerService: CustomerService,
@@ -57,10 +55,8 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // Load number of customers
-    this.store.select<Customer[]>('customer').subscribe(data => {
-      this.numberOfCustomers = data ? data.length : 0;
-    });
-    this.subscription = this.customerService.customers$.subscribe();
+
+    // this.subscription = this.customerService.customers$.subscribe();
     // Load company info
     this.subscription = await this.companyService.get(this.companyId).subscribe(
       data => {
@@ -107,62 +103,62 @@ export class AddCustomerComponent implements OnInit, OnDestroy {
     this.customer.balance =
       this.customer.monthlyBill + this.customer.connectionFee;
     let newCustomer = JSON.parse(JSON.stringify(this.customer)); //remove all null values from object
-    if (this.numberOfCustomers < this.company.maximumNumberOfCustomer) {
-      if (!newCustomer.id) {
-        this.customerService
-          .create(newCustomer)
-          .then(ref => {
-            this.message = 'Customer Saved; ';
+    // if (this.numberOfCustomers < this.company.maximumNumberOfCustomer) {
+    if (!newCustomer.id) {
+      this.customerService
+        .create(newCustomer)
+        .then(ref => {
+          this.message = 'Customer Saved; ';
 
-            //Send Registration SMS
-            this.smsService.sendRegistrationSMS(newCustomer, this.company);
+          //Send Registration SMS
+          this.smsService.sendRegistrationSMS(newCustomer, this.company);
 
-            //after create new customer create customer ledger
-            let cLedger = new CustomerLedger(
-              null,
-              null,
-              null,
-              ref.id,
-              new Date(),
-              'Connection fee + One month bill',
-              null,
-              this.customer.balance,
-              0,
-              this.customer.balance
-            );
-            delete cLedger['id'];
-            cLedger = JSON.parse(JSON.stringify(cLedger)); //remove all null values from object
-            cLedger.date = new Date();
-            this.customerLedgerService
-              .create(cLedger)
-              .then(() => {
-                this.showSpiner = false;
-                this.message += 'Customer Ledger created';
-                this.customer = new Customer();
-                this.customer.prAddress = new Address();
-              })
-              .catch(error => console.log('customer ledger could not save; '));
+          //after create new customer create customer ledger
+          let cLedger = new CustomerLedger(
+            null,
+            null,
+            null,
+            ref.id,
+            new Date(),
+            'Connection fee + One month bill',
+            null,
+            this.customer.balance,
+            0,
+            this.customer.balance
+          );
+          delete cLedger['id'];
+          cLedger = JSON.parse(JSON.stringify(cLedger)); //remove all null values from object
+          cLedger.date = new Date();
+          this.customerLedgerService
+            .create(cLedger)
+            .then(() => {
+              this.showSpiner = false;
+              this.message += 'Customer Ledger created';
+              this.customer = new Customer();
+              this.customer.prAddress = new Address();
+            })
+            .catch(error => console.log('customer ledger could not save; '));
 
-            // this.router.navigate(['/dashboard/customer/customer-list']);
-          })
-          .catch(error => {
-            (this.errorMessage = 'Customer SAVING ERROR ! '), error;
-            console.log('Customer SAVING ERROR ! ', error);
-          });
-      } else {
-        this.customerService
-          .update(newCustomer.id, newCustomer)
-          .then(() => {
-            this.message = 'Customer Updated';
-            this.router.navigate(['/dashboard/customer/customer-list']);
-          })
-          .catch(error => {
-            (this.errorMessage = 'Customer Updating ERROR ! '), error;
-            console.log('Customer Updating ERROR ! ', error);
-          });
-        this.clear();
-      }
+          // this.router.navigate(['/dashboard/customer/customer-list']);
+        })
+        .catch(error => {
+          (this.errorMessage = 'Customer SAVING ERROR ! '), error;
+          console.log('Customer SAVING ERROR ! ', error);
+        });
+    } else {
+      this.customerService
+        .update(newCustomer.id, newCustomer)
+        .then(() => {
+          this.message = 'Customer Updated';
+          this.router.navigate(['/customers']);
+        })
+        .catch(error => {
+          (this.errorMessage = 'Customer Updating ERROR ! '), error;
+          console.log('Customer Updating ERROR ! ', error);
+        });
+      this.clear();
     }
+    // }
   }
 
   clear() {
