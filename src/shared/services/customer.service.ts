@@ -102,9 +102,9 @@ export class CustomerService {
   }
 
   update(cid, customer: Customer) {
-    delete customer['id'];
+    const { id, ...value } = customer;
     return this.afs.doc(this.serviceUrl + '/' + cid).update({
-      ...customer
+      ...value
     });
   }
 

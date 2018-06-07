@@ -1,45 +1,27 @@
-import 'rxjs/add/operator/map';
-
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Rx';
+import * as fromStore from '../../store';
+
 import { Customer } from 'shared/models/customer.model';
-import { CustomerService } from 'shared/services/customer.service';
 
 @Component({
   selector: 'app-inactive-customer-list',
   templateUrl: './inactive-customer-list.component.html',
   styleUrls: ['./inactive-customer-list.component.scss']
 })
-export class InactiveCustomerListComponent implements OnInit, OnDestroy {
-  // customers$: Observable<Customer[]>;
-  subscription: Subscription;
-  customers: Customer[];
-  companyId;
+export class InactiveCustomerListComponent implements OnInit {
+  customers$: Observable<Customer[]>;
 
   constructor(
     private router: Router,
-    private customerService: CustomerService
-  ) {
-    this.companyId = localStorage.getItem('companyId');
-  }
+    private store: Store<fromStore.ProductsState>
+  ) {}
 
   async ngOnInit() {
-    this.subscription = await this.customerService
-      .getInactiveCustomers(this.companyId)
-      .subscribe(
-        data => {
-          this.customers = data;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.customers$ = this.store.select(fromStore.getAllInactiveCustomer);
   }
 
   showImage(id: string) {
@@ -47,9 +29,10 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
   }
 
   activate(customer: Customer) {
-    customer.active = true;
-    this.customerService
-      .update(customer.id, customer)
-      .then(() => console.log('Customer activated'));
+    const value = {
+      ...customer,
+      active: true
+    };
+    this.store.dispatch(new fromStore.UpdateCustomer(value));
   }
 }

@@ -8,21 +8,27 @@ import { SmsService } from 'shared/services/sms.service';
 import { Company } from 'shared/models/company.model';
 import { CompanyService } from 'shared/services/company.service';
 
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import * as fromStore from '../../store';
+
 @Component({
   selector: 'app-add-customer',
   templateUrl: './add-customer.component.html',
   styleUrls: ['./add-customer.component.scss']
 })
 export class AddCustomerComponent implements OnInit {
+  customer$: Observable<Customer>;
+
   companyId;
   customerId;
-  customer: Customer;
   company: Company;
   showSpiner = false;
   message = '';
   errorMessage = '';
 
   constructor(
+    private store: Store<fromStore.ProductsState>,
     private customerService: CustomerService,
     private companyService: CompanyService,
     private customerLedgerService: CustomerLedgerService,
@@ -31,13 +37,10 @@ export class AddCustomerComponent implements OnInit {
     private smsService: SmsService
   ) {
     this.companyId = localStorage.getItem('companyId');
-    this.customerId = activeRoute.snapshot.params['id'];
   }
 
   async ngOnInit() {
-    if (this.customerId) {
-      this.getCustomer(this.customerId);
-    }
+    this.customer$ = this.store.select(fromStore.getSelectedCustomer);
 
     // Load companyinfo for sms
     if (this.companyId) {
@@ -55,15 +58,15 @@ export class AddCustomerComponent implements OnInit {
       });
   }
 
-  async getCustomer(id) {
-    await this.customerService
-      .get(id)
-      .take(1)
-      .subscribe(data => {
-        this.customer = data as Customer;
-        this.customer.id = id;
-      });
-  }
+  // async getCustomer(id) {
+  //   await this.customerService
+  //     .get(id)
+  //     .take(1)
+  //     .subscribe(data => {
+  //       this.customer = data as Customer;
+  //       this.customer.id = id;
+  //     });
+  // }
 
   onCreate(event: Customer) {
     this.showSpiner = true;

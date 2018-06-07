@@ -93,7 +93,11 @@ export const ROUTES: Routes = [
     StoreRouterConnectingModule,
     dev.development ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [AuthService, UserService],
+  providers: [
+    AuthService,
+    UserService,
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

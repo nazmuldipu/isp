@@ -1,46 +1,26 @@
-import 'rxjs/add/operator/map';
-
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Rx';
 import { Customer } from 'shared/models/customer.model';
-import { CustomerService } from 'shared/services/customer.service';
+
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'customers',
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss']
 })
-export class CustomersComponent implements OnInit, OnDestroy {
+export class CustomersComponent implements OnInit {
   customers$: Observable<Customer[]>;
-  subscription: Subscription;
-
-  customers: Customer[];
-  companyId;
 
   constructor(
     private router: Router,
-    private customerService: CustomerService
-  ) {
-    this.companyId = localStorage.getItem('companyId');
-  }
+    private store: Store<fromStore.ProductsState>
+  ) {}
 
   async ngOnInit() {
-    this.subscription = await this.customerService
-      .getActiveCustomers(this.companyId)
-      .subscribe(
-        data => {
-          this.customers = data;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.customers$ = this.store.select(fromStore.getAllActiveCustomer);
   }
 
   showImage(id: string) {
@@ -48,9 +28,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
   }
 
   deactivate(customer: Customer) {
-    customer.active = false;
-    this.customerService
-      .update(customer.id, customer)
-      .then(() => console.log('Customer deactivated'));
+    const value = {
+      ...customer,
+      active: false
+    };
+    this.store.dispatch(new fromStore.UpdateCustomer(value));
   }
 }

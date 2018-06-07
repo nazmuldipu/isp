@@ -12,7 +12,8 @@
     </div>
   </div>
 
-  <customer-form *ngIf="!showSpiner; else loading" [customer]="customer" (create)="onCreate($event)" (update)="onUpdate($event)" (remove)="onRemove($event)">
+  <customer-form *ngIf="!showSpiner; else loading" [customer]="customer$ | async" (create)="onCreate($event)" (update)="onUpdate($event)"
+    (remove)="onRemove($event)">
   </customer-form>
 
   <ng-template #loading>
