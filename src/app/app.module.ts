@@ -22,29 +22,6 @@ import { AuthService } from 'shared/services/auth.service';
 import { UserService } from 'shared/services/user.service';
 import { IspAuthGuard } from 'shared/services/isp-auth-guard.service';
 
-import {
-  StoreRouterConnectingModule,
-  RouterStateSerializer
-} from '@ngrx/router-store';
-import { StoreModule, MetaReducer } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-
-import { reducers, effects, CustomSerializer } from './store';
-
-// not used in production
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { storeFreeze } from 'ngrx-store-freeze';
-
-// this would be done dynamically with webpack for builds
-const dev = {
-  development: true,
-  production: false
-};
-
-export const metaReducers: MetaReducer<any>[] = !dev.production
-  ? [storeFreeze]
-  : [];
-
 // routes
 export const ROUTES: Routes = [
   { path: '', component: HomeComponent },
@@ -87,11 +64,7 @@ export const ROUTES: Routes = [
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebase),
     NgbModule.forRoot(),
-    RouterModule.forRoot(ROUTES),
-    StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot(effects),
-    StoreRouterConnectingModule,
-    dev.development ? StoreDevtoolsModule.instrument() : []
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [AuthService, UserService],
   bootstrap: [AppComponent]
