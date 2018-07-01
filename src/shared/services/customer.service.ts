@@ -104,7 +104,8 @@ export class CustomerService {
   update(cid, customer: Customer) {
     delete customer['id'];
     return this.afs.doc(this.serviceUrl + '/' + cid).update({
-      ...customer
+      ...customer,
+      updatedAt: new Date()
     });
   }
 

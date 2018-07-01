@@ -51,7 +51,7 @@ export class AddCustomerComponent implements OnInit {
       .take(1)
       .subscribe(data => {
         this.company = data as Company;
-        this.company = companyId;
+        this.company.id = companyId;
       });
   }
 
@@ -88,12 +88,13 @@ export class AddCustomerComponent implements OnInit {
 
   onUpdate(event: Customer) {
     this.showSpiner = true;
+    const cid = event.id;
     this.customerService
-      .update(event.id, event)
+      .update(cid, event)
       .then(() => {
         this.showSpiner = false;
         this.message = 'Customer Updated';
-        this.router.navigate(['/customers']);
+        this.router.navigate(['/customers/details/', cid]);
       })
       .catch(error => {
         this.errorMessage = 'Customer Updating ERROR ! ' + error;

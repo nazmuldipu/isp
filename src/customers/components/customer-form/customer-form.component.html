@@ -27,7 +27,6 @@
 
       <div class="form-group row">
         <label class="col-md-4 col-form-label">Email
-          <sup>*</sup>
         </label>
         <div class="col-md-8 extra-margin">
           <input class="form-control" formControlName="email" placeholder="Email" />
@@ -41,7 +40,7 @@
   </div>
 
   <div class="form-group row">
-    <label class="col-md-2 col-form-label">Father's Name
+    <label class="col-md-2 col-form-label">Father's/Husband's Name
       <sup>*</sup>
     </label>
     <div class="col-md-4">
@@ -53,7 +52,7 @@
       <sup>*</sup>
     </label>
     <div class="col-md-4">
-      <input class="form-control" formControlName="mothersName" placeholder="Mother's Name" required/>
+      <input class="form-control" formControlName="mothersName" placeholder="Mother's Name" />
       <small class="form-text text-danger" *ngIf="required('mothersName')">Mother's Name is required</small>
     </div>
   </div>
@@ -96,7 +95,7 @@
       <sup>*</sup>
     </label>
     <div class="col-md-4">
-      <input class="form-control" formControlName="zone" placeholder="Zone" required />
+      <input class="form-control" formControlName="zone" placeholder="Zone" />
       <small class="form-text text-danger" *ngIf="required('zone')">Zone required</small>
     </div>
   </div>
@@ -110,7 +109,7 @@
           <input class="col-md-2 form-control ml-md-3" formControlName="floor" placeholder="Floor #" />
           <input class="col-md-2 form-control ml-md-3" formControlName="house" placeholder="House #" />
           <input class="col-md-2 form-control ml-md-3" formControlName="road" placeholder="Road #" />
-          <input class="col-md-2 form-control ml-md-3" formControlName="area" placeholder="*Area" required/>
+          <input class="col-md-2 form-control ml-md-3" formControlName="area" placeholder="*Area" />
         </div>
       </div>
     </div>
@@ -120,9 +119,9 @@
         <div class="row p-3 p-md-0">
           <input class="col-md-2 form-control ml-md-3" formControlName="village" placeholder="Village" />
           <input class="col-md-2 form-control ml-md-3" formControlName="post" placeholder="Post" />
-          <input class="col-md-2 form-control ml-md-3" formControlName="po" placeholder="*Polic Station" required/>
+          <input class="col-md-2 form-control ml-md-3" formControlName="po" placeholder="*Polic Station" />
           <input class="col-md-2 form-control ml-md-3" formControlName="unions" placeholder="Union" />
-          <input class="col-md-2 form-control ml-md-3" formControlName="city" placeholder="*City" required/>
+          <input class="col-md-2 form-control ml-md-3" formControlName="city" placeholder="*City" />
         </div>
       </div>
     </div>
@@ -133,7 +132,7 @@
       <sup>*</sup>
     </label>
     <div class="col-md-10">
-      <input class="form-control" formControlName="perAddress" placeholder="Permanent Address" required/>
+      <input class="form-control" formControlName="perAddress" placeholder="Permanent Address" />
       <small class="form-text text-danger" *ngIf="required('perAddress')">Permanent Address required</small>
     </div>
   </div>
@@ -216,7 +215,7 @@
       <sup>*</sup>
     </label>
     <div class="col-md-4">
-      <input class="form-control" type="number" formControlName="connectionFee" placeholder="ConnectionFee" required/>
+      <input class="form-control" type="number" formControlName="connectionFee" placeholder="ConnectionFee" />
       <small class="form-text text-danger" *ngIf="required('connectionFee')">Connection Fee required</small>
     </div>
   </div>
@@ -368,7 +367,7 @@
           <sup>*</sup>
         </label>
         <div class="col-md-4">
-          <input class="form-control" formControlName="userName" placeholder="User Name" required/>
+          <input class="form-control" formControlName="userName" placeholder="User Name" />
           <small class="form-text text-danger" *ngIf="required('userName')">User name required</small>
         </div>
 
@@ -376,7 +375,7 @@
           <sup>*</sup>
         </label>
         <div class="col-md-4">
-          <input class="form-control" formControlName="password" placeholder="Password" required/>
+          <input class="form-control" formControlName="password" placeholder="Password" />
           <small class="form-text text-danger" *ngIf="required('password')">Zone required</small>
         </div>
       </div>

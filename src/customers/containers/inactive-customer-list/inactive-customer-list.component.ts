@@ -28,14 +28,7 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.subscription = await this.customerService
       .getInactiveCustomers(this.companyId)
-      .subscribe(
-        data => {
-          this.customers = data;
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      .subscribe(data => (this.customers = data), error => console.log(error));
   }
 
   ngOnDestroy() {
@@ -43,7 +36,7 @@ export class InactiveCustomerListComponent implements OnInit, OnDestroy {
   }
 
   showImage(id: string) {
-    this.router.navigate(['/dashboard/customer/customer-images', id]);
+    this.router.navigate(['customers/images', id]);
   }
 
   activate(customer: Customer) {

@@ -39,7 +39,7 @@ export class CustomerFormComponent implements OnChanges {
         Validators.pattern('^01[5-9][ ]?[0-9]{2}[ ]?[0-9]{3}[ ]?[0-9]{3}$')
       ]
     ],
-    email: ['', [Validators.required, Validators.email]],
+    email: '',
     dob: ['', Validators.required],
     occupation: ['', Validators.required],
     zone: ['', Validators.required],
@@ -82,7 +82,7 @@ export class CustomerFormComponent implements OnChanges {
   });
 
   ngOnChanges() {
-    if (this.customer && this.customer.name) {
+    if (this.customer && this.customer.id) {
       this.exists = true;
 
       const value = this.customer;
@@ -103,7 +103,7 @@ export class CustomerFormComponent implements OnChanges {
       const cust = {
         ...this.customer,
         ...this.form.value
-      };
+      } as Customer;
       this.update.emit(cust);
       this.form.reset();
     }
