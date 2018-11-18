@@ -7,6 +7,8 @@ import { CustomerService } from 'shared/services/customer.service';
 import { SmsService } from 'shared/services/sms.service';
 import { Company } from 'shared/models/company.model';
 import { CompanyService } from 'shared/services/company.service';
+import { Zone } from 'shared/models/zone.model';
+import { ZoneService } from 'shared/services/zone.service';
 
 @Component({
   selector: 'app-add-customer',
@@ -18,6 +20,7 @@ export class AddCustomerComponent implements OnInit {
   customerId;
   customer: Customer;
   company: Company;
+  zones: Zone[];
   showSpiner = false;
   message = '';
   errorMessage = '';
@@ -28,7 +31,8 @@ export class AddCustomerComponent implements OnInit {
     private customerLedgerService: CustomerLedgerService,
     private activeRoute: ActivatedRoute,
     private router: Router,
-    private smsService: SmsService
+    private smsService: SmsService,
+    private zoneService: ZoneService
   ) {
     this.companyId = localStorage.getItem('companyId');
     this.customerId = activeRoute.snapshot.params['id'];
@@ -42,7 +46,14 @@ export class AddCustomerComponent implements OnInit {
     // Load companyinfo for sms
     if (this.companyId) {
       this.getCompanyInfo(this.companyId);
+      this.getAllZones();
     }
+  }
+
+  async getAllZones() {
+    await this.zoneService.zones$.subscribe(data => {
+      this.zones = data;
+    });
   }
 
   async getCompanyInfo(companyId) {

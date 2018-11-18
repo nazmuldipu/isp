@@ -14,6 +14,9 @@ import { SharedModule } from 'shared/shared.module';
 import { CustomerListChildComponent } from './components/customer-list-child/customer-list-child.component';
 import { CustomersComponent } from './containers/customers/customers.component';
 import { CustomerFormComponent } from './components/customer-form/customer-form.component';
+import { ZoneListComponent } from './components/zone-list/zone-list.component';
+import { ZoneFormComponent } from './components/zone-form/zone-form.component';
+import { ZoneComponent } from './containers/zone/zone.component';
 
 @NgModule({
   imports: [
@@ -54,6 +57,11 @@ import { CustomerFormComponent } from './components/customer-form/customer-form.
             path: 'inactive',
             component: InactiveCustomerListComponent,
             canActivate: [IspAuthGuard]
+          },
+          {
+            path: 'zone',
+            component: ZoneComponent,
+            canActivate: [IspAuthGuard]
           }
         ]
       },
@@ -69,7 +77,10 @@ import { CustomerFormComponent } from './components/customer-form/customer-form.
     InactiveCustomerListComponent,
     CustomerImagesComponent,
     CustomerListChildComponent,
-    CustomerFormComponent
+    CustomerFormComponent,
+    ZoneComponent,
+    ZoneFormComponent,
+    ZoneListComponent
   ]
 })
 export class CustomersModule {}

@@ -16,7 +16,7 @@ export class SmsApiService {
   username: string = 'nazmulalam';
   password: string = 'rubeln123';
   senderId: string = '8801912239643';
-  proxy = 'https://www.itoursltd.com/proxy/';
+  proxy = 'https://api.monerbari.com/proxy/';
 
   baseUrl: string = 'http://api.rankstelecom.com/api/v3/sendsms/plain';
 

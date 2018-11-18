@@ -17,7 +17,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   customers: Customer[];
+  orderBy = 'userName';
   companyId;
+
+  areas = [];
 
   constructor(
     private router: Router,
@@ -52,5 +55,19 @@ export class CustomersComponent implements OnInit, OnDestroy {
     this.customerService
       .update(customer.id, customer)
       .then(() => console.log('Customer deactivated'));
+  }
+
+  async onPaginate({ companyId, order, limit, startAfter }: any) {
+    console.log('Paginate', companyId, order, limit, startAfter);
+    await this.customerService
+      .getPaginatedStartAfter(companyId, order, limit, startAfter)
+      .subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log('Error laoding customers');
+        }
+      );
   }
 }

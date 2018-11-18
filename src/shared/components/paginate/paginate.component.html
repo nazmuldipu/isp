@@ -1,0 +1,38 @@
+<div class="ml-4 btn-toolbar" role="toolbar" aria-label="Pagination">
+  <div class="btn-group mr-2" role="group">
+    <span class="form-inline">
+      <label class="my-1 mr-2" for="pageLimit">Show</label>
+      <select
+        class="custom-select my-1 mr-sm-2"
+        id="pageLimit"
+        #cl
+        (change)="changeLimit(cl.value)"
+      >
+        <option value="5" selected>5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+      </select>
+    </span>
+  </div>
+  <div class="btn-group my-1 mr-2" role="group">
+    <button type="button" class="btn btn-light" (click)="paginaiton('first')">
+      <i class="fa fa-fast-backward"></i>
+    </button>
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="paginaiton('previous')"
+    >
+      <i class="fa fa-step-backward"></i>
+    </button>
+    <button type="button" class="btn btn-light" (click)="paginaiton('next')">
+      <i class="fa fa-step-forward"></i>
+    </button>
+    <button type="button" class="btn btn-light" (click)="paginaiton('last')">
+      <i class="fa fa-fast-forward"></i>
+    </button>
+  </div>
+</div>
+
+<br />

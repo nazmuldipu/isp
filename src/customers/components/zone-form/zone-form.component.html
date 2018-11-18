@@ -1,0 +1,69 @@
+<div class="border px-3">
+  <h4 class="text-center my-4 pb-md-3">
+    {{ exists ? 'UPDATE' : 'CREATE' }} ZONE
+  </h4>
+  <form [formGroup]="form">
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label">Zone <sup>*</sup> </label>
+      <div class="col-md-8">
+        <input
+          class="form-control"
+          formControlName="name"
+          placeholder="zone name"
+        />
+        <small class="form-text text-danger" *ngIf="required('name')"
+          >zone is required</small
+        >
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label">Description <sup>*</sup> </label>
+      <div class="col-md-8">
+        <input
+          class="form-control"
+          formControlName="description"
+          placeholder="Description"
+        />
+        <small class="form-text text-danger" *ngIf="required('description')"
+          >Description is required</small
+        >
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-4 col-form-label">
+        <button class="btn btn-light mx-2" type="button" (click)="clear()">
+          <i class="fa fa-pencil-square-o"></i> Clear
+        </button>
+      </label>
+      <div class="col-8">
+        <button
+          class="btn btn-primary mx-2"
+          type="button"
+          (click)="createForm()"
+          *ngIf="!exists"
+          [disabled]="form.invalid"
+        >
+          <i class="fa fa-plus"></i> Create Zone
+        </button>
+        <button
+          class="btn btn-warning mx-2"
+          type="button"
+          (click)="updateForm()"
+          *ngIf="exists"
+          [disabled]="form.invalid"
+        >
+          <i class="fa fa-pencil-square-o"></i> Update Zone
+        </button>
+        <button
+          class="btn btn-danger mx-2"
+          type="button"
+          (click)="removeForm()"
+          *ngIf="exists"
+        >
+          <i class="fa fa-pencil-square-o"></i> Remove
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

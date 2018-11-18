@@ -18,6 +18,9 @@ import { HttpModule } from '@angular/http';
 import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
+import { PaginateComponent } from './components/paginate/paginate.component';
+import { PaginateReverseComponent } from './components/paginate-reverse/paginate-reverse.component';
+import { ZoneService } from './services/zone.service';
 
 @NgModule({
   imports: [
@@ -29,7 +32,12 @@ import { RouterModule } from '@angular/router';
     NgbModule,
     RouterModule
   ],
-  declarations: [LoadingSpinerComponent, DashboardNavbarComponent],
+  declarations: [
+    LoadingSpinerComponent,
+    DashboardNavbarComponent,
+    PaginateComponent,
+    PaginateReverseComponent
+  ],
   providers: [
     AuthService,
     AuthGuard,
@@ -42,7 +50,8 @@ import { RouterModule } from '@angular/router';
     InvoiceService,
     CashBookService,
     SmsService,
-    SmsApiService
+    SmsApiService,
+    ZoneService
   ],
   exports: [
     HttpModule,
@@ -51,7 +60,8 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     LoadingSpinerComponent,
     DashboardNavbarComponent,
-    NgbModule
+    NgbModule,
+    PaginateComponent
   ]
 })
 export class SharedModule {}

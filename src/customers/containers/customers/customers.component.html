@@ -15,6 +15,8 @@
           <customer-list-child [customer]="cus" (image)="showImage($event)" (active)="deactivate($event)">
           </customer-list-child>
         </div>
+
+        <paginate [first]="customers[0]" [last]="customers[customers.length-1]" [orderBy]="orderBy" (paginate)="onPaginate($event)"></paginate>
       </div>
       <ng-template #loading>
         <div class="message">

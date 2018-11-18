@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { Customer } from 'shared/models/customer.model';
+import { Zone } from 'shared/models/zone.model';
 
 @Component({
   selector: 'customer-form',
@@ -20,6 +21,7 @@ export class CustomerFormComponent implements OnChanges {
   exists = false;
 
   @Input() customer: Customer;
+  @Input() zones: Zone[];
 
   @Output() create = new EventEmitter<Customer>();
   @Output() update = new EventEmitter<Customer>();

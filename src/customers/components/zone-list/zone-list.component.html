@@ -1,0 +1,23 @@
+<div class="border px-3">
+  <h4 class="text-center my-4 pb-md-3">ZONE LIST</h4>
+  <table class="table border">
+    <thead>
+      <tr>
+        <th>Zone</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let zone of zones">
+        <td>{{ zone?.name }}</td>
+        <td>{{ zone?.description }}</td>
+        <td>
+          <a class="btn btn-sm btn-warning" (click)="onEdit(zone.id)">
+            <i class="fa fa-pencil-square-o"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

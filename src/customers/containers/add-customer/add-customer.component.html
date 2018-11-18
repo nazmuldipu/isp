@@ -1,19 +1,25 @@
 <div class="container p-0">
   <div class="text-center">
     <h5 class="h3 mb-3 font-weight-normal" [class.bg-warning]="customer?.id">
-      <strong> {{customer?.id? 'EDIT':'ADD'}} CUSTOMER </strong>
+      <strong> {{ customer?.id ? 'EDIT' : 'ADD' }} CUSTOMER </strong>
     </h5>
-    <div class="alert alert-success" *ngIf="message.length>0">
-      {{message}}
+    <div class="alert alert-success" *ngIf="message.length > 0">
+      {{ message }}
       <button class="btn btn-sm btn-warning" (click)="clear()">Clear</button>
     </div>
-    <div class="alert alert-danger" *ngIf="errorMessage.length>0">
-      {{errorMessage}}
+    <div class="alert alert-danger" *ngIf="errorMessage.length > 0">
+      {{ errorMessage }}
     </div>
   </div>
 
-  <customer-form *ngIf="!showSpiner; else loading" [customer]="customer" (create)="onCreate($event)" (update)="onUpdate($event)"
-    (remove)="onRemove($event)">
+  <customer-form
+    *ngIf="!showSpiner; else: loading"
+    [customer]="customer"
+    [zones]="zones"
+    (create)="onCreate($event)"
+    (update)="onUpdate($event)"
+    (remove)="onRemove($event)"
+  >
   </customer-form>
 
   <ng-template #loading>

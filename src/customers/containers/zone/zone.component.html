@@ -1,0 +1,26 @@
+<div class="container p-0">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length">
+        {{ errorMessage }}
+      </div>
+      <zone-form
+        *ngIf="showForm; else: showSpiner"
+        [zone]="zone"
+        (create)="onCreate($event)"
+        (update)="onUpdate($event)"
+        (remove)="onRemove($event)"
+        (clean)="onClean($event)"
+      ></zone-form>
+      <ng-template #showSpiner>
+        <div class="text-center mt-4 pt-4">
+          <i class="fa fa-refresh fa-2x"></i>
+          <h3>Saving zone</h3>
+        </div>
+      </ng-template>
+    </div>
+    <div class="col-md-6 pl-0">
+      <zone-list [zones]="zones" (edit)="onEdit($event)"></zone-list>
+    </div>
+  </div>
+</div>

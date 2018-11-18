@@ -1,9 +1,35 @@
-@import "~themes.scss";
+@import '~themes.scss';
 
-.logo{
-    text-decoration: none;
-    color: black;
-    &:hover {
-        color: gray;
+.logo {
+  text-decoration: none;
+  color: black;
+  &:hover {
+    color: gray;
+  }
+}
+
+.login {
+  &-header {
+    &-logo {
+      display: inline-block;
+      margin: 10px;
+      &-img {
+        height: 70px;
+        width: 70px;
+      }
     }
+    &-title {
+      display: inline-block;
+      font-family: SolaimanLipi;
+      font-size: 30px;
+      text-align: center;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    a:hover {
+      color: darkslategray;
+    }
+  }
 }
