@@ -15,21 +15,21 @@ export class RouterEffects {
     private location: Location
   ) {}
 
-  @Effect({ dispatch: false })
-  navigate$ = this.actions$.ofType(RouterActions.GO).pipe(
-    map((action: RouterActions.Go) => action.payload),
-    tap(({ path, query: queryParams, extras }) => {
-      this.router.navigate(path, { queryParams, ...extras });
-    })
-  );
+  // @Effect({ dispatch: false })
+  // navigate$ = this.actions$.ofType(RouterActions.GO).pipe(
+  //   map((action: RouterActions.Go) => action.payload),
+  //   tap(({ path, query: queryParams, extras }) => {
+  //     this.router.navigate(path, { queryParams, ...extras });
+  //   })
+  // );
 
-  @Effect({ dispatch: false })
-  navigateBack$ = this.actions$
-    .ofType(RouterActions.BACK)
-    .pipe(tap(() => this.location.back()));
+  // @Effect({ dispatch: false })
+  // navigateBack$ = this.actions$
+  //   .ofType(RouterActions.BACK)
+  //   .pipe(tap(() => this.location.back()));
 
-  @Effect({ dispatch: false })
-  navigateForward$ = this.actions$
-    .ofType(RouterActions.FORWORD)
-    .pipe(tap(() => this.location.forward()));
+  // @Effect({ dispatch: false })
+  // navigateForward$ = this.actions$
+  //   .ofType(RouterActions.FORWORD)
+  //   .pipe(tap(() => this.location.forward()));
 }

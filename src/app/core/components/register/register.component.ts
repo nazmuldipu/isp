@@ -20,24 +20,23 @@ export class RegisterComponent implements OnInit {
     this.user = new User();
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   register(user: User) {
-    this.auth.register(user.email, user.password)
-      .then((usr) => {
-        this.userService.saveRegisteredUser(usr.uid, user.name, user.email)
+    this.auth
+      .register(user.email, user.password)
+      .then(usr => {
+        this.userService
+          .saveRegisteredUser(usr.user.uid, user.name, user.email)
           .then(() => {
             this.router.navigate(['/']);
           })
-          .catch((error) => {
-            console.log("USER SAVING ERROR ! ", error);
+          .catch(error => {
+            console.log('USER SAVING ERROR ! ', error);
           });
       })
-      .catch((error) => {
-        console.log("REGISTRATION ERROR ! ", error);
+      .catch(error => {
+        console.log('REGISTRATION ERROR ! ', error);
       });
   }
-
 }
